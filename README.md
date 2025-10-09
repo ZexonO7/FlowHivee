@@ -1,73 +1,76 @@
-# Welcome to your Lovable project
+# ✨ FlowHivee 🌐⭐
 
-## Project info
+**FlowHivee** is a complete **offline EdTech software** that runs entirely off-grid on a DIY mini server 💻.  
+It’s hosted on a repurposed **Lenovo ThinkCentre** which creates its own **LAN (Local Area Network)** so anyone nearby can connect and learn **without needing the internet** 😭  
 
-**URL**: https://lovable.dev/projects/edad4530-5747-4abc-b52e-b868206cd588
+FlowHivee is designed for **rural areas** where access to online education is limited. It brings together lessons, quizzes, videos, notes, and progress tracking — all stored and delivered locally.  
+Our goal is simple: to make education **accessible, fun, and available anywhere** ✨
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## 🌟 Features
 
-**Use Lovable**
+- **📚 Interactive Lessons:** Engaging offline lessons with videos, images, and audio support  
+- **📝 Notes & Resources:** Downloadable study notes and reference materials  
+- **🧩 Quizzes & XP:** Fun, gamified quizzes with instant feedback and scoring  
+- **🎓 Progress Tracking:** Personal dashboards to track growth and learning goals  
+- **👩‍🏫 Teacher/Admin Panel:** Upload and manage content, monitor student progress  
+- **📶 Local LAN Access:** ThinkCentre acts as a Wi-Fi hotspot for direct offline connection  
+- **📊 Analytics Dashboard:** Real-time charts for usage, scans, and participation  
+- **💬 Community Corner:** Local discussion space for students and teachers  
+- **⚙️ IoT Integration:** Connect LEDs, sensors, or speakers for interactive learning demos  
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/edad4530-5747-4abc-b52e-b868206cd588) and start prompting.
+---
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🖥️ Tech Stack
 
-**Use your preferred IDE**
+| Layer | Technology |
+|-------|-------------|
+| **Server** | Lenovo ThinkCentre running Ubuntu Server |
+| **Backend** | Node.js (Express.js) + Python (Flask/FastAPI modules) |
+| **Frontend** | HTML, CSS, JavaScript, Tailwind CSS |
+| **Database** | SQLite + JSON storage |
+| **Networking** | hostapd + dnsmasq for local Wi-Fi (LAN) |
+| **Analytics** | Chart.js for dashboards |
+| **Development Tools** | Visual Studio Code, GitHub |
+| **Deployment / Prototyping** | Vercel (for web previews), Docker optional |
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+---
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 🧭 Use Cases
 
-Follow these steps:
+- **Rural Classrooms:** Provide full learning resources where internet is unavailable  
+- **Community Centers:** Create local hubs for self-learning and collaboration  
+- **Workshops & Camps:** Share materials and quizzes offline instantly  
+- **Disaster Zones:** Deliver educational content even without network access  
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+---
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## ⚙️ How It Works
 
-# Step 3: Install the necessary dependencies.
-npm i
+1. The ThinkCentre acts as a **local mini server** hosting the FlowHivee platform  
+2. It creates its own **Wi-Fi network** using hostapd + dnsmasq  
+3. Users connect via phone, tablet, or laptop  
+4. They scan a **QR code** from the FlowHivee book or login screen  
+5. The platform opens locally — all data is served directly from the server  
+6. Students can access lessons, attempt quizzes, and track progress fully offline  
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+---
 
-**Edit a file directly in GitHub**
+## 🧠 Vision
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+FlowHivee was built to bridge the **digital education gap** in rural and remote areas.  
+It transforms one old computer into a buzzing hive of knowledge, keeping learning flowing even when Wi-Fi doesn’t 🌟  
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 💻 Team
 
-## What technologies are used for this project?
+**Team FlowHivee**  
+Built with ❤️ by students who believe education should reach everyone, everywhere ✨  
 
-This project is built with:
+---
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🏷️ Tags
+`EdTech` `Offline Learning` `LAN Server` `QR Codes` `Hackathon Project` `Community Impact` `Innovation`
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/edad4530-5747-4abc-b52e-b868206cd588) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
