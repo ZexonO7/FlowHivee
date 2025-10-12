@@ -2,7 +2,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { FileText, Download, Search, Calendar } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { FileText, Download, Search, Calendar, Eye } from "lucide-react";
+import { useState } from "react";
 
 const notes = [
   {
@@ -12,6 +14,19 @@ const notes = [
     date: "2024-10-05",
     size: "2.4 MB",
     downloads: 45,
+    file: "/notes/algebra-formulas.pdf",
+    content: `# Basic Algebra Formulas
+
+1. (a + b)² = a² + 2ab + b²
+2. (a - b)² = a² - 2ab + b²
+3. (a + b)(a - b) = a² - b²
+4. (x + a)(x + b) = x² + (a + b)x + ab
+5. (x - a)(x - b) = x² - (a + b)x + ab
+6. (a + b + c)² = a² + b² + c² + 2(ab + bc + ca)
+7. (a - b - c)² = a² + b² + c² - 2(ab - bc + ca)
+8. (a + b)³ = a³ + 3a²b + 3ab² + b³
+9. (a - b)³ = a³ - 3a²b + 3ab² - b³
+10. (a + b + c)³ = a³ + b³ + c³ + 3(a + b)(b + c)(c + a)`
   },
   {
     id: 2,
@@ -64,6 +79,8 @@ const subjectColors: Record<string, string> = {
 };
 
 export default function Notes() {
+  const [viewingNote, setViewingNote] = useState<typeof notes[0] | null>(null);
+
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
       {/* Header */}
@@ -135,14 +152,42 @@ export default function Notes() {
             </CardHeader>
 
             <CardContent>
-              <Button variant="warm" className="w-full">
-                <Download className="w-4 h-4" />
-                Download Notes
-              </Button>
+              <div className="flex gap-2">
+                {note.content && (
+                  <Button 
+                    variant="outline" 
+                    className="flex-1"
+                    onClick={() => setViewingNote(note)}
+                  >
+                    <Eye className="w-4 h-4" />
+                    View
+                  </Button>
+                )}
+                <Button 
+                  variant="warm" 
+                  className="flex-1"
+                  onClick={() => note.file && window.open(note.file, '_blank')}
+                >
+                  <Download className="w-4 h-4" />
+                  Download
+                </Button>
+              </div>
             </CardContent>
           </Card>
         ))}
       </div>
+
+      {/* View Dialog */}
+      <Dialog open={!!viewingNote} onOpenChange={() => setViewingNote(null)}>
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{viewingNote?.title}</DialogTitle>
+          </DialogHeader>
+          <div className="whitespace-pre-wrap font-mono text-sm">
+            {viewingNote?.content}
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
