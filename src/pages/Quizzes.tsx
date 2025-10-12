@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Brain, Trophy, Target, Zap, Star } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const quizzes = [
   {
@@ -78,9 +79,14 @@ const subjectColors: Record<string, string> = {
 };
 
 export default function Quizzes() {
+  const navigate = useNavigate();
   const totalXP = quizzes
     .filter((q) => q.completed)
     .reduce((sum, q) => sum + (q.score ? (q.xp * q.score) / 100 : 0), 0);
+
+  const handleStartQuiz = (quizId: number) => {
+    navigate('/quiz-taking', { state: { quizId } });
+  };
 
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
@@ -194,6 +200,7 @@ export default function Quizzes() {
               <Button
                 variant={quiz.completed ? "outline" : "warm"}
                 className="w-full"
+                onClick={() => handleStartQuiz(quiz.id)}
               >
                 <Brain className="w-4 h-4" />
                 {quiz.completed ? "Retake Quiz" : "Start Quiz"}

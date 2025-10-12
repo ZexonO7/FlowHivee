@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { BookOpen, Search, Clock, CheckCircle, Lock, Play } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const lessons = [
   {
@@ -70,6 +72,23 @@ const subjectColors: Record<string, string> = {
 };
 
 export default function Lessons() {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleLessonClick = (lesson: typeof lessons[0]) => {
+    if (lesson.status === "locked") return;
+    
+    toast({
+      title: lesson.status === "completed" ? "Reviewing Lesson" : lesson.status === "in-progress" ? "Continuing Lesson" : "Starting Lesson",
+      description: `Loading ${lesson.title}...`,
+    });
+    
+    // Navigate to lesson content (you can create a detailed lesson page later)
+    setTimeout(() => {
+      navigate('/lessons');
+    }, 1000);
+  };
+
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
       {/* Header */}
@@ -150,6 +169,7 @@ export default function Lessons() {
                 }
                 className="w-full"
                 disabled={lesson.status === "locked"}
+                onClick={() => handleLessonClick(lesson)}
               >
                 {lesson.status === "locked" && <Lock className="w-4 h-4" />}
                 {lesson.status === "completed" && <BookOpen className="w-4 h-4" />}

@@ -2,8 +2,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { BookOpen, Brain, TrendingUp, Users, Star, Zap } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   return (
     <div className="space-y-8 animate-slide-up pb-20 md:pb-8">
       {/* Hero Section */}
@@ -25,11 +27,11 @@ export default function Home() {
               accessible anywhere in the community 🌐
             </p>
             <div className="flex gap-3">
-              <Button variant="warm" size="lg">
+              <Button variant="warm" size="lg" onClick={() => navigate('/lessons')}>
                 <BookOpen className="w-5 h-5" />
                 Start Learning
               </Button>
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" onClick={() => navigate('/quizzes')}>
                 <Brain className="w-5 h-5" />
                 Take a Quiz
               </Button>
@@ -120,7 +122,7 @@ export default function Home() {
                 <p className="font-medium">Mathematics - Chapter 5</p>
                 <p className="text-sm text-muted-foreground">Algebra Basics</p>
               </div>
-              <Button size="sm" variant="warm">Resume</Button>
+              <Button size="sm" variant="warm" onClick={() => navigate('/lessons')}>Resume</Button>
             </div>
             <div className="h-2 bg-muted rounded-full overflow-hidden">
               <div className="h-full bg-primary transition-all duration-300" style={{ width: "65%" }} />
@@ -133,7 +135,7 @@ export default function Home() {
                 <p className="font-medium">Science - Unit 3</p>
                 <p className="text-sm text-muted-foreground">The Water Cycle</p>
               </div>
-              <Button size="sm" variant="cool">Resume</Button>
+              <Button size="sm" variant="cool" onClick={() => navigate('/lessons')}>Resume</Button>
             </div>
             <div className="h-2 bg-muted rounded-full overflow-hidden">
               <div className="h-full bg-secondary transition-all duration-300" style={{ width: "40%" }} />
@@ -146,7 +148,7 @@ export default function Home() {
                 <p className="font-medium">English - Lesson 8</p>
                 <p className="text-sm text-muted-foreground">Creative Writing</p>
               </div>
-              <Button size="sm" variant="creative">Resume</Button>
+              <Button size="sm" variant="creative" onClick={() => navigate('/lessons')}>Resume</Button>
             </div>
             <div className="h-2 bg-muted rounded-full overflow-hidden">
               <div className="h-full bg-accent transition-all duration-300" style={{ width: "85%" }} />
