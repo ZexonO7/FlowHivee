@@ -61,6 +61,37 @@ The water cycle, also known as the hydrological cycle, describes the continuous 
     date: "2024-10-03",
     size: "3.2 MB",
     downloads: 52,
+    file: "/notes/essay-writing-guide.pdf",
+    content: `# Essay Writing Guide
+
+Essay writing is one of the most important skills in language learning. It helps students express their thoughts, analyze ideas, and present information clearly.
+
+## Types of Essays
+
+1. **Narrative Essay** – tells a story or describes an event
+2. **Descriptive Essay** – paints a vivid picture using words
+3. **Expository Essay** – explains a topic with facts and evidence
+4. **Persuasive Essay** – convinces readers to agree with your opinion
+5. **Reflective Essay** – expresses personal thoughts or experiences
+
+## Essay Structure
+
+Every good essay follows a simple three-part structure:
+
+1. **Introduction** – introduces the topic, gives background, and presents your main idea (thesis statement)
+2. **Body Paragraphs** – each paragraph discusses one main point supported by examples or evidence
+3. **Conclusion** – summarizes the essay and leaves a final impression
+
+Flow of paragraphs should be logical and connected with linking words like 'furthermore', 'however', 'therefore'.
+
+## Writing Tips
+
+- Keep your sentences clear and concise
+- Use appropriate vocabulary and grammar
+- Avoid repetition of ideas
+- Organize your essay before writing
+- Read your essay aloud to catch errors
+- Always revise and proofread before submission`
   },
   {
     id: 4,
