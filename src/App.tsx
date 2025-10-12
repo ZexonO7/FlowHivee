@@ -7,6 +7,7 @@ import { Layout } from "./components/Layout";
 import Home from "./pages/Home";
 import Lessons from "./pages/Lessons";
 import LessonContent from "./pages/LessonContent";
+import LessonQuiz from "./pages/LessonQuiz";
 import Notes from "./pages/Notes";
 import Quizzes from "./pages/Quizzes";
 import QuizTaking from "./pages/QuizTaking";
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/" element={<Home />} />
             <Route path="/lessons" element={<Lessons />} />
             <Route path="/lesson-content" element={<LessonContent />} />
+            <Route path="/lesson-quiz" element={<LessonQuiz />} />
             <Route path="/notes" element={<Notes />} />
             <Route path="/quizzes" element={<Quizzes />} />
             <Route path="/quiz-taking" element={<QuizTaking />} />

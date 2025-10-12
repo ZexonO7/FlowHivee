@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { useNavigate, useLocation } from "react-router-dom";
-import { BookOpen, ArrowLeft, ArrowRight, CheckCircle, Video, FileText, Headphones } from "lucide-react";
+import { BookOpen, ArrowLeft, ArrowRight, CheckCircle, Video, FileText, Headphones, Download, Play, Brain } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Lesson content database
@@ -13,6 +13,13 @@ const lessonContent: Record<number, any> = {
     title: "Introduction to Algebra",
     subject: "Mathematics",
     duration: "45 min",
+    videoUrl: "", // User will provide later
+    hasQuiz: true,
+    documents: [
+      { name: "Algebra Basics Workbook.pdf", size: "2.4 MB" },
+      { name: "Practice Problems.pdf", size: "1.8 MB" },
+      { name: "Formula Sheet.pdf", size: "890 KB" },
+    ],
     sections: [
       {
         type: "intro",
@@ -45,6 +52,13 @@ const lessonContent: Record<number, any> = {
     title: "The Water Cycle",
     subject: "Science",
     duration: "30 min",
+    videoUrl: "", // User will provide later
+    hasQuiz: true,
+    documents: [
+      { name: "Water Cycle Diagram.pdf", size: "1.2 MB" },
+      { name: "Study Notes.pdf", size: "950 KB" },
+      { name: "Experiment Guide.pdf", size: "1.5 MB" },
+    ],
     sections: [
       {
         type: "intro",
@@ -82,6 +96,13 @@ const lessonContent: Record<number, any> = {
     title: "Creative Writing Basics",
     subject: "English",
     duration: "40 min",
+    videoUrl: "", // User will provide later
+    hasQuiz: true,
+    documents: [
+      { name: "Writing Prompts Collection.pdf", size: "2.1 MB" },
+      { name: "Grammar Guide.pdf", size: "1.7 MB" },
+      { name: "Story Templates.pdf", size: "1.3 MB" },
+    ],
     sections: [
       {
         type: "intro",
@@ -119,6 +140,13 @@ const lessonContent: Record<number, any> = {
     title: "Ancient Civilizations",
     subject: "History",
     duration: "50 min",
+    videoUrl: "", // User will provide later
+    hasQuiz: true,
+    documents: [
+      { name: "Ancient Civilizations Timeline.pdf", size: "3.2 MB" },
+      { name: "Map of Ancient World.pdf", size: "2.8 MB" },
+      { name: "Cultural Comparisons.pdf", size: "1.9 MB" },
+    ],
     sections: [
       {
         type: "intro",
@@ -156,6 +184,13 @@ const lessonContent: Record<number, any> = {
     title: "Python Programming",
     subject: "Computer Science",
     duration: "60 min",
+    videoUrl: "", // User will provide later
+    hasQuiz: true,
+    documents: [
+      { name: "Python Cheat Sheet.pdf", size: "1.1 MB" },
+      { name: "Code Examples.pdf", size: "2.3 MB" },
+      { name: "Projects Guide.pdf", size: "3.5 MB" },
+    ],
     sections: [
       {
         type: "intro",
@@ -198,6 +233,9 @@ const lessonContent: Record<number, any> = {
     title: "Advanced Calculus",
     subject: "Mathematics",
     duration: "55 min",
+    videoUrl: "",
+    hasQuiz: false,
+    documents: [],
     sections: [
       {
         type: "intro",
@@ -228,11 +266,36 @@ export default function LessonContent() {
     if (currentSection < totalSections - 1) {
       setCurrentSection(currentSection + 1);
     } else {
+      // Lesson complete - show quiz option
+      if (lesson.hasQuiz) {
+        toast({
+          title: "Lesson Complete! 🎉",
+          description: "Ready to test your knowledge?",
+        });
+        setTimeout(() => navigate('/lesson-quiz', { state: { lessonId } }), 1500);
+      } else {
+        toast({
+          title: "Lesson Complete! 🎉",
+          description: `You've finished ${lesson.title}`,
+        });
+        setTimeout(() => navigate('/lessons'), 1500);
+      }
+    }
+  };
+
+  const handleDownload = (docName: string) => {
+    toast({
+      title: "Downloading...",
+      description: `${docName} will be available offline`,
+    });
+  };
+
+  const handlePlayVideo = () => {
+    if (!lesson.videoUrl) {
       toast({
-        title: "Lesson Complete! 🎉",
-        description: `You've finished ${lesson.title}`,
+        title: "Video Coming Soon!",
+        description: "Video content will be added shortly",
       });
-      setTimeout(() => navigate('/lessons'), 1500);
     }
   };
 
@@ -298,6 +361,82 @@ export default function LessonContent() {
         <Progress value={progress} className="h-3" />
       </div>
 
+      {/* Video Section */}
+      {lesson.videoUrl !== undefined && (
+        <Card className="shadow-soft bg-gradient-to-br from-primary/5 to-secondary/5">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="p-3 bg-primary/10 rounded-lg">
+                <Video className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <CardTitle>Video Lesson</CardTitle>
+                <CardDescription>Watch the full video explanation</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            {lesson.videoUrl ? (
+              <div className="aspect-video bg-black rounded-lg overflow-hidden">
+                <video controls className="w-full h-full">
+                  <source src={lesson.videoUrl} type="video/mp4" />
+                </video>
+              </div>
+            ) : (
+              <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
+                <Button variant="warm" size="lg" onClick={handlePlayVideo}>
+                  <Play className="w-6 h-6" />
+                  Video Coming Soon
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Downloadable Documents */}
+      {lesson.documents && lesson.documents.length > 0 && (
+        <Card className="shadow-soft">
+          <CardHeader>
+            <div className="flex items-center gap-3">
+              <div className="p-3 bg-accent/10 rounded-lg">
+                <FileText className="w-6 h-6 text-accent" />
+              </div>
+              <div>
+                <CardTitle>Study Materials</CardTitle>
+                <CardDescription>Download offline resources</CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="grid gap-3">
+              {lesson.documents.map((doc: any, index: number) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-4 bg-muted/50 rounded-lg hover:bg-muted transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <FileText className="w-5 h-5 text-muted-foreground" />
+                    <div>
+                      <p className="font-medium">{doc.name}</p>
+                      <p className="text-sm text-muted-foreground">{doc.size}</p>
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleDownload(doc.name)}
+                  >
+                    <Download className="w-4 h-4" />
+                    Download
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Content Card */}
       <Card className="shadow-soft">
         <CardHeader>
@@ -333,10 +472,17 @@ export default function LessonContent() {
         </Button>
         <Button variant="warm" onClick={handleNext} className="flex-1">
           {currentSection === totalSections - 1 ? (
-            <>
-              Complete Lesson
-              <CheckCircle className="w-4 h-4" />
-            </>
+            lesson.hasQuiz ? (
+              <>
+                Take Quiz
+                <Brain className="w-4 h-4" />
+              </>
+            ) : (
+              <>
+                Complete Lesson
+                <CheckCircle className="w-4 h-4" />
+              </>
+            )
           ) : (
             <>
               Next Section
