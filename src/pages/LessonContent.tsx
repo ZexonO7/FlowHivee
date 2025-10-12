@@ -3,8 +3,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useNavigate, useLocation } from "react-router-dom";
-import { BookOpen, ArrowLeft, ArrowRight, CheckCircle, Video, FileText, Headphones, Download, Play, Brain } from "lucide-react";
+import { BookOpen, ArrowLeft, ArrowRight, CheckCircle, Video, FileText, Headphones, Download, Play, Brain, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Lesson content database
@@ -16,9 +17,21 @@ const lessonContent: Record<number, any> = {
     videoUrl: "", // User will provide later
     hasQuiz: true,
     documents: [
-      { name: "Algebra Basics Workbook.pdf", size: "2.4 MB" },
-      { name: "Practice Problems.pdf", size: "1.8 MB" },
-      { name: "Formula Sheet.pdf", size: "890 KB" },
+      { 
+        name: "Algebra Basics Workbook.pdf", 
+        size: "2.4 MB",
+        content: "# Algebra Basics Workbook\n\n## Chapter 1: Variables and Expressions\n\nVariables are letters that represent unknown numbers. We use them to solve problems!\n\n### Key Concepts:\n- Variables (x, y, z) represent unknown values\n- Constants are fixed numbers (1, 2, 3, etc.)\n- Expressions combine variables and constants (2x + 5)\n\n### Practice Problems:\n\n1. If x = 3, what is 2x + 4?\n   Answer: 2(3) + 4 = 6 + 4 = 10\n\n2. Solve: x + 7 = 12\n   Answer: x = 12 - 7 = 5\n\n3. What is 3(x - 2) when x = 5?\n   Answer: 3(5 - 2) = 3(3) = 9\n\n## Tips for Success:\n✓ Always isolate the variable\n✓ Do the same operation to both sides\n✓ Check your answer by substituting back\n✓ Practice daily for best results!"
+      },
+      { 
+        name: "Practice Problems.pdf", 
+        size: "1.8 MB",
+        content: "# Algebra Practice Problems\n\n## Easy Level\n1. x + 5 = 10 → x = ?\n2. 2x = 8 → x = ?\n3. x - 3 = 7 → x = ?\n\n## Medium Level\n4. 3x + 2 = 11 → x = ?\n5. 2(x + 1) = 10 → x = ?\n6. 4x - 3 = 13 → x = ?\n\n## Challenge Level\n7. 5x + 3 = 2x + 12 → x = ?\n8. 3(2x - 1) = 15 → x = ?\n9. x/2 + 4 = 7 → x = ?\n\n## Answer Key\n1. x = 5\n2. x = 4\n3. x = 10\n4. x = 3\n5. x = 4\n6. x = 4\n7. x = 3\n8. x = 3\n9. x = 6"
+      },
+      { 
+        name: "Formula Sheet.pdf", 
+        size: "890 KB",
+        content: "# Algebra Formula Sheet\n\n## Basic Operations\n- Addition: a + b\n- Subtraction: a - b\n- Multiplication: a × b or ab\n- Division: a ÷ b or a/b\n\n## Order of Operations (PEMDAS)\n1. Parentheses\n2. Exponents\n3. Multiplication & Division (left to right)\n4. Addition & Subtraction (left to right)\n\n## Solving Equations\n- Add/subtract same number from both sides\n- Multiply/divide both sides by same number\n- Goal: Get variable alone on one side\n\n## Key Formulas\n- Area of rectangle: A = length × width\n- Perimeter of rectangle: P = 2(l + w)\n- Distance: d = rate × time"
+      },
     ],
     sections: [
       {
@@ -55,9 +68,21 @@ const lessonContent: Record<number, any> = {
     videoUrl: "", // User will provide later
     hasQuiz: true,
     documents: [
-      { name: "Water Cycle Diagram.pdf", size: "1.2 MB" },
-      { name: "Study Notes.pdf", size: "950 KB" },
-      { name: "Experiment Guide.pdf", size: "1.5 MB" },
+      { 
+        name: "Water Cycle Diagram.pdf", 
+        size: "1.2 MB",
+        content: "# The Water Cycle\n\n## Visual Diagram\n\n```\n        ☀️ SUN HEATS WATER\n            ↓\n    💨 EVAPORATION\n    (liquid → vapor)\n            ↓\n        ☁️ CONDENSATION\n    (vapor → droplets)\n            ↓\n        🌧️ PRECIPITATION\n        (rain, snow)\n            ↓\n    🌊 COLLECTION\n    (rivers, oceans)\n            ↓\n        (cycle repeats)\n```\n\n## The Four Stages:\n\n1. **EVAPORATION** 💨\n   - Sun heats water\n   - Liquid turns to vapor\n   - Rises into atmosphere\n\n2. **CONDENSATION** ☁️\n   - Vapor cools down\n   - Forms tiny droplets\n   - Creates clouds\n\n3. **PRECIPITATION** 🌧️\n   - Droplets combine\n   - Become heavy\n   - Fall as rain/snow\n\n4. **COLLECTION** 🌊\n   - Water gathers\n   - In oceans, lakes, rivers\n   - Cycle starts again!"
+      },
+      { 
+        name: "Study Notes.pdf", 
+        size: "950 KB",
+        content: "# Water Cycle Study Notes\n\n## Key Terms\n\n**Evaporation**: Process where liquid water becomes water vapor (gas)\n- Happens when sun heats water\n- Water molecules gain energy\n- Rise into the air\n\n**Condensation**: Water vapor becomes liquid\n- Vapor cools in atmosphere\n- Forms tiny water droplets\n- These droplets make clouds\n\n**Precipitation**: Water falling from sky\n- Rain, snow, sleet, or hail\n- Happens when clouds get heavy\n- Returns water to Earth\n\n**Collection**: Water gathering on Earth\n- Flows to oceans, rivers, lakes\n- Some soaks into ground\n- Cycle continues from here\n\n## Why It Matters\n- Water is never created or destroyed\n- Same water has been cycling for billions of years\n- Essential for all life on Earth\n- Helps regulate Earth's temperature"
+      },
+      { 
+        name: "Experiment Guide.pdf", 
+        size: "1.5 MB",
+        content: "# Water Cycle Experiments\n\n## Experiment 1: Mini Water Cycle\n\n**Materials:**\n- Clear plastic bowl\n- Plastic wrap\n- Small cup\n- Water\n- Small weight (like a coin)\n\n**Steps:**\n1. Put cup in center of bowl\n2. Pour water around cup (not in it)\n3. Cover bowl with plastic wrap\n4. Put weight on wrap over cup\n5. Place in sunny spot\n6. Wait a few hours\n\n**What Happens:**\n- Water evaporates from bowl\n- Condenses on plastic wrap\n- Drips into cup (precipitation!)\n\n## Experiment 2: Cloud in a Jar\n\n**Materials:**\n- Glass jar\n- Hot water\n- Ice cubes\n- Plate\n\n**Steps:**\n1. Pour hot water in jar (1 inch)\n2. Put plate with ice on top\n3. Watch what happens!\n\n**Result:** You'll see a cloud form inside the jar!"
+      },
     ],
     sections: [
       {
@@ -99,9 +124,21 @@ const lessonContent: Record<number, any> = {
     videoUrl: "", // User will provide later
     hasQuiz: true,
     documents: [
-      { name: "Writing Prompts Collection.pdf", size: "2.1 MB" },
-      { name: "Grammar Guide.pdf", size: "1.7 MB" },
-      { name: "Story Templates.pdf", size: "1.3 MB" },
+      { 
+        name: "Writing Prompts Collection.pdf", 
+        size: "2.1 MB",
+        content: "# Creative Writing Prompts\n\n## Story Starters\n\n1. **The Mysterious Door**\n   You find a door in your basement you've never seen before...\n\n2. **Time Traveler's Mistake**\n   You accidentally travel 100 years into the future...\n\n3. **The Talking Pet**\n   One morning, your pet starts speaking to you...\n\n4. **Magical Backpack**\n   Your backpack grants one wish per day, but...\n\n5. **Invisible for a Day**\n   You wake up invisible. What do you do?\n\n## Character Ideas\n\n- A shy inventor who builds talking robots\n- A brave girl who can speak to animals\n- A clumsy wizard's apprentice\n- A detective who solves mysteries with her cat\n\n## Setting Ideas\n\n- A floating city in the clouds\n- An underwater kingdom\n- A magical library where books come alive\n- A school on Mars\n\n## Tips for Writing:\n✍️ Start with an interesting character\n✍️ Create a problem they must solve\n✍️ Add unexpected twists\n✍️ Show emotions through actions\n✍️ End with a satisfying conclusion"
+      },
+      { 
+        name: "Grammar Guide.pdf", 
+        size: "1.7 MB",
+        content: "# Grammar Quick Guide\n\n## Parts of Speech\n\n**Nouns**: Person, place, or thing\n- Examples: cat, school, happiness\n\n**Verbs**: Action or state of being\n- Examples: run, jump, is, was\n\n**Adjectives**: Describe nouns\n- Examples: big, blue, happy\n\n**Adverbs**: Describe verbs\n- Examples: quickly, slowly, carefully\n\n## Common Mistakes\n\n❌ Their/There/They're\n✓ Their = possessive (their book)\n✓ There = location (over there)\n✓ They're = they are (they're happy)\n\n❌ Your/You're\n✓ Your = possessive (your pencil)\n✓ You're = you are (you're smart)\n\n❌ Its/It's\n✓ Its = possessive (its tail)\n✓ It's = it is (it's raining)\n\n## Punctuation\n\n**Period (.)** - End of sentence\n**Question Mark (?)** - Asking\n**Exclamation (!)** - Strong feeling\n**Comma (,)** - Pause or list\n**Quotation (\"\")** - Speech"
+      },
+      { 
+        name: "Story Templates.pdf", 
+        size: "1.3 MB",
+        content: "# Story Templates\n\n## The Hero's Journey\n\n1. **Ordinary World**: Introduce your character\n2. **Call to Adventure**: Something happens\n3. **Challenges**: Problems they face\n4. **Climax**: Biggest challenge\n5. **Resolution**: How it ends\n\n## Example:\n\n**Beginning**\nSam was an ordinary student who loved science...\n\n**Middle**\nOne day, Sam discovered a formula that could...\nBut then, a problem occurred...\n\n**End**\nAfter facing many challenges, Sam finally...\n\n## Story Planning Sheet\n\n**Main Character**: _______\n**Setting**: _______\n**Problem**: _______\n**How they solve it**: _______\n**Ending**: _______\n\n## Helpful Words\n\n**Time Words**: first, next, then, finally, meanwhile\n**Feeling Words**: excited, nervous, proud, worried\n**Action Words**: raced, whispered, grabbed, discovered"
+      },
     ],
     sections: [
       {
@@ -143,9 +180,21 @@ const lessonContent: Record<number, any> = {
     videoUrl: "", // User will provide later
     hasQuiz: true,
     documents: [
-      { name: "Ancient Civilizations Timeline.pdf", size: "3.2 MB" },
-      { name: "Map of Ancient World.pdf", size: "2.8 MB" },
-      { name: "Cultural Comparisons.pdf", size: "1.9 MB" },
+      { 
+        name: "Ancient Civilizations Timeline.pdf", 
+        size: "3.2 MB",
+        content: "# Ancient Civilizations Timeline\n\n## 🏜️ Ancient Egypt (3100 BCE - 30 BCE)\n\n**Key Dates:**\n- 3100 BCE: Egypt unified under first pharaoh\n- 2560 BCE: Great Pyramid of Giza built\n- 1334 BCE: King Tutankhamun rules\n- 30 BCE: Egypt becomes part of Roman Empire\n\n**Achievements:**\n- Built pyramids and sphinx\n- Invented hieroglyphic writing\n- Advanced mathematics and astronomy\n- Mummification techniques\n- Paper from papyrus reeds\n\n## 🏛️ Ancient Greece (800 BCE - 146 BCE)\n\n**Key Dates:**\n- 776 BCE: First Olympic Games\n- 508 BCE: Democracy begins in Athens\n- 432 BCE: Parthenon completed\n- 146 BCE: Rome conquers Greece\n\n**Achievements:**\n- Democracy (government by the people)\n- Philosophy (Socrates, Plato, Aristotle)\n- Olympic Games\n- Theater and drama\n- Advanced mathematics (geometry)\n\n## 🏛️ Ancient Rome (753 BCE - 476 CE)\n\n**Key Dates:**\n- 753 BCE: Rome founded\n- 44 BCE: Julius Caesar assassinated\n- 27 BCE: Roman Empire begins\n- 476 CE: Western Empire falls\n\n**Achievements:**\n- Roads and aqueducts\n- Roman law system\n- Concrete and arches\n- Latin language\n- Military tactics"
+      },
+      { 
+        name: "Map of Ancient World.pdf", 
+        size: "2.8 MB",
+        content: "# Ancient World Geography\n\n## Ancient Egypt\n\n```\n    MEDITERRANEAN SEA\n         |\n    [NILE DELTA]\n         |\n    [LOWER EGYPT]\n         |\n    === NILE RIVER ===\n         |\n    [UPPER EGYPT]\n         |\n    [VALLEY OF KINGS]\n         |\n    [NUBIA]\n```\n\n**Key Locations:**\n- Giza: Pyramids and Sphinx\n- Cairo: Modern capital\n- Luxor: Valley of the Kings\n- Alexandria: Great Library\n\n## Ancient Greece\n\n```\n[MACEDONIA]\n    |\n[ATHENS] --- [SPARTA]\n    |\n[MEDITERRANEAN SEA]\n    |\n[CRETE]\n```\n\n**Key City-States:**\n- Athens: Democracy, philosophy\n- Sparta: Military power\n- Corinth: Trade center\n- Delphi: Oracle temple\n\n## Ancient Rome\n\n```\n     [GAUL]\n        |\n    [ROME] --- [GREECE]\n        |\n   [CARTHAGE]\n        |\n    [EGYPT]\n```\n\n**Empire at Peak:**\n- Stretched from Britain to Egypt\n- Mediterranean = \"Roman Lake\"\n- 50+ million people"
+      },
+      { 
+        name: "Cultural Comparisons.pdf", 
+        size: "1.9 MB",
+        content: "# Comparing Ancient Civilizations\n\n## Government\n\n**Egypt**: Pharaoh (god-king)\n- Absolute power\n- Religious leader\n- Ruled for life\n\n**Greece**: Democracy (Athens)\n- Citizens vote\n- Direct participation\n- Only free men\n\n**Rome**: Republic → Empire\n- Senate and consuls\n- Later: emperors\n- Written laws\n\n## Religion\n\n**Egypt**: Many gods\n- Ra (sun god)\n- Osiris (afterlife)\n- Animal-headed gods\n\n**Greece**: Olympic gods\n- Zeus (king of gods)\n- Athena (wisdom)\n- Human-like gods\n\n**Rome**: Adopted Greek gods\n- Jupiter (Zeus)\n- Mars (war god)\n- Later: Christianity\n\n## Legacy\n\n**Egypt gave us:**\n- Calendar (365 days)\n- Paper (papyrus)\n- Architecture\n\n**Greece gave us:**\n- Democracy\n- Philosophy\n- Olympics\n- Theater\n\n**Rome gave us:**\n- Law systems\n- Engineering\n- Roads\n- Latin language"
+      },
     ],
     sections: [
       {
@@ -187,9 +236,21 @@ const lessonContent: Record<number, any> = {
     videoUrl: "", // User will provide later
     hasQuiz: true,
     documents: [
-      { name: "Python Cheat Sheet.pdf", size: "1.1 MB" },
-      { name: "Code Examples.pdf", size: "2.3 MB" },
-      { name: "Projects Guide.pdf", size: "3.5 MB" },
+      { 
+        name: "Python Cheat Sheet.pdf", 
+        size: "1.1 MB",
+        content: "# Python Cheat Sheet\n\n## Basic Commands\n\n```python\n# Print output\nprint('Hello, World!')\nprint(42)\nprint('My age is', 13)\n\n# Variables\nname = 'Alex'\nage = 13\nheight = 5.5\n\n# User Input\nname = input('What is your name? ')\nprint('Hello,', name)\n```\n\n## Data Types\n\n```python\n# String (text)\nmessage = 'Hello'\nname = \"Python\"\n\n# Integer (whole numbers)\nage = 13\nscore = 100\n\n# Float (decimals)\nheight = 5.5\nprice = 9.99\n\n# Boolean (True/False)\nis_student = True\nhas_homework = False\n```\n\n## Math Operations\n\n```python\n# Basic Math\nprint(5 + 3)   # 8\nprint(10 - 4)  # 6\nprint(6 * 7)   # 42\nprint(15 / 3)  # 5.0\nprint(10 % 3)  # 1 (remainder)\n\n# Variables\nx = 5\ny = 3\nprint(x + y)   # 8\n```\n\n## Conditionals\n\n```python\nage = 13\nif age >= 13:\n    print('Teenager')\nelif age >= 6:\n    print('Child')\nelse:\n    print('Younger')\n```"
+      },
+      { 
+        name: "Code Examples.pdf", 
+        size: "2.3 MB",
+        content: "# Python Code Examples\n\n## Example 1: Simple Calculator\n\n```python\nnum1 = int(input('First number: '))\nnum2 = int(input('Second number: '))\n\nprint('Sum:', num1 + num2)\nprint('Difference:', num1 - num2)\nprint('Product:', num1 * num2)\nprint('Quotient:', num1 / num2)\n```\n\n## Example 2: Age Checker\n\n```python\nage = int(input('How old are you? '))\n\nif age >= 18:\n    print('You are an adult!')\nelif age >= 13:\n    print('You are a teenager!')\nelse:\n    print('You are a child!')\n```\n\n## Example 3: Counting Loop\n\n```python\n# Count from 1 to 5\nfor i in range(1, 6):\n    print(i)\n\n# Count from 1 to 10 by 2s\nfor i in range(1, 11, 2):\n    print(i)\n```\n\n## Example 4: Greeting Program\n\n```python\nname = input('What is your name? ')\nfavorite_color = input('Favorite color? ')\n\nprint(f'Hello {name}!')\nprint(f'I love {favorite_color} too!')\n```\n\n## Example 5: Simple Game\n\n```python\nimport random\n\nsecret = random.randint(1, 10)\nguess = int(input('Guess (1-10): '))\n\nif guess == secret:\n    print('You won! 🎉')\nelse:\n    print(f'Wrong! It was {secret}')\n```"
+      },
+      { 
+        name: "Projects Guide.pdf", 
+        size: "3.5 MB",
+        content: "# Python Project Ideas\n\n## Beginner Projects\n\n### 1. Mad Libs Game\n```python\nnoun = input('Enter a noun: ')\nverb = input('Enter a verb: ')\nadjective = input('Enter an adjective: ')\n\nstory = f'The {adjective} {noun} {verb} quickly!'\nprint(story)\n```\n\n### 2. Temperature Converter\n```python\ncelsius = float(input('Celsius: '))\nfahrenheit = (celsius * 9/5) + 32\nprint(f'{celsius}°C = {fahrenheit}°F')\n```\n\n### 3. Countdown Timer\n```python\nimport time\n\nfor i in range(10, 0, -1):\n    print(i)\n    time.sleep(1)\nprint('Blast off! 🚀')\n```\n\n## Intermediate Projects\n\n### 4. Simple Quiz\n```python\nscore = 0\n\nprint('Question 1: What is 2+2?')\nif input() == '4':\n    score += 1\n    print('Correct!')\n\nprint('Question 2: Capital of France?')\nif input().lower() == 'paris':\n    score += 1\n    print('Correct!')\n\nprint(f'Score: {score}/2')\n```\n\n### 5. Rock Paper Scissors\n```python\nimport random\n\ncomputer = random.choice(['rock', 'paper', 'scissors'])\nplayer = input('Choose: ').lower()\n\nprint(f'Computer chose: {computer}')\n\nif player == computer:\n    print('Tie!')\nelif (player == 'rock' and computer == 'scissors') or \\\n     (player == 'paper' and computer == 'rock') or \\\n     (player == 'scissors' and computer == 'paper'):\n    print('You win! 🎉')\nelse:\n    print('Computer wins!')\n```"
+      },
     ],
     sections: [
       {
@@ -259,6 +320,7 @@ export default function LessonContent() {
   
   const lesson = lessonContent[lessonId] || lessonContent[1];
   const [currentSection, setCurrentSection] = useState(0);
+  const [viewingDocument, setViewingDocument] = useState<any>(null);
   const totalSections = lesson.sections.length;
   const progress = ((currentSection + 1) / totalSections) * 100;
 
@@ -288,6 +350,10 @@ export default function LessonContent() {
       title: "Downloading...",
       description: `${docName} will be available offline`,
     });
+  };
+
+  const handleViewDocument = (doc: any) => {
+    setViewingDocument(doc);
   };
 
   const handlePlayVideo = () => {
@@ -336,8 +402,43 @@ export default function LessonContent() {
   };
 
   return (
-    <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
-      {/* Header */}
+    <>
+      <Dialog open={!!viewingDocument} onOpenChange={() => setViewingDocument(null)}>
+        <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-3">
+              <FileText className="w-5 h-5 text-primary" />
+              {viewingDocument?.name}
+            </DialogTitle>
+            <DialogDescription>{viewingDocument?.size}</DialogDescription>
+          </DialogHeader>
+          <div className="prose prose-sm max-w-none mt-4">
+            <pre className="whitespace-pre-wrap text-foreground bg-muted/30 p-6 rounded-lg leading-relaxed">
+              {viewingDocument?.content}
+            </pre>
+          </div>
+          <div className="flex gap-3 mt-4">
+            <Button
+              variant="outline"
+              className="flex-1"
+              onClick={() => handleDownload(viewingDocument?.name)}
+            >
+              <Download className="w-4 h-4" />
+              Download
+            </Button>
+            <Button
+              variant="warm"
+              className="flex-1"
+              onClick={() => setViewingDocument(null)}
+            >
+              Close
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
+        {/* Header */}
       <div>
         <Button variant="ghost" onClick={() => navigate("/lessons")} className="mb-4">
           <ArrowLeft className="w-4 h-4" />
@@ -422,14 +523,24 @@ export default function LessonContent() {
                       <p className="text-sm text-muted-foreground">{doc.size}</p>
                     </div>
                   </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleDownload(doc.name)}
-                  >
-                    <Download className="w-4 h-4" />
-                    Download
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleViewDocument(doc)}
+                    >
+                      <Eye className="w-4 h-4" />
+                      View
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleDownload(doc.name)}
+                    >
+                      <Download className="w-4 h-4" />
+                      Download
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -530,6 +641,7 @@ export default function LessonContent() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </>
   );
 }
