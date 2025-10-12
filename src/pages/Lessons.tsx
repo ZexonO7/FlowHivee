@@ -76,17 +76,16 @@ export default function Lessons() {
   const { toast } = useToast();
 
   const handleLessonClick = (lesson: typeof lessons[0]) => {
-    if (lesson.status === "locked") return;
+    if (lesson.status === "locked") {
+      toast({
+        title: "Lesson Locked 🔒",
+        description: "Complete previous lessons to unlock this content",
+        variant: "destructive",
+      });
+      return;
+    }
     
-    toast({
-      title: lesson.status === "completed" ? "Reviewing Lesson" : lesson.status === "in-progress" ? "Continuing Lesson" : "Starting Lesson",
-      description: `Loading ${lesson.title}...`,
-    });
-    
-    // Navigate to lesson content (you can create a detailed lesson page later)
-    setTimeout(() => {
-      navigate('/lessons');
-    }, 1000);
+    navigate('/lesson-content', { state: { lessonId: lesson.id } });
   };
 
   return (
