@@ -35,6 +35,24 @@ const notes = [
     date: "2024-10-04",
     size: "1.8 MB",
     downloads: 38,
+    file: "/notes/water-cycle.pdf",
+    content: `# The Water Cycle
+
+The water cycle, also known as the hydrological cycle, describes the continuous movement of water on, above, and below the surface of the Earth.
+
+## Main Stages:
+
+1. **Evaporation**: Water from oceans, lakes, and rivers turns into water vapor due to heat from the sun
+2. **Transpiration**: Plants release water vapor through their leaves
+3. **Condensation**: Water vapor cools and forms clouds
+4. **Precipitation**: Water falls back to Earth as rain, snow, sleet, or hail
+5. **Collection**: Water gathers in bodies of water and the cycle continues
+
+## Key Facts:
+- 97% of Earth's water is in the oceans
+- The water cycle is powered by the sun's energy
+- Water can exist in three states: solid (ice), liquid (water), and gas (vapor)
+- The same water has been recycling through the cycle for billions of years`
   },
   {
     id: 3,
