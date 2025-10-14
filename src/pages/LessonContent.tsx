@@ -307,6 +307,52 @@ These formulas are essential for solving algebraic equations and simplifying exp
     ],
   },
   6: {
+    title: "Variables and Constants",
+    subject: "Mathematics",
+    duration: "40 min",
+    videoUrl: "/video lessons/Variables and Constents.mp4",
+    hasQuiz: true,
+    documents: [
+      { 
+        name: "Variables Guide.pdf", 
+        size: "1.5 MB",
+        content: "# Variables and Constants Guide\n\n## What are Variables?\n\nVariables are symbols (usually letters) that represent unknown or changing values in mathematics.\n\n### Common Variables:\n- x, y, z (most common in algebra)\n- a, b, c (often used for constants or coefficients)\n- n, m (frequently used for counting)\n\n### Examples of Variables:\n- If x = 5, then 2x = 10\n- In y + 3 = 7, the variable y = 4\n- Temperature can be represented as T\n\n## What are Constants?\n\nConstants are fixed values that never change.\n\n### Examples of Constants:\n- Numbers: 1, 2, 3, 100, -5, 3.14\n- π (pi) ≈ 3.14159...\n- e (Euler's number) ≈ 2.71828...\n\n## Variables vs Constants\n\n| Variables | Constants |\n|-----------|----------|\n| Can change | Fixed value |\n| Represented by letters | Usually numbers |\n| Unknown values | Known values |\n| x, y, z | 1, 2, 3, π |\n\n## Practice Problems:\n\n1. In 3x + 7 = 19, identify the variable and constants\n   - Variable: x\n   - Constants: 3, 7, 19\n\n2. If y = 4, find 5y + 2\n   - Answer: 5(4) + 2 = 20 + 2 = 22\n\n3. Solve for x: x - 8 = 15\n   - Answer: x = 23"
+      },
+    ],
+    sections: [
+      {
+        type: "intro",
+        title: "Understanding Variables and Constants",
+        content: "Variables and constants are the building blocks of algebra. Understanding the difference between them is crucial for solving equations!",
+      },
+      {
+        type: "text",
+        title: "What is a Variable?",
+        content: "A variable is a symbol (usually a letter like x, y, or z) that represents a value that can change or is unknown. Think of it as a container that can hold different numbers!",
+      },
+      {
+        type: "text",
+        title: "What is a Constant?",
+        content: "A constant is a fixed number that doesn't change. In the expression 3x + 5, the number 5 is a constant because it always stays the same, while x is a variable that can be different values.",
+      },
+      {
+        type: "example",
+        title: "Example: Identifying Variables and Constants",
+        content: "In the equation 2x + 7 = 15:\n\n• Variable: x (the unknown we're solving for)\n• Constants: 2, 7, and 15 (fixed numbers)\n\nTo solve:\n2x + 7 = 15\n2x = 15 - 7\n2x = 8\nx = 4",
+      },
+      {
+        type: "practice",
+        title: "Practice Time!",
+        content: "Try these:\n1. In 4y + 3 = 19, what is the variable? (Answer: y)\n2. What are the constants in 5x - 2 = 13? (Answer: 5, 2, 13)\n3. If a = 6, what is 3a + 4? (Answer: 22)",
+      },
+      {
+        type: "summary",
+        title: "Key Points",
+        content: "✓ Variables = letters that represent unknown values\n✓ Constants = fixed numbers that don't change\n✓ Variables can take on different values\n✓ Understanding both helps you solve equations!",
+      },
+    ],
+  },
+  7: {
     title: "Advanced Calculus",
     subject: "Mathematics",
     duration: "55 min",
