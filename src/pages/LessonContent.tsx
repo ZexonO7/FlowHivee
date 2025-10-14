@@ -569,7 +569,7 @@ export default function LessonContent() {
           <CardContent>
             {lesson.videoUrl ? (
               <div className="aspect-video bg-black rounded-lg overflow-hidden">
-                <video controls className="w-full h-full">
+                <video key={lessonId} controls className="w-full h-full">
                   <source src={lesson.videoUrl} type="video/mp4" />
                 </video>
               </div>
