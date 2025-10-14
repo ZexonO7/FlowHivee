@@ -285,6 +285,81 @@ finally:
     date: "2024-09-30",
     size: "2.8 MB",
     downloads: 41,
+    file: "/notes/geometry-theorems.pdf",
+    content: `# Geometry Theorems Simplified
+
+## Basic Line & Angle Theorems
+
+1. **Vertically Opposite Angles Theorem:**
+   When two lines intersect, opposite (vertical) angles are equal.
+
+2. **Linear Pair Theorem:**
+   Adjacent angles on a straight line add up to 180°.
+
+3. **Alternate Interior Angles Theorem:**
+   If two parallel lines are cut by a transversal, alternate interior angles are equal.
+
+4. **Corresponding Angles Theorem:**
+   When two parallel lines are cut by a transversal, corresponding angles are equal.
+
+## Triangle Theorems
+
+1. **Angle Sum Theorem:**
+   The sum of the three angles of a triangle is 180°.
+
+2. **Exterior Angle Theorem:**
+   The measure of an exterior angle of a triangle is equal to the sum of its two opposite interior angles.
+
+3. **Isosceles Triangle Theorem:**
+   If two sides of a triangle are equal, then the angles opposite those sides are also equal.
+
+4. **Pythagoras Theorem:**
+   In a right-angled triangle, (Hypotenuse)² = (Base)² + (Perpendicular)².
+
+## Circle Theorems
+
+1. **Central Angle Theorem:**
+   The angle subtended by an arc at the center is twice the angle subtended at the circumference.
+
+2. **Angles in the Same Segment Theorem:**
+   Angles in the same segment of a circle are equal.
+
+3. **Tangent-Radius Theorem:**
+   The tangent to a circle is perpendicular to the radius drawn at the point of contact.
+
+4. **Equal Chords Theorem:**
+   Equal chords of a circle subtend equal angles at the center.
+
+## Quadrilaterals & Parallelograms
+
+1. **Opposite Sides Theorem:**
+   In a parallelogram, opposite sides are equal and parallel.
+
+2. **Opposite Angles Theorem:**
+   In a parallelogram, opposite angles are equal.
+
+3. **Diagonals Bisect Each Other:**
+   In a parallelogram, the diagonals bisect each other.
+
+4. **Rhombus & Rectangle Properties:**
+   - Rhombus: Diagonals are perpendicular.
+   - Rectangle: All angles are 90° and diagonals are equal.
+
+## Similarity & Congruence
+
+**Similarity Criteria:**
+- AA: Two angles of one triangle equal to two angles of another
+- SAS: One angle equal and sides proportional
+- SSS: Corresponding sides proportional
+
+**Congruence Criteria:**
+- SSS: All sides equal
+- SAS: Two sides and included angle equal
+- ASA: Two angles and included side equal
+- RHS: Right angle, hypotenuse, and one side equal
+
+**Areas of Similar Triangles:**
+Ratio of their areas = (Ratio of corresponding sides)²`
   },
 ];
 
