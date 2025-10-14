@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useNavigate, useLocation } from "react-router-dom";
 import { BookOpen, ArrowLeft, ArrowRight, CheckCircle, Video, FileText, Headphones, Download, Play, Brain, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Whiteboard } from "@/components/Whiteboard";
 
 // Lesson content database
 const lessonContent: Record<number, any> = {
@@ -71,6 +72,7 @@ These formulas are essential for solving algebraic equations and simplifying exp
         type: "practice",
         title: "Try it yourself!",
         content: "Practice problems:\n1. x + 5 = 12 (Answer: x = 7)\n2. 2x = 10 (Answer: x = 5)\n3. x - 3 = 9 (Answer: x = 12)",
+        hasWhiteboard: true,
       },
       {
         type: "summary",
@@ -657,6 +659,11 @@ export default function LessonContent() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Whiteboard for Practice Sections */}
+      {(section as any).hasWhiteboard && (
+        <Whiteboard height={400} />
+      )}
 
       {/* Navigation */}
       <div className="flex gap-3">
