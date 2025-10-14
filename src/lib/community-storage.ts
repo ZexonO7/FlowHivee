@@ -14,19 +14,26 @@ const STORAGE_KEY = 'community_messages';
 const USER_KEY = 'community_user';
 
 export const getCurrentUser = () => {
+  // First check if user settings exist (from settings page)
+  const userSettings = localStorage.getItem('user_settings');
+  if (userSettings) {
+    const settings = JSON.parse(userSettings);
+    return {
+      name: settings.name,
+      initials: settings.initials,
+    };
+  }
+  
+  // Fall back to community_user key
   const stored = localStorage.getItem(USER_KEY);
   if (stored) {
     return JSON.parse(stored);
   }
   
-  // Generate random user for demo
-  const names = ['Alex K.', 'Jordan P.', 'Sam T.', 'Taylor M.', 'Casey R.'];
-  const randomName = names[Math.floor(Math.random() * names.length)];
-  const initials = randomName.split(' ').map(n => n[0]).join('');
-  
-  const user = { name: randomName, initials };
-  localStorage.setItem(USER_KEY, JSON.stringify(user));
-  return user;
+  // Generate default user
+  const defaultUser = { name: 'Student', initials: 'ST' };
+  localStorage.setItem(USER_KEY, JSON.stringify(defaultUser));
+  return defaultUser;
 };
 
 export const getAllMessages = (): CommunityMessage[] => {

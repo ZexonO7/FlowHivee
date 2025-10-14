@@ -4,9 +4,67 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Settings as SettingsIcon, User, Wifi, Bell, Shield } from "lucide-react";
+import { User, Wifi, Bell, Shield } from "lucide-react";
+import { useState, useEffect } from "react";
+import { 
+  getUserSettings, 
+  updateUserName, 
+  updateUserEmail,
+  updateNotificationSettings,
+  updatePrivacySettings,
+  clearAllData,
+  type UserSettings
+} from "@/lib/settings-storage";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Settings() {
+  const [settings, setSettings] = useState<UserSettings>(getUserSettings());
+  const [name, setName] = useState(settings.name);
+  const [email, setEmail] = useState(settings.email);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const currentSettings = getUserSettings();
+    setSettings(currentSettings);
+    setName(currentSettings.name);
+    setEmail(currentSettings.email);
+  }, []);
+
+  const handleSaveProfile = () => {
+    if (!name.trim()) {
+      toast({
+        title: "Invalid name",
+        description: "Please enter your name",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    updateUserName(name);
+    updateUserEmail(email);
+    setSettings(getUserSettings());
+    
+    toast({
+      title: "Profile updated! ✅",
+      description: "Your changes have been saved",
+    });
+  };
+
+  const handleNotificationToggle = (key: keyof UserSettings['notifications']) => {
+    const newValue = !settings.notifications[key];
+    updateNotificationSettings(key, newValue);
+    setSettings(getUserSettings());
+  };
+
+  const handlePrivacyToggle = (key: keyof UserSettings['privacy']) => {
+    const newValue = !settings.privacy[key];
+    updatePrivacySettings(key, newValue);
+    setSettings(getUserSettings());
+  };
+
+  const handleClearData = () => {
+    clearAllData();
+  };
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
       {/* Header */}
@@ -30,15 +88,12 @@ export default function Settings() {
           <div className="flex items-center gap-6">
             <Avatar className="w-20 h-20">
               <AvatarFallback className="bg-primary text-primary-foreground text-2xl">
-                JD
+                {settings.initials}
               </AvatarFallback>
             </Avatar>
             <div className="space-y-2">
-              <Button variant="outline" size="sm">
-                Change Avatar
-              </Button>
               <p className="text-sm text-muted-foreground">
-                JPG, PNG or GIF (MAX. 800x800px)
+                Avatar automatically generated from your name
               </p>
             </div>
           </div>
@@ -46,21 +101,30 @@ export default function Settings() {
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>Full Name</Label>
-              <Input defaultValue="John Doe" />
+              <Input 
+                value={name} 
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Enter your name"
+              />
             </div>
 
             <div className="space-y-2">
               <Label>Student ID</Label>
-              <Input defaultValue="STU-2024-0042" disabled />
+              <Input value={settings.studentId} disabled />
             </div>
           </div>
 
           <div className="space-y-2">
             <Label>Email (Optional)</Label>
-            <Input type="email" placeholder="your.email@example.com" />
+            <Input 
+              type="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="your.email@example.com" 
+            />
           </div>
 
-          <Button variant="warm">Save Profile</Button>
+          <Button variant="warm" onClick={handleSaveProfile}>Save Profile</Button>
         </CardContent>
       </Card>
 
@@ -81,7 +145,10 @@ export default function Settings() {
                 Get notified when new lessons are available
               </p>
             </div>
-            <Switch defaultChecked />
+            <Switch 
+              checked={settings.notifications.newLessons}
+              onCheckedChange={() => handleNotificationToggle('newLessons')}
+            />
           </div>
 
           <div className="flex items-center justify-between">
@@ -91,7 +158,10 @@ export default function Settings() {
                 Receive reminders for upcoming quizzes
               </p>
             </div>
-            <Switch defaultChecked />
+            <Switch 
+              checked={settings.notifications.quizReminders}
+              onCheckedChange={() => handleNotificationToggle('quizReminders')}
+            />
           </div>
 
           <div className="flex items-center justify-between">
@@ -101,7 +171,10 @@ export default function Settings() {
                 Celebrate when you earn new badges
               </p>
             </div>
-            <Switch defaultChecked />
+            <Switch 
+              checked={settings.notifications.achievementBadges}
+              onCheckedChange={() => handleNotificationToggle('achievementBadges')}
+            />
           </div>
 
           <div className="flex items-center justify-between">
@@ -111,7 +184,10 @@ export default function Settings() {
                 Stay updated on community discussions
               </p>
             </div>
-            <Switch />
+            <Switch 
+              checked={settings.notifications.communityUpdates}
+              onCheckedChange={() => handleNotificationToggle('communityUpdates')}
+            />
           </div>
         </CardContent>
       </Card>
@@ -171,7 +247,10 @@ export default function Settings() {
                 Let other students see your achievements
               </p>
             </div>
-            <Switch defaultChecked />
+            <Switch 
+              checked={settings.privacy.showProgress}
+              onCheckedChange={() => handlePrivacyToggle('showProgress')}
+            />
           </div>
 
           <div className="flex items-center justify-between">
@@ -181,11 +260,16 @@ export default function Settings() {
                 Hide your real name in discussions
               </p>
             </div>
-            <Switch />
+            <Switch 
+              checked={settings.privacy.anonymousInCommunity}
+              onCheckedChange={() => handlePrivacyToggle('anonymousInCommunity')}
+            />
           </div>
 
           <div className="pt-4 border-t">
-            <Button variant="destructive">Clear All Data</Button>
+            <Button variant="destructive" onClick={handleClearData}>
+              Clear All Data
+            </Button>
             <p className="text-sm text-muted-foreground mt-2">
               Remove all your personal data from this device
             </p>
