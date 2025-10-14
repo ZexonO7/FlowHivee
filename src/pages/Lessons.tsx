@@ -5,6 +5,8 @@ import { Input } from "@/components/ui/input";
 import { BookOpen, Search, Clock, CheckCircle, Lock, Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { getLessonProgress, getAllLessons } from "@/lib/progress-storage";
+import { useState, useEffect } from "react";
 
 const lessons = [
   {
@@ -12,54 +14,49 @@ const lessons = [
     title: "Introduction to Algebra",
     subject: "Mathematics",
     duration: "45 min",
-    status: "completed",
     description: "Learn the fundamentals of algebraic expressions and equations",
-    progress: 100,
   },
   {
     id: 2,
     title: "The Water Cycle",
     subject: "Science",
     duration: "30 min",
-    status: "in-progress",
     description: "Understand how water moves through Earth's ecosystems",
-    progress: 60,
   },
   {
     id: 3,
     title: "Creative Writing Basics",
     subject: "English",
     duration: "40 min",
-    status: "in-progress",
     description: "Explore narrative structures and storytelling techniques",
-    progress: 35,
   },
   {
     id: 4,
     title: "Ancient Civilizations",
     subject: "History",
     duration: "50 min",
-    status: "available",
     description: "Journey through the great civilizations of the past",
-    progress: 0,
   },
   {
     id: 5,
     title: "Python Programming",
     subject: "Computer Science",
     duration: "60 min",
-    status: "available",
     description: "Start your coding journey with Python basics",
-    progress: 0,
   },
   {
     id: 6,
+    title: "Variables and Constants",
+    subject: "Mathematics",
+    duration: "40 min",
+    description: "Master the building blocks of algebra",
+  },
+  {
+    id: 7,
     title: "Advanced Calculus",
     subject: "Mathematics",
     duration: "55 min",
-    status: "locked",
     description: "Master integration and differentiation techniques",
-    progress: 0,
   },
 ];
 
@@ -74,8 +71,37 @@ const subjectColors: Record<string, string> = {
 export default function Lessons() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [lessonsWithProgress, setLessonsWithProgress] = useState(
+    lessons.map(lesson => ({ ...lesson, status: 'available' as string, progress: 0 }))
+  );
 
-  const handleLessonClick = (lesson: typeof lessons[0]) => {
+  useEffect(() => {
+    // Load progress from storage
+    const allProgress = getAllLessons();
+    
+    const updated = lessons.map(lesson => {
+      const saved = allProgress.find(p => p.lessonId === lesson.id);
+      
+      if (!saved) {
+        return { ...lesson, status: 'available' as string, progress: 0 };
+      }
+      
+      if (saved.completed) {
+        return { ...lesson, status: 'completed' as string, progress: 100 };
+      }
+      
+      const progress = Math.round((saved.currentSection / saved.totalSections) * 100);
+      return {
+        ...lesson,
+        status: (progress > 0 ? 'in-progress' : 'available') as string,
+        progress,
+      };
+    });
+    
+    setLessonsWithProgress(updated);
+  }, []);
+
+  const handleLessonClick = (lesson: any) => {
     if (lesson.status === "locked") {
       toast({
         title: "Lesson Locked 🔒",
@@ -111,7 +137,7 @@ export default function Lessons() {
 
       {/* Lessons Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {lessons.map((lesson) => (
+        {lessonsWithProgress.map((lesson) => (
           <Card
             key={lesson.id}
             className={`shadow-soft hover:shadow-medium transition-all duration-300 ${
