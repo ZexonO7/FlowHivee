@@ -362,10 +362,38 @@ export default function LessonContent() {
   };
 
   const handleDownload = (docName: string) => {
-    toast({
-      title: "Downloading...",
-      description: `${docName} will be available offline`,
-    });
+    const doc = lesson.documents.find((d: any) => d.name === docName);
+    
+    if (doc?.file) {
+      // Download actual PDF file
+      const link = document.createElement('a');
+      link.href = doc.file;
+      link.download = docName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast({
+        title: "Download started",
+        description: `${docName} is being downloaded`,
+      });
+    } else if (doc?.content) {
+      // Create text file from content
+      const blob = new Blob([doc.content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = docName.replace('.pdf', '.txt');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      
+      toast({
+        title: "Download started",
+        description: `${docName} is being downloaded as text`,
+      });
+    }
   };
 
   const handleViewDocument = (doc: any) => {
