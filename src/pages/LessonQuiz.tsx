@@ -18,7 +18,7 @@ const lessonQuizzes: Record<number, any> = {
       {
         id: 1,
         question: "Solve for x: x + 7 = 15",
-        diagram: "🔢 x + 7 = 15\n    -7   -7\n    ________\n    x = 8",
+        diagram: "🔢 x + 7 = 15\n\nHint: Subtract the same\nnumber from both sides",
         options: ["x = 6", "x = 8", "x = 22", "x = 10"],
         correctAnswer: 1,
         explanation: "Subtract 7 from both sides: x = 15 - 7 = 8",
@@ -26,7 +26,7 @@ const lessonQuizzes: Record<number, any> = {
       {
         id: 2,
         question: "What is 3(x + 2) when x = 4?",
-        diagram: "3(x + 2)\n= 3(4 + 2)\n= 3(6)\n= 18",
+        diagram: "3(x + 2) when x = 4\n\nHint: Replace x with 4,\nthen solve inside ( ) first",
         options: ["14", "18", "20", "12"],
         correctAnswer: 1,
         explanation: "First solve inside parentheses: 4 + 2 = 6, then multiply: 3 × 6 = 18",
@@ -34,7 +34,7 @@ const lessonQuizzes: Record<number, any> = {
       {
         id: 3,
         question: "If 2x = 10, what is x?",
-        diagram: "2x = 10\n÷2   ÷2\n______\nx = 5",
+        diagram: "2x = 10\n\nHint: Divide both sides\nby the same number",
         options: ["2", "5", "8", "20"],
         correctAnswer: 1,
         explanation: "Divide both sides by 2: x = 10 ÷ 2 = 5",
@@ -178,7 +178,7 @@ const lessonQuizzes: Record<number, any> = {
       {
         id: 1,
         question: "What does this code print? print('Hello')",
-        diagram: "print('Hello')\n↓\nOutput: Hello",
+        diagram: "print('Hello')\n\nHint: print() shows text\nwithout the quotes",
         options: ["'Hello'", "Hello", "print", "Error"],
         correctAnswer: 1,
         explanation: "The print() function displays text without the quotes, so it outputs: Hello",
@@ -186,7 +186,7 @@ const lessonQuizzes: Record<number, any> = {
       {
         id: 2,
         question: "What is a variable in Python?",
-        diagram: "name = 'Alex'\n📦 Box labeled 'name'\nContains: 'Alex'",
+        diagram: "name = 'Alex'\n\n📦 A box that can\nhold information",
         options: [
           "A number",
           "A container that stores data",
@@ -199,7 +199,7 @@ const lessonQuizzes: Record<number, any> = {
       {
         id: 3,
         question: "What is the output? age = 10; print(age + 5)",
-        diagram: "age = 10\nage + 5\n= 10 + 5\n= 15",
+        diagram: "age = 10\nprint(age + 5)\n\nHint: Python will do\nthe math for you",
         options: ["10", "5", "15", "105"],
         correctAnswer: 2,
         explanation: "Python adds the numbers: 10 + 5 = 15",
