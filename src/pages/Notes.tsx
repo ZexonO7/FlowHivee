@@ -154,6 +154,129 @@ Rome's influence remains visible today in architecture, law, language, and gover
     date: "2024-10-01",
     size: "1.5 MB",
     downloads: 67,
+    file: "/notes/python-syntax-cheat-sheet.pdf",
+    content: `# Python Syntax Cheat Sheet
+
+## Basics & Data Types
+
+**Print and Comments:**
+\`\`\`python
+print("Hello, FlowHivee!")
+# This is a comment
+\`\`\`
+
+**Variables:**
+\`\`\`python
+x = 10
+name = "FlowHivee"
+is_online = True
+\`\`\`
+
+**Data Types:**
+int, float, str, bool, list, tuple, dict, set
+
+**Example:**
+\`\`\`python
+data = [1, 2, 3]
+info = {"name": "FlowHivee", "mode": "Offline"}
+\`\`\`
+
+## Operators & Conditionals
+
+**Operators:**
++ - * / // % **
+
+**Conditionals:**
+\`\`\`python
+if x > 0:
+    print("Positive")
+elif x == 0:
+    print("Zero")
+else:
+    print("Negative")
+\`\`\`
+
+## Loops & Functions
+
+**For Loop:**
+\`\`\`python
+for i in range(5):
+    print(i)
+\`\`\`
+
+**While Loop:**
+\`\`\`python
+count = 0
+while count < 5:
+    print(count)
+    count += 1
+\`\`\`
+
+**Functions:**
+\`\`\`python
+def greet(name):
+    return f"Hello, {name}"
+
+print(greet("FlowHivee"))
+\`\`\`
+
+## Lists, Tuples & Dictionaries
+
+**Lists:**
+\`\`\`python
+numbers = [1, 2, 3]
+numbers.append(4)
+numbers.remove(2)
+\`\`\`
+
+**Tuples (Immutable):**
+\`\`\`python
+coords = (10, 20)
+\`\`\`
+
+**Dictionaries:**
+\`\`\`python
+student = {"name": "Advithya", "score": 98}
+print(student["name"])
+\`\`\`
+
+**Looping Through Collections:**
+\`\`\`python
+for key, value in student.items():
+    print(key, value)
+\`\`\`
+
+## File Handling & Exceptions
+
+**File Handling:**
+\`\`\`python
+with open("data.txt", "w") as f:
+    f.write("FlowHivee Rocks!")
+
+with open("data.txt", "r") as f:
+    print(f.read())
+\`\`\`
+
+**Error Handling:**
+\`\`\`python
+try:
+    x = 5 / 0
+except ZeroDivisionError:
+    print("Cannot divide by zero!")
+finally:
+    print("Execution complete.")
+\`\`\`
+
+## Built-in Functions & Best Practices
+
+**Built-in Functions:**
+- len(), type(), range(), input(), str(), int()
+
+**Pythonic Practices:**
+- Use clear variable names
+- Indent with 4 spaces
+- Comment when necessary
+- Write reusable functions`
   },
   {
     id: 6,
