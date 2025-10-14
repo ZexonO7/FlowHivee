@@ -560,7 +560,7 @@ export default function LessonContent() {
       </div>
 
       {/* Video Section */}
-      {lesson.videoUrl !== undefined && (
+      {((section as any).videoUrl || (currentSection === 0 && lesson.videoUrl)) && (
         <Card className="shadow-soft bg-gradient-to-br from-primary/5 to-secondary/5">
           <CardHeader>
             <div className="flex items-center gap-3">
@@ -574,20 +574,11 @@ export default function LessonContent() {
             </div>
           </CardHeader>
           <CardContent>
-            {lesson.videoUrl ? (
-              <div className="aspect-video bg-black rounded-lg overflow-hidden">
-                <video key={`${lessonId}-${currentSection}`} controls className="w-full h-full">
-                  <source src={(section as any).videoUrl || lesson.videoUrl} type="video/mp4" />
-                </video>
-              </div>
-            ) : (
-              <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-                <Button variant="warm" size="lg" onClick={handlePlayVideo}>
-                  <Play className="w-6 h-6" />
-                  Video Coming Soon
-                </Button>
-              </div>
-            )}
+            <div className="aspect-video bg-black rounded-lg overflow-hidden">
+              <video key={`${lessonId}-${currentSection}`} controls className="w-full h-full">
+                <source src={(section as any).videoUrl || lesson.videoUrl} type="video/mp4" />
+              </video>
+            </div>
           </CardContent>
         </Card>
       )}
