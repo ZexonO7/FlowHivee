@@ -3,56 +3,52 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MessageCircle, Heart, Share2, Send } from "lucide-react";
-
-const discussions = [
-  {
-    id: 1,
-    author: "Sarah K.",
-    initials: "SK",
-    time: "5 min ago",
-    message: "Just finished the Algebra quiz! Who else found question 7 tricky? 🤔",
-    likes: 12,
-    replies: 3,
-  },
-  {
-    id: 2,
-    author: "Mike R.",
-    initials: "MR",
-    time: "23 min ago",
-    message: "The Water Cycle lesson was so interesting! I learned so much about evaporation and precipitation ✨",
-    likes: 8,
-    replies: 5,
-  },
-  {
-    id: 3,
-    author: "Emma T.",
-    initials: "ET",
-    time: "1 hour ago",
-    message: "Can someone explain the Pythagorean theorem in simple terms? Need help with my homework 📐",
-    likes: 15,
-    replies: 7,
-  },
-  {
-    id: 4,
-    author: "David L.",
-    initials: "DL",
-    time: "2 hours ago",
-    message: "Shoutout to Ms. Johnson for the amazing Python lesson! Now I can write my first program 💻",
-    likes: 20,
-    replies: 4,
-  },
-  {
-    id: 5,
-    author: "Lisa M.",
-    initials: "LM",
-    time: "3 hours ago",
-    message: "Study group forming for the history quiz tomorrow! Reply if you want to join 📚",
-    likes: 18,
-    replies: 9,
-  },
-];
+import { useState, useEffect } from "react";
+import { getAllMessages, postMessage, toggleLike, getCurrentUser, formatRelativeTime } from "@/lib/community-storage";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Community() {
+  const [messages, setMessages] = useState(getAllMessages());
+  const [newMessage, setNewMessage] = useState("");
+  const [currentUser] = useState(getCurrentUser());
+  const { toast } = useToast();
+
+  useEffect(() => {
+    // Update relative times every minute
+    const interval = setInterval(() => {
+      setMessages(prev => prev.map(msg => ({
+        ...msg,
+        time: formatRelativeTime(msg.timestamp)
+      })));
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const handlePost = () => {
+    if (!newMessage.trim()) {
+      toast({
+        title: "Empty message",
+        description: "Please write something before posting",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    postMessage(newMessage);
+    setMessages(getAllMessages());
+    setNewMessage("");
+    
+    toast({
+      title: "Message posted! 📢",
+      description: "Your message is now visible to everyone on the LAN",
+    });
+  };
+
+  const handleLike = (messageId: string) => {
+    toggleLike(messageId);
+    setMessages(getAllMessages());
+  };
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
       {/* Header */}
@@ -94,9 +90,20 @@ export default function Community() {
           <Textarea
             placeholder="What's on your mind? Share with the community..."
             rows={4}
+            value={newMessage}
+            onChange={(e) => setNewMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handlePost();
+              }
+            }}
           />
-          <div className="flex justify-end">
-            <Button variant="warm">
+          <div className="flex justify-between items-center">
+            <p className="text-sm text-muted-foreground">
+              Posting as {currentUser.name}
+            </p>
+            <Button variant="warm" onClick={handlePost}>
               <Send className="w-4 h-4" />
               Post Message
             </Button>
@@ -106,7 +113,7 @@ export default function Community() {
 
       {/* Discussions */}
       <div className="space-y-4">
-        {discussions.map((discussion) => (
+        {messages.map((discussion) => (
           <Card key={discussion.id} className="shadow-soft hover:shadow-medium transition-all duration-300">
             <CardContent className="pt-6">
               <div className="flex gap-4">
@@ -128,8 +135,18 @@ export default function Community() {
                   </div>
 
                   <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                    <button className="flex items-center gap-2 hover:text-destructive transition-colors">
-                      <Heart className="w-4 h-4" />
+                    <button 
+                      onClick={() => handleLike(discussion.id)}
+                      className={`flex items-center gap-2 transition-colors ${
+                        discussion.likedBy.includes(currentUser.name) 
+                          ? 'text-destructive' 
+                          : 'hover:text-destructive'
+                      }`}
+                    >
+                      <Heart 
+                        className="w-4 h-4" 
+                        fill={discussion.likedBy.includes(currentUser.name) ? 'currentColor' : 'none'}
+                      />
                       <span>{discussion.likes}</span>
                     </button>
 
