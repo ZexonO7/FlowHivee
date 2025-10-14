@@ -36,22 +36,33 @@ export default function Analytics() {
       subject: item.subject,
     }));
 
-  // Calculate weekly activity (last 7 days)
+  // Calculate weekly activity (last 7 days) with proper activity counting
   const weeklyActivity = Array.from({ length: 7 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() - (6 - i));
-    const dayStr = date.toDateString();
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
     
-    const dayLessons = lessons.filter(l => 
-      new Date(l.lastAccessed).toDateString() === dayStr
-    );
-    const dayQuizzes = quizzes.filter(q => 
-      new Date(q.completedAt).toDateString() === dayStr
-    );
+    // Count unique lessons accessed on this day
+    const dayLessons = lessons.filter(l => {
+      const accessDate = new Date(l.lastAccessed);
+      return accessDate >= startOfDay && accessDate <= endOfDay;
+    });
+    
+    // Count all quiz attempts on this day
+    const dayQuizzes = quizzes.filter(q => {
+      const completedDate = new Date(q.completedAt);
+      return completedDate >= startOfDay && completedDate <= endOfDay;
+    });
+    
+    // Total activities is sum of unique lessons accessed + all quiz attempts
+    const totalActivities = dayLessons.length + dayQuizzes.length;
     
     return {
       day: date.toLocaleDateString('en-US', { weekday: 'short' }),
-      students: dayLessons.length + dayQuizzes.length,
+      students: totalActivities,
       lessons: dayLessons.length,
       quizzes: dayQuizzes.length,
     };
