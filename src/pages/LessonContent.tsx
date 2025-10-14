@@ -30,7 +30,23 @@ const lessonContent: Record<number, any> = {
       { 
         name: "Formula Sheet.pdf", 
         size: "890 KB",
-        content: "# Algebra Formula Sheet\n\n## Basic Operations\n- Addition: a + b\n- Subtraction: a - b\n- Multiplication: a × b or ab\n- Division: a ÷ b or a/b\n\n## Order of Operations (PEMDAS)\n1. Parentheses\n2. Exponents\n3. Multiplication & Division (left to right)\n4. Addition & Subtraction (left to right)\n\n## Solving Equations\n- Add/subtract same number from both sides\n- Multiply/divide both sides by same number\n- Goal: Get variable alone on one side\n\n## Key Formulas\n- Area of rectangle: A = length × width\n- Perimeter of rectangle: P = 2(l + w)\n- Distance: d = rate × time"
+        file: "/lessons/algebra-formula-sheet.pdf",
+        content: `# Basic Algebra Formulas
+
+## Essential Algebraic Identities
+
+1. (a + b)² = a² + 2ab + b²
+2. (a - b)² = a² - 2ab + b²
+3. (a + b)(a - b) = a² - b²
+4. (x + a)(x + b) = x² + (a + b)x + ab
+5. (x - a)(x - b) = x² - (a + b)x + ab
+6. (a + b + c)² = a² + b² + c² + 2(ab + bc + ca)
+7. (a - b - c)² = a² + b² + c² - 2(ab - bc + ca)
+8. (a + b)³ = a³ + 3a²b + 3ab² + b³
+9. (a - b)³ = a³ - 3a²b + 3ab² - b³
+10. (a + b + c)³ = a³ + b³ + c³ + 3(a + b)(b + c)(c + a)
+
+These formulas are essential for solving algebraic equations and simplifying expressions.`
       },
     ],
     sections: [
