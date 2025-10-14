@@ -12,13 +12,21 @@ const badges = [
   { id: 6, name: "Early Bird", icon: "🌅", earned: false },
 ];
 
+// Calculate earned badges count
+const earnedBadgesCount = badges.filter(b => b.earned).length;
+
 const subjectProgress = [
-  { subject: "Mathematics", progress: 78, lessons: 18, quizzes: 12 },
-  { subject: "Science", progress: 65, lessons: 15, quizzes: 10 },
-  { subject: "English", progress: 82, lessons: 20, quizzes: 14 },
-  { subject: "History", progress: 45, lessons: 10, quizzes: 6 },
-  { subject: "Computer Science", progress: 30, lessons: 8, quizzes: 5 },
+  { subject: "Mathematics", progress: 78, lessons: 18, quizzes: 12, completed: 14 },
+  { subject: "Science", progress: 65, lessons: 15, quizzes: 10, completed: 7 },
+  { subject: "English", progress: 82, lessons: 20, quizzes: 14, completed: 16 },
+  { subject: "History", progress: 45, lessons: 10, quizzes: 6, completed: 5 },
+  { subject: "Computer Science", progress: 30, lessons: 8, quizzes: 5, completed: 2 },
 ];
+
+// Calculate totals
+const totalLessonsCompleted = subjectProgress.reduce((sum, s) => sum + s.completed, 0);
+const totalLessonsAvailable = subjectProgress.reduce((sum, s) => sum + s.lessons, 0);
+const totalQuizzesTaken = subjectProgress.reduce((sum, s) => sum + s.quizzes, 0);
 
 const recentActivity = [
   { date: "Today", activity: "Completed 'Algebra Challenge' quiz", xp: 150 },
@@ -76,9 +84,9 @@ export default function Progress() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <TrendingUp className="w-5 h-5 text-primary" />
-                <span className="text-2xl font-bold">71</span>
+                <span className="text-2xl font-bold">{totalLessonsCompleted}/{totalLessonsAvailable}</span>
               </div>
-              <p className="text-sm text-muted-foreground">Total Lessons</p>
+              <p className="text-sm text-muted-foreground">Lessons Completed</p>
             </div>
           </CardContent>
         </Card>
@@ -88,7 +96,7 @@ export default function Progress() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Target className="w-5 h-5 text-secondary" />
-                <span className="text-2xl font-bold">47</span>
+                <span className="text-2xl font-bold">{totalQuizzesTaken}</span>
               </div>
               <p className="text-sm text-muted-foreground">Quizzes Taken</p>
             </div>
@@ -100,7 +108,7 @@ export default function Progress() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Award className="w-5 h-5 text-accent" />
-                <span className="text-2xl font-bold">3</span>
+                <span className="text-2xl font-bold">{earnedBadgesCount}</span>
               </div>
               <p className="text-sm text-muted-foreground">Badges Earned</p>
             </div>
@@ -135,7 +143,7 @@ export default function Progress() {
               </div>
               <ProgressBar value={subject.progress} className="h-2" />
               <div className="flex gap-4 text-sm text-muted-foreground">
-                <span>{subject.lessons} lessons</span>
+                <span>{subject.completed}/{subject.lessons} lessons</span>
                 <span>{subject.quizzes} quizzes</span>
               </div>
             </div>

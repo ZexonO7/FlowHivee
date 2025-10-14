@@ -84,6 +84,11 @@ export default function Quizzes() {
     .filter((q) => q.completed)
     .reduce((sum, q) => sum + (q.score ? (q.xp * q.score) / 100 : 0), 0);
 
+  const completedQuizzes = quizzes.filter((q) => q.completed);
+  const averageScore = completedQuizzes.length > 0
+    ? Math.round(completedQuizzes.reduce((sum, q) => sum + (q.score || 0), 0) / completedQuizzes.length)
+    : 0;
+
   const handleStartQuiz = (quizId: number) => {
     navigate('/quiz-taking', { state: { quizId } });
   };
@@ -137,14 +142,7 @@ export default function Quizzes() {
                 <Target className="w-6 h-6 text-accent" />
               </div>
               <div>
-                <p className="text-2xl font-bold">
-                  {Math.round(
-                    quizzes
-                      .filter((q) => q.completed)
-                      .reduce((sum, q) => sum + (q.score || 0), 0) /
-                      quizzes.filter((q) => q.completed).length || 0
-                  )}%
-                </p>
+                <p className="text-2xl font-bold">{averageScore}%</p>
                 <p className="text-sm text-muted-foreground">Avg Score</p>
               </div>
             </div>
