@@ -14,7 +14,7 @@ const lessonContent: Record<number, any> = {
     title: "Introduction to Algebra",
     subject: "Mathematics",
     duration: "45 min",
-    videoUrl: "", // User will provide later
+    videoUrl: "/video lessons/Introduction to Algebra (1 of 2_ What Happens when you don t know a number which you need to find ).mp4",
     hasQuiz: true,
     documents: [
       { 
