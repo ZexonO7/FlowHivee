@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -54,11 +54,13 @@ These formulas are essential for solving algebraic equations and simplifying exp
         type: "intro",
         title: "What is Algebra?",
         content: "Algebra is a branch of mathematics that uses letters and symbols to represent numbers and quantities in formulas and equations. It's like a puzzle where we need to find the missing pieces!",
+        videoUrl: "/video lessons/Introduction to Algebra (1 of 2_ What Happens when you don t know a number which you need to find ).mp4",
       },
       {
         type: "text",
         title: "Variables and Constants",
         content: "In algebra, we use variables (like x, y, z) to represent unknown values. Constants are fixed numbers that don't change. For example, in the equation 2x + 5 = 11, 'x' is the variable, while 2, 5, and 11 are constants.",
+        videoUrl: "/video lessons/Variables and Constents.mp4",
       },
       {
         type: "example",
@@ -386,6 +388,11 @@ export default function LessonContent() {
   const totalSections = lesson.sections.length;
   const progress = ((currentSection + 1) / totalSections) * 100;
 
+  // Reset section when changing lessons
+  useEffect(() => {
+    setCurrentSection(0);
+  }, [lessonId]);
+
   const handleNext = () => {
     if (currentSection < totalSections - 1) {
       setCurrentSection(currentSection + 1);
@@ -569,8 +576,8 @@ export default function LessonContent() {
           <CardContent>
             {lesson.videoUrl ? (
               <div className="aspect-video bg-black rounded-lg overflow-hidden">
-                <video key={lessonId} controls className="w-full h-full">
-                  <source src={lesson.videoUrl} type="video/mp4" />
+                <video key={`${lessonId}-${currentSection}`} controls className="w-full h-full">
+                  <source src={(section as any).videoUrl || lesson.videoUrl} type="video/mp4" />
                 </video>
               </div>
             ) : (
