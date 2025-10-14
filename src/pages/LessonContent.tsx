@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { BookOpen, ArrowLeft, ArrowRight, CheckCircle, Video, FileText, Headphones, Download, Play, Brain, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Whiteboard } from "@/components/Whiteboard";
+import { saveLessonProgress, markLessonComplete, getLessonProgress } from "@/lib/progress-storage";
 
 // Lesson content database
 const lessonContent: Record<number, any> = {
@@ -390,26 +391,46 @@ export default function LessonContent() {
   const totalSections = lesson.sections.length;
   const progress = ((currentSection + 1) / totalSections) * 100;
 
-  // Reset section when changing lessons
+  // Load saved progress
   useEffect(() => {
-    setCurrentSection(0);
+    const saved = getLessonProgress(lessonId);
+    if (saved && !saved.completed) {
+      setCurrentSection(saved.currentSection);
+    } else {
+      setCurrentSection(0);
+    }
   }, [lessonId]);
+
+  // Save progress on section change
+  useEffect(() => {
+    saveLessonProgress({
+      lessonId,
+      title: lesson.title,
+      subject: lesson.subject,
+      completed: currentSection === totalSections - 1,
+      currentSection,
+      totalSections,
+      lastAccessed: new Date().toISOString(),
+    });
+  }, [currentSection, lessonId, lesson.title, lesson.subject, totalSections]);
 
   const handleNext = () => {
     if (currentSection < totalSections - 1) {
       setCurrentSection(currentSection + 1);
     } else {
-      // Lesson complete - show quiz option
+      // Lesson complete - mark as complete
+      markLessonComplete(lessonId, lesson.title, lesson.subject, totalSections);
+      
       if (lesson.hasQuiz) {
         toast({
           title: "Lesson Complete! 🎉",
-          description: "Ready to test your knowledge?",
+          description: "Ready to test your knowledge? +100 XP earned!",
         });
         setTimeout(() => navigate('/lesson-quiz', { state: { lessonId } }), 1500);
       } else {
         toast({
           title: "Lesson Complete! 🎉",
-          description: `You've finished ${lesson.title}`,
+          description: `You've finished ${lesson.title}. +100 XP earned!`,
         });
         setTimeout(() => navigate('/lessons'), 1500);
       }

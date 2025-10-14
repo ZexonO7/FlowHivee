@@ -1,27 +1,63 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BarChart3, TrendingUp, Users, Zap, Clock, Target } from "lucide-react";
-
-const weeklyActivity = [
-  { day: "Mon", students: 42, lessons: 156, quizzes: 89 },
-  { day: "Tue", students: 45, lessons: 168, quizzes: 92 },
-  { day: "Wed", students: 48, lessons: 182, quizzes: 104 },
-  { day: "Thu", students: 46, lessons: 174, quizzes: 98 },
-  { day: "Fri", students: 44, lessons: 165, quizzes: 87 },
-  { day: "Sat", students: 38, lessons: 142, quizzes: 76 },
-  { day: "Sun", students: 35, lessons: 128, quizzes: 68 },
-];
-
-const topLessons = [
-  { title: "Algebra Basics", views: 156, subject: "Mathematics" },
-  { title: "Water Cycle", views: 142, subject: "Science" },
-  { title: "Essay Writing", views: 138, subject: "English" },
-  { title: "Ancient Rome", views: 124, subject: "History" },
-  { title: "Python Intro", views: 118, subject: "Computer Science" },
-];
+import { BarChart3, TrendingUp, Zap, Clock, Target, Trophy } from "lucide-react";
+import { getAllLessons, getAllQuizResults, getUserStats } from "@/lib/progress-storage";
 
 export default function Analytics() {
-  const maxStudents = Math.max(...weeklyActivity.map((d) => d.students));
+  const lessons = getAllLessons();
+  const quizzes = getAllQuizResults();
+  const stats = getUserStats();
+
+  // Calculate real metrics
+  const totalInteractions = lessons.length + quizzes.length;
+  const completedLessons = lessons.filter(l => l.completed).length;
+  const completionRate = lessons.length > 0 
+    ? Math.round((completedLessons / lessons.length) * 100)
+    : 0;
+
+  // Get lesson view counts by subject
+  const lessonsBySubject = lessons.reduce((acc: any, lesson) => {
+    if (!acc[lesson.subject]) {
+      acc[lesson.subject] = { subject: lesson.subject, count: 0, titles: [] };
+    }
+    acc[lesson.subject].count++;
+    if (!acc[lesson.subject].titles.includes(lesson.title)) {
+      acc[lesson.subject].titles.push(lesson.title);
+    }
+    return acc;
+  }, {});
+
+  const topLessons = Object.values(lessonsBySubject)
+    .sort((a: any, b: any) => b.count - a.count)
+    .slice(0, 5)
+    .map((item: any) => ({
+      title: item.titles[0] || item.subject,
+      views: item.count,
+      subject: item.subject,
+    }));
+
+  // Calculate weekly activity (last 7 days)
+  const weeklyActivity = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - (6 - i));
+    const dayStr = date.toDateString();
+    
+    const dayLessons = lessons.filter(l => 
+      new Date(l.lastAccessed).toDateString() === dayStr
+    );
+    const dayQuizzes = quizzes.filter(q => 
+      new Date(q.completedAt).toDateString() === dayStr
+    );
+    
+    return {
+      day: date.toLocaleDateString('en-US', { weekday: 'short' }),
+      students: dayLessons.length + dayQuizzes.length,
+      lessons: dayLessons.length,
+      quizzes: dayQuizzes.length,
+    };
+  });
+
+  const maxStudents = Math.max(...weeklyActivity.map((d) => d.students), 1);
 
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
@@ -39,14 +75,14 @@ export default function Analytics() {
           <CardContent className="pt-6">
             <div className="flex items-center justify-between mb-4">
               <div className="p-3 bg-primary/10 rounded-lg">
-                <Users className="w-6 h-6 text-primary" />
+                <TrendingUp className="w-6 h-6 text-primary" />
               </div>
               <Badge variant="secondary" className="bg-success/10 text-success">
-                +12%
+                {totalInteractions > 0 ? '+' : ''}0%
               </Badge>
             </div>
-            <p className="text-3xl font-bold mb-1">48</p>
-            <p className="text-sm text-muted-foreground">Active Students</p>
+            <p className="text-3xl font-bold mb-1">{completedLessons}</p>
+            <p className="text-sm text-muted-foreground">Lessons Completed</p>
           </CardContent>
         </Card>
 
@@ -57,10 +93,10 @@ export default function Analytics() {
                 <Zap className="w-6 h-6 text-secondary" />
               </div>
               <Badge variant="secondary" className="bg-success/10 text-success">
-                +8%
+                {totalInteractions > 0 ? '+' : ''}0%
               </Badge>
             </div>
-            <p className="text-3xl font-bold mb-1">1,115</p>
+            <p className="text-3xl font-bold mb-1">{totalInteractions}</p>
             <p className="text-sm text-muted-foreground">Total Interactions</p>
           </CardContent>
         </Card>
@@ -72,10 +108,10 @@ export default function Analytics() {
                 <Target className="w-6 h-6 text-accent" />
               </div>
               <Badge variant="secondary" className="bg-success/10 text-success">
-                +5%
+                {completionRate > 0 ? '+' : ''}0%
               </Badge>
             </div>
-            <p className="text-3xl font-bold mb-1">87%</p>
+            <p className="text-3xl font-bold mb-1">{completionRate}%</p>
             <p className="text-sm text-muted-foreground">Completion Rate</p>
           </CardContent>
         </Card>
@@ -97,7 +133,6 @@ export default function Analytics() {
                 <div className="flex items-center justify-between text-sm">
                   <span className="font-medium w-12">{day.day}</span>
                   <div className="flex gap-6 text-muted-foreground">
-                    <span>{day.students} students</span>
                     <span>{day.lessons} lessons</span>
                     <span>{day.quizzes} quizzes</span>
                   </div>
@@ -105,11 +140,13 @@ export default function Analytics() {
                 <div className="h-8 bg-muted rounded-lg overflow-hidden">
                   <div
                     className="h-full bg-gradient-warm flex items-center justify-end pr-2 transition-all duration-300"
-                    style={{ width: `${(day.students / maxStudents) * 100}%` }}
+                    style={{ width: `${day.students > 0 ? (day.students / maxStudents) * 100 : 0}%` }}
                   >
-                    <span className="text-xs font-medium text-white">
-                      {day.students}
-                    </span>
+                    {day.students > 0 && (
+                      <span className="text-xs font-medium text-white">
+                        {day.students}
+                      </span>
+                    )}
                   </div>
                 </div>
               </div>
@@ -129,44 +166,50 @@ export default function Analytics() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {topLessons.map((lesson, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between p-4 bg-muted rounded-lg"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center justify-center w-8 h-8 bg-primary text-primary-foreground rounded-full font-bold text-sm">
-                    {index + 1}
+            {topLessons.length > 0 ? (
+              topLessons.map((lesson, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-4 bg-muted rounded-lg"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center justify-center w-8 h-8 bg-primary text-primary-foreground rounded-full font-bold text-sm">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <p className="font-medium">{lesson.title}</p>
+                      <p className="text-sm text-muted-foreground">{lesson.subject}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="font-medium">{lesson.title}</p>
-                    <p className="text-sm text-muted-foreground">{lesson.subject}</p>
+                  <div className="text-right">
+                    <p className="font-bold text-lg">{lesson.views}</p>
+                    <p className="text-xs text-muted-foreground">views</p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-bold text-lg">{lesson.views}</p>
-                  <p className="text-xs text-muted-foreground">views</p>
-                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-muted-foreground">
+                <p>Start learning to see your top lessons here!</p>
               </div>
-            ))}
+            )}
           </div>
         </CardContent>
       </Card>
 
-      {/* Server Stats */}
+      {/* App Stats */}
       <Card className="bg-gradient-cool shadow-soft border-0">
         <CardContent className="pt-6">
           <div className="flex items-center justify-between">
             <div className="text-white">
-              <h3 className="text-xl font-bold mb-2">FlowHivee Server Status</h3>
+              <h3 className="text-xl font-bold mb-2">FlowHivee Stats</h3>
               <div className="space-y-2 text-sm text-white/90">
                 <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4" />
-                  <span>Uptime: 127 hours</span>
+                  <Trophy className="w-4 h-4" />
+                  <span>Level: {stats.level}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4" />
-                  <span>Peak Concurrent Users: 38</span>
+                  <Zap className="w-4 h-4" />
+                  <span>Total XP: {stats.totalXP}</span>
                 </div>
               </div>
             </div>

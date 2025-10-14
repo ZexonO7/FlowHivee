@@ -2,46 +2,33 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress as ProgressBar } from "@/components/ui/progress";
 import { Trophy, TrendingUp, Award, Target, Calendar, Star } from "lucide-react";
+import { getUserStats, getSubjectProgress, getRecentActivity, getAllLessons, getAllQuizResults } from "@/lib/progress-storage";
 
 const badges = [
-  { id: 1, name: "Fast Learner", icon: "⚡", earned: true },
-  { id: 2, name: "Quiz Master", icon: "🧠", earned: true },
-  { id: 3, name: "Perfect Score", icon: "💯", earned: true },
-  { id: 4, name: "Week Streak", icon: "🔥", earned: false },
-  { id: 5, name: "Helpful Friend", icon: "🤝", earned: false },
-  { id: 6, name: "Early Bird", icon: "🌅", earned: false },
-];
-
-// Calculate earned badges count
-const earnedBadgesCount = badges.filter(b => b.earned).length;
-
-const subjectProgress = [
-  { subject: "Mathematics", lessons: 18, quizzes: 12, completed: 14 },
-  { subject: "Science", lessons: 15, quizzes: 10, completed: 7 },
-  { subject: "English", lessons: 20, quizzes: 14, completed: 16 },
-  { subject: "History", lessons: 10, quizzes: 6, completed: 5 },
-  { subject: "Computer Science", lessons: 8, quizzes: 5, completed: 2 },
-].map(s => ({
-  ...s,
-  progress: Math.round((s.completed / s.lessons) * 100)
-}));
-
-// Calculate totals
-const totalLessonsCompleted = subjectProgress.reduce((sum, s) => sum + s.completed, 0);
-const totalLessonsAvailable = subjectProgress.reduce((sum, s) => sum + s.lessons, 0);
-const totalQuizzesTaken = subjectProgress.reduce((sum, s) => sum + s.quizzes, 0);
-
-const recentActivity = [
-  { date: "Today", activity: "Completed 'Algebra Challenge' quiz", xp: 150 },
-  { date: "Yesterday", activity: "Finished 'Water Cycle' lesson", xp: 100 },
-  { date: "2 days ago", activity: "Earned 'Quiz Master' badge", xp: 200 },
-  { date: "3 days ago", activity: "Completed 'Essay Writing' lesson", xp: 120 },
+  { id: "fast_learner", name: "Fast Learner", icon: "⚡", earned: true },
+  { id: "quiz_master", name: "Quiz Master", icon: "🧠", earned: true },
+  { id: "perfect_score", name: "Perfect Score", icon: "💯", earned: true },
+  { id: "week_streak", name: "Week Streak", icon: "🔥", earned: false },
+  { id: "helpful_friend", name: "Helpful Friend", icon: "🤝", earned: false },
+  { id: "early_bird", name: "Early Bird", icon: "🌅", earned: false },
 ];
 
 export default function Progress() {
-  const totalXP = 1250;
-  const nextLevel = 1500;
-  const levelProgress = (totalXP / nextLevel) * 100;
+  const stats = getUserStats();
+  const subjectProgress = getSubjectProgress();
+  const recentActivity = getRecentActivity();
+  const allLessons = getAllLessons();
+  const allQuizzes = getAllQuizResults();
+
+  // Calculate real stats
+  const earnedBadges = badges.filter(b => stats.badges.includes(b.id));
+  const totalLessonsCompleted = allLessons.filter(l => l.completed).length;
+  const totalQuizzesTaken = allQuizzes.length;
+  
+  // Calculate level progress
+  const currentLevelXP = stats.totalXP % 500;
+  const nextLevelXP = 500;
+  const levelProgress = (currentLevelXP / nextLevelXP) * 100;
 
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
@@ -58,8 +45,8 @@ export default function Progress() {
         <CardContent className="pt-6">
           <div className="flex items-center justify-between mb-4">
             <div className="text-white">
-              <h3 className="text-2xl font-bold">Level 8</h3>
-              <p className="text-white/90">Keep learning to reach Level 9!</p>
+              <h3 className="text-2xl font-bold">Level {stats.level}</h3>
+              <p className="text-white/90">Keep learning to reach Level {stats.level + 1}!</p>
             </div>
             <div className="p-4 bg-white/20 rounded-full">
               <Trophy className="w-8 h-8 text-white" />
@@ -67,8 +54,8 @@ export default function Progress() {
           </div>
           <div className="space-y-2">
             <div className="flex justify-between text-sm text-white/90">
-              <span>{totalXP} XP</span>
-              <span>{nextLevel} XP</span>
+              <span>{currentLevelXP} XP</span>
+              <span>{nextLevelXP} XP</span>
             </div>
             <div className="h-3 bg-white/20 rounded-full overflow-hidden">
               <div
@@ -87,7 +74,7 @@ export default function Progress() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <TrendingUp className="w-5 h-5 text-primary" />
-                <span className="text-2xl font-bold">{totalLessonsCompleted}/{totalLessonsAvailable}</span>
+                <span className="text-2xl font-bold">{totalLessonsCompleted}</span>
               </div>
               <p className="text-sm text-muted-foreground">Lessons Completed</p>
             </div>
@@ -111,7 +98,7 @@ export default function Progress() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Award className="w-5 h-5 text-accent" />
-                <span className="text-2xl font-bold">{earnedBadgesCount}</span>
+                <span className="text-2xl font-bold">{earnedBadges.length}</span>
               </div>
               <p className="text-sm text-muted-foreground">Badges Earned</p>
             </div>
@@ -123,7 +110,7 @@ export default function Progress() {
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <Calendar className="w-5 h-5 text-success" />
-                <span className="text-2xl font-bold">12</span>
+                <span className="text-2xl font-bold">{stats.dayStreak}</span>
               </div>
               <p className="text-sm text-muted-foreground">Day Streak</p>
             </div>
@@ -146,8 +133,7 @@ export default function Progress() {
               </div>
               <ProgressBar value={subject.progress} className="h-2" />
               <div className="flex gap-4 text-sm text-muted-foreground">
-                <span>{subject.completed}/{subject.lessons} lessons</span>
-                <span>{subject.quizzes} quizzes</span>
+                <span>{subject.completed} lessons completed</span>
               </div>
             </div>
           ))}
@@ -169,7 +155,7 @@ export default function Progress() {
               <div
                 key={badge.id}
                 className={`text-center p-4 rounded-lg border-2 transition-all ${
-                  badge.earned
+                  earnedBadges.some(b => b.id === badge.id)
                     ? "border-primary bg-primary/5"
                     : "border-border bg-muted opacity-50"
                 }`}
