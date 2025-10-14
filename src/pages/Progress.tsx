@@ -16,12 +16,15 @@ const badges = [
 const earnedBadgesCount = badges.filter(b => b.earned).length;
 
 const subjectProgress = [
-  { subject: "Mathematics", progress: 78, lessons: 18, quizzes: 12, completed: 14 },
-  { subject: "Science", progress: 65, lessons: 15, quizzes: 10, completed: 7 },
-  { subject: "English", progress: 82, lessons: 20, quizzes: 14, completed: 16 },
-  { subject: "History", progress: 45, lessons: 10, quizzes: 6, completed: 5 },
-  { subject: "Computer Science", progress: 30, lessons: 8, quizzes: 5, completed: 2 },
-];
+  { subject: "Mathematics", lessons: 18, quizzes: 12, completed: 14 },
+  { subject: "Science", lessons: 15, quizzes: 10, completed: 7 },
+  { subject: "English", lessons: 20, quizzes: 14, completed: 16 },
+  { subject: "History", lessons: 10, quizzes: 6, completed: 5 },
+  { subject: "Computer Science", lessons: 8, quizzes: 5, completed: 2 },
+].map(s => ({
+  ...s,
+  progress: Math.round((s.completed / s.lessons) * 100)
+}));
 
 // Calculate totals
 const totalLessonsCompleted = subjectProgress.reduce((sum, s) => sum + s.completed, 0);
