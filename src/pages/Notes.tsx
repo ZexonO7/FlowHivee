@@ -101,6 +101,51 @@ Flow of paragraphs should be logical and connected with linking words like 'furt
     size: "2.1 MB",
     downloads: 29,
     file: "/notes/ancient-rome-timeline.pdf",
+    content: `# Ancient Rome Timeline: From Founding to Fall
+
+## The Early Days of Rome
+
+**753 BCE - The Founding of Rome:**
+According to legend, Rome was founded by Romulus and Remus, twin brothers raised by a she-wolf. Romulus later became the first king of Rome.
+
+**509 BCE - The Roman Republic:**
+The Romans overthrew their last king, Tarquin the Proud, and established the Roman Republic. Power was shared between two elected consuls, advised by the Senate, representing the early form of democracy.
+
+**Etruscan Influence:**
+The Romans adopted many ideas from the Etruscans, such as architecture, engineering, and religious rituals.
+
+## The Republic's Expansion
+
+**264-146 BCE - The Punic Wars:**
+Rome fought three major wars against Carthage, a powerful city-state in North Africa. The most famous was led by Hannibal, who crossed the Alps with his war elephants. Rome eventually destroyed Carthage, gaining control over the western Mediterranean.
+
+**Expansion and Consequences:**
+Rome's victories brought immense wealth and slaves but also increased inequality and corruption. The Senate grew more powerful, and generals like Julius Caesar gained huge influence.
+
+## From Republic to Empire
+
+**44 BCE - Assassination of Julius Caesar:**
+Caesar's growing power alarmed the Senate, leading to his assassination on the Ides of March. This marked the end of the Republic and the start of a power struggle.
+
+**27 BCE - The Roman Empire Begins:**
+Octavian, later known as Augustus, became the first Roman Emperor. Under his rule, Rome entered the Pax Romana - 200 years of relative peace and prosperity.
+
+**Achievements of the Empire:**
+Romans built roads, aqueducts, amphitheaters, and cities across their empire, connecting millions of people under Roman law and culture.
+
+## Decline and Legacy
+
+**64 CE - The Great Fire of Rome:**
+A massive fire destroyed much of the city during Emperor Nero's reign, leading to political chaos.
+
+**313 CE - The Edict of Milan:**
+Emperor Constantine legalized Christianity, which spread rapidly throughout the empire.
+
+**476 CE - Fall of the Western Roman Empire:**
+Germanic tribes captured Rome, marking the official end of ancient Rome. However, the Eastern Roman Empire (Byzantium) continued for nearly a thousand more years.
+
+**Legacy of Rome:**
+Rome's influence remains visible today in architecture, law, language, and government systems. Its ideals of citizenship, engineering brilliance, and cultural diversity shaped Western civilization.`
   },
   {
     id: 5,
