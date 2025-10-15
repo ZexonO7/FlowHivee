@@ -118,12 +118,12 @@ export default function Community() {
             }}
           />
           <div className="flex justify-between items-center">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground hidden sm:block">
               Posting as {currentUser.name}
             </p>
-            <Button variant="warm" onClick={handlePost}>
-              <Send className="w-4 h-4" />
-              Post Message
+            <Button variant="warm" onClick={handlePost} className="ml-auto">
+              <Send className="w-4 h-4 mr-2" />
+              <span>Post Message</span>
             </Button>
           </div>
         </CardContent>
@@ -152,30 +152,30 @@ export default function Community() {
                     <p className="text-foreground">{discussion.message}</p>
                   </div>
 
-                  <div className="flex items-center gap-6 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-4 sm:gap-6 text-sm text-muted-foreground flex-wrap">
                     <button 
                       onClick={() => handleLike(discussion.id)}
-                      className={`flex items-center gap-2 transition-colors ${
+                      className={`flex items-center gap-1.5 sm:gap-2 transition-colors ${
                         discussion.likedBy.includes(currentUser.name) 
                           ? 'text-destructive' 
                           : 'hover:text-destructive'
                       }`}
                     >
                       <Heart 
-                        className="w-4 h-4" 
+                        className="w-4 h-4 flex-shrink-0" 
                         fill={discussion.likedBy.includes(currentUser.name) ? 'currentColor' : 'none'}
                       />
-                      <span>{discussion.likes}</span>
+                      <span className="whitespace-nowrap">{discussion.likes}</span>
                     </button>
 
-                    <button className="flex items-center gap-2 hover:text-primary transition-colors">
-                      <MessageCircle className="w-4 h-4" />
-                      <span>{discussion.replies} replies</span>
+                    <button className="flex items-center gap-1.5 sm:gap-2 hover:text-primary transition-colors">
+                      <MessageCircle className="w-4 h-4 flex-shrink-0" />
+                      <span className="whitespace-nowrap">{discussion.replies} replies</span>
                     </button>
 
-                    <button className="flex items-center gap-2 hover:text-secondary transition-colors">
-                      <Share2 className="w-4 h-4" />
-                      <span>Share</span>
+                    <button className="flex items-center gap-1.5 sm:gap-2 hover:text-secondary transition-colors">
+                      <Share2 className="w-4 h-4 flex-shrink-0" />
+                      <span className="whitespace-nowrap">Share</span>
                     </button>
                   </div>
                 </div>
