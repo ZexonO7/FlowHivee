@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MessageCircle, Heart, Share2, Send } from "lucide-react";
 import { useState, useEffect } from "react";
 import { getAllMessages, postMessage, toggleLike, getCurrentUser, formatRelativeTime } from "@/lib/community-storage";
+import { remoteEnabled, fetchRemoteMessages, postRemoteMessage, toggleRemoteLike } from "@/lib/community-api";
 import { useToast } from "@/hooks/use-toast";
 
 export default function Community() {
@@ -14,10 +15,24 @@ export default function Community() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Refresh messages every 2 seconds
-    const refreshInterval = setInterval(() => {
-      setMessages(getAllMessages());
-    }, 2000);
+    let isMounted = true;
+
+    const load = async () => {
+      try {
+        if (remoteEnabled) {
+          const data = await fetchRemoteMessages();
+          if (isMounted) setMessages(data);
+        } else {
+          setMessages(getAllMessages());
+        }
+      } catch {
+        setMessages(getAllMessages());
+      }
+    };
+
+    // Initial load and periodic refresh
+    load();
+    const refreshInterval = setInterval(load, 2000);
 
     // Update relative timestamps every minute
     const timeInterval = setInterval(() => {
@@ -27,21 +42,21 @@ export default function Community() {
       })));
     }, 60000);
 
-    // Sync across tabs
+    // Sync across tabs only for local mode
     const handleStorageChange = () => {
-      setMessages(getAllMessages());
+      if (!remoteEnabled) setMessages(getAllMessages());
     };
-
     window.addEventListener('storage', handleStorageChange);
 
     return () => {
+      isMounted = false;
       clearInterval(refreshInterval);
       clearInterval(timeInterval);
       window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
 
-  const handlePost = () => {
+  const handlePost = async () => {
     if (!newMessage.trim()) {
       toast({
         title: "Empty message",
@@ -51,21 +66,37 @@ export default function Community() {
       return;
     }
 
-    const message = postMessage(newMessage.trim());
-    setMessages([message, ...messages]);
-    setNewMessage("");
-    
-    toast({
-      title: "Message posted! 📢",
-      description: "Your message is now visible to everyone",
-    });
+    try {
+      let message;
+      if (remoteEnabled) {
+        message = await postRemoteMessage(newMessage.trim(), currentUser);
+        setMessages(prev => [message, ...prev]);
+      } else {
+        message = postMessage(newMessage.trim());
+        setMessages(prev => [message, ...prev]);
+      }
+      setNewMessage("");
+      toast({
+        title: "Message posted! 📢",
+        description: remoteEnabled ? "Synced to all your devices" : "Your message is now visible to everyone",
+      });
+    } catch (e) {
+      toast({ title: "Failed to post", description: "Please try again", variant: "destructive" });
+    }
   };
 
-  const handleLike = (messageId: string) => {
-    const updatedMessage = toggleLike(messageId);
-    if (updatedMessage) {
-      setMessages(messages.map(m => m.id === messageId ? updatedMessage : m));
-    }
+  const handleLike = async (messageId: string) => {
+    try {
+      if (remoteEnabled) {
+        const updatedMessage = await toggleRemoteLike(messageId, currentUser.name);
+        setMessages(prev => prev.map(m => m.id === messageId ? updatedMessage : m));
+      } else {
+        const updatedMessage = toggleLike(messageId);
+        if (updatedMessage) {
+          setMessages(prev => prev.map(m => m.id === messageId ? updatedMessage : m));
+        }
+      }
+    } catch {}
   };
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
