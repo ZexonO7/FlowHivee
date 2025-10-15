@@ -8,40 +8,35 @@ import { getAllMessages, postMessage, toggleLike, getCurrentUser, formatRelative
 import { useToast } from "@/hooks/use-toast";
 
 export default function Community() {
-  const [messages, setMessages] = useState(getAllMessages());
+  const [messages, setMessages] = useState<any[]>([]);
   const [newMessage, setNewMessage] = useState("");
   const [currentUser] = useState(getCurrentUser());
   const { toast } = useToast();
 
   useEffect(() => {
-    // Update relative times every minute
-    const interval = setInterval(() => {
+    // Load messages initially
+    getAllMessages().then(setMessages);
+
+    // Poll for new messages every 5 seconds
+    const pollInterval = setInterval(() => {
+      getAllMessages().then(setMessages);
+    }, 5000);
+
+    // Update relative timestamps every minute
+    const timeInterval = setInterval(() => {
       setMessages(prev => prev.map(msg => ({
         ...msg,
         time: formatRelativeTime(msg.timestamp)
       })));
     }, 60000);
 
-    // Sync messages across tabs and on focus
-    const handleStorageChange = () => {
-      setMessages(getAllMessages());
-    };
-
-    const handleFocus = () => {
-      setMessages(getAllMessages());
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-    window.addEventListener('focus', handleFocus);
-
     return () => {
-      clearInterval(interval);
-      window.removeEventListener('storage', handleStorageChange);
-      window.removeEventListener('focus', handleFocus);
+      clearInterval(pollInterval);
+      clearInterval(timeInterval);
     };
   }, []);
 
-  const handlePost = () => {
+  const handlePost = async () => {
     if (!newMessage.trim()) {
       toast({
         title: "Empty message",
@@ -51,19 +46,29 @@ export default function Community() {
       return;
     }
 
-    postMessage(newMessage);
-    setMessages(getAllMessages());
-    setNewMessage("");
-    
-    toast({
-      title: "Message posted! 📢",
-      description: "Your message is now visible to everyone on the LAN",
-    });
+    const message = await postMessage(newMessage.trim());
+    if (message) {
+      setMessages([message, ...messages]);
+      setNewMessage("");
+      
+      toast({
+        title: "Message posted! 📢",
+        description: "Your message is now visible to everyone on the LAN",
+      });
+    } else {
+      toast({
+        title: "Error",
+        description: "Failed to post message. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
-  const handleLike = (messageId: string) => {
-    toggleLike(messageId);
-    setMessages(getAllMessages());
+  const handleLike = async (messageId: string) => {
+    const updatedMessage = await toggleLike(messageId);
+    if (updatedMessage) {
+      setMessages(messages.map(m => m.id === messageId ? updatedMessage : m));
+    }
   };
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
