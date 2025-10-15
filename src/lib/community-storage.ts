@@ -10,12 +10,10 @@ export interface CommunityMessage {
   replies: number;
 }
 
-// API endpoint for local LAN server
-const API_BASE = window.location.origin;
+const STORAGE_KEY = 'community_messages';
 const USER_KEY = 'community_user';
 
 export const getCurrentUser = () => {
-  // First check if user settings exist (from settings page)
   const userSettings = localStorage.getItem('user_settings');
   if (userSettings) {
     const settings = JSON.parse(userSettings);
@@ -25,66 +23,99 @@ export const getCurrentUser = () => {
     };
   }
   
-  // Fall back to community_user key
   const stored = localStorage.getItem(USER_KEY);
   if (stored) {
     return JSON.parse(stored);
   }
   
-  // Generate default user
   const defaultUser = { name: 'Student', initials: 'ST' };
   localStorage.setItem(USER_KEY, JSON.stringify(defaultUser));
   return defaultUser;
 };
 
-export const getAllMessages = async (): Promise<CommunityMessage[]> => {
-  try {
-    const response = await fetch(`${API_BASE}/api/community/messages`);
-    if (!response.ok) throw new Error('Failed to fetch messages');
-    return await response.json();
-  } catch (error) {
-    console.error('Error fetching messages:', error);
-    // Return empty array on error
-    return [];
+export const getAllMessages = (): CommunityMessage[] => {
+  const stored = localStorage.getItem(STORAGE_KEY);
+  if (!stored) {
+    const defaultMessages: CommunityMessage[] = [
+      {
+        id: '1',
+        author: 'Sarah K.',
+        initials: 'SK',
+        time: '5 min ago',
+        timestamp: Date.now() - 5 * 60000,
+        message: 'Just finished the Algebra quiz! Who else found question 7 tricky? 🤔',
+        likes: 12,
+        likedBy: [],
+        replies: 3,
+      },
+      {
+        id: '2',
+        author: 'Mike R.',
+        initials: 'MR',
+        time: '23 min ago',
+        timestamp: Date.now() - 23 * 60000,
+        message: 'The Water Cycle lesson was so interesting! I learned so much about evaporation and precipitation ✨',
+        likes: 8,
+        likedBy: [],
+        replies: 5,
+      },
+      {
+        id: '3',
+        author: 'Emma T.',
+        initials: 'ET',
+        time: '1 hour ago',
+        timestamp: Date.now() - 60 * 60000,
+        message: 'Can someone explain the Pythagorean theorem in simple terms? Need help with my homework 📐',
+        likes: 15,
+        likedBy: [],
+        replies: 7,
+      },
+    ];
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultMessages));
+    return defaultMessages;
   }
+  return JSON.parse(stored);
 };
 
-export const postMessage = async (message: string): Promise<CommunityMessage | null> => {
-  try {
-    const user = getCurrentUser();
-    const response = await fetch(`${API_BASE}/api/community/messages`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        author: user.name,
-        initials: user.initials,
-        message,
-      }),
-    });
-    
-    if (!response.ok) throw new Error('Failed to post message');
-    return await response.json();
-  } catch (error) {
-    console.error('Error posting message:', error);
-    return null;
-  }
+export const postMessage = (message: string): CommunityMessage => {
+  const messages = getAllMessages();
+  const user = getCurrentUser();
+  
+  const newMessage: CommunityMessage = {
+    id: Date.now().toString(),
+    author: user.name,
+    initials: user.initials,
+    time: 'Just now',
+    timestamp: Date.now(),
+    message,
+    likes: 0,
+    likedBy: [],
+    replies: 0,
+  };
+  
+  messages.unshift(newMessage);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+  return newMessage;
 };
 
-export const toggleLike = async (messageId: string): Promise<CommunityMessage | null> => {
-  try {
-    const user = getCurrentUser();
-    const response = await fetch(`${API_BASE}/api/community/messages/${messageId}/like`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user.name }),
-    });
-    
-    if (!response.ok) throw new Error('Failed to toggle like');
-    return await response.json();
-  } catch (error) {
-    console.error('Error toggling like:', error);
-    return null;
+export const toggleLike = (messageId: string): CommunityMessage | null => {
+  const messages = getAllMessages();
+  const user = getCurrentUser();
+  const userId = user.name;
+  
+  const message = messages.find(m => m.id === messageId);
+  if (!message) return null;
+  
+  if (message.likedBy.includes(userId)) {
+    message.likedBy = message.likedBy.filter(id => id !== userId);
+    message.likes--;
+  } else {
+    message.likedBy.push(userId);
+    message.likes++;
   }
+  
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+  return message;
 };
 
 export const formatRelativeTime = (timestamp: number): string => {

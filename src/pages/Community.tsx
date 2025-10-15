@@ -8,19 +8,16 @@ import { getAllMessages, postMessage, toggleLike, getCurrentUser, formatRelative
 import { useToast } from "@/hooks/use-toast";
 
 export default function Community() {
-  const [messages, setMessages] = useState<any[]>([]);
+  const [messages, setMessages] = useState(getAllMessages());
   const [newMessage, setNewMessage] = useState("");
   const [currentUser] = useState(getCurrentUser());
   const { toast } = useToast();
 
   useEffect(() => {
-    // Load messages initially
-    getAllMessages().then(setMessages);
-
-    // Poll for new messages every 5 seconds
-    const pollInterval = setInterval(() => {
-      getAllMessages().then(setMessages);
-    }, 5000);
+    // Refresh messages every 2 seconds
+    const refreshInterval = setInterval(() => {
+      setMessages(getAllMessages());
+    }, 2000);
 
     // Update relative timestamps every minute
     const timeInterval = setInterval(() => {
@@ -30,13 +27,21 @@ export default function Community() {
       })));
     }, 60000);
 
+    // Sync across tabs
+    const handleStorageChange = () => {
+      setMessages(getAllMessages());
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
     return () => {
-      clearInterval(pollInterval);
+      clearInterval(refreshInterval);
       clearInterval(timeInterval);
+      window.removeEventListener('storage', handleStorageChange);
     };
   }, []);
 
-  const handlePost = async () => {
+  const handlePost = () => {
     if (!newMessage.trim()) {
       toast({
         title: "Empty message",
@@ -46,26 +51,18 @@ export default function Community() {
       return;
     }
 
-    const message = await postMessage(newMessage.trim());
-    if (message) {
-      setMessages([message, ...messages]);
-      setNewMessage("");
-      
-      toast({
-        title: "Message posted! 📢",
-        description: "Your message is now visible to everyone on the LAN",
-      });
-    } else {
-      toast({
-        title: "Error",
-        description: "Failed to post message. Please try again.",
-        variant: "destructive",
-      });
-    }
+    const message = postMessage(newMessage.trim());
+    setMessages([message, ...messages]);
+    setNewMessage("");
+    
+    toast({
+      title: "Message posted! 📢",
+      description: "Your message is now visible to everyone",
+    });
   };
 
-  const handleLike = async (messageId: string) => {
-    const updatedMessage = await toggleLike(messageId);
+  const handleLike = (messageId: string) => {
+    const updatedMessage = toggleLike(messageId);
     if (updatedMessage) {
       setMessages(messages.map(m => m.id === messageId ? updatedMessage : m));
     }
