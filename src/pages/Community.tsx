@@ -22,7 +22,23 @@ export default function Community() {
       })));
     }, 60000);
 
-    return () => clearInterval(interval);
+    // Sync messages across tabs and on focus
+    const handleStorageChange = () => {
+      setMessages(getAllMessages());
+    };
+
+    const handleFocus = () => {
+      setMessages(getAllMessages());
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('focus', handleFocus);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', handleFocus);
+    };
   }, []);
 
   const handlePost = () => {
