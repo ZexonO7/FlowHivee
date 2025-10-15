@@ -100,14 +100,14 @@ export function Layout({ children }: LayoutProps) {
 
       {/* Mobile Bottom Navigation */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-medium z-10">
-        <div className="flex justify-around py-2">
-          {navItems.slice(0, 5).map((item) => (
+        <div className="grid grid-cols-6 py-2">
+          {[navItems[0], navItems[1], navItems[3], navItems[4], navItems[7], navItems[8]].map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
                 cn(
-                  "flex flex-col items-center gap-1 px-3 py-2 rounded-lg transition-all",
+                  "flex flex-col items-center gap-1 px-2 py-2 rounded-lg transition-all",
                   isActive
                     ? "text-primary"
                     : "text-muted-foreground"
