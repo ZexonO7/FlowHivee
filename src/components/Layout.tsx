@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import { 
   Home, 
+  GraduationCap,
   BookOpen, 
   FileText, 
   Brain, 
@@ -17,6 +18,7 @@ import logoIcon from "@/assets/logo-icon.png";
 
 const navItems = [
   { to: "/", icon: Home, label: "Home" },
+  { to: "/grades", icon: GraduationCap, label: "Grades" },
   { to: "/lessons", icon: BookOpen, label: "Lessons" },
   { to: "/notes", icon: FileText, label: "Notes" },
   { to: "/quizzes", icon: Brain, label: "Quizzes" },
@@ -101,7 +103,7 @@ export function Layout({ children }: LayoutProps) {
       {/* Mobile Bottom Navigation */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-medium z-10">
         <div className="grid grid-cols-6 py-2">
-          {[navItems[0], navItems[1], navItems[3], navItems[4], navItems[7], navItems[8]].map((item) => (
+          {[navItems[0], navItems[1], navItems[4], navItems[5], navItems[8], navItems[9]].map((item) => (
             <NavLink
               key={item.to}
               to={item.to}

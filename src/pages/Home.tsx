@@ -1,6 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Brain, TrendingUp, Users, Star, Zap } from "lucide-react";
+import { BookOpen, Brain, TrendingUp, Users, Star, Zap, GraduationCap } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
 import { useNavigate } from "react-router-dom";
 
@@ -27,13 +27,13 @@ export default function Home() {
               accessible anywhere in the community 🌐
             </p>
             <div className="flex gap-3">
-              <Button variant="warm" size="lg" onClick={() => navigate('/lessons')}>
-                <BookOpen className="w-5 h-5" />
-                Start Learning
+              <Button variant="warm" size="lg" onClick={() => navigate('/grades')}>
+                <GraduationCap className="w-5 h-5" />
+                Select Grade
               </Button>
-              <Button variant="outline" size="lg" onClick={() => navigate('/quizzes')}>
-                <Brain className="w-5 h-5" />
-                Take a Quiz
+              <Button variant="outline" size="lg" onClick={() => navigate('/lessons')}>
+                <BookOpen className="w-5 h-5" />
+                Browse Lessons
               </Button>
             </div>
           </div>
@@ -53,10 +53,24 @@ export default function Home() {
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
               <div className="p-3 bg-primary/10 rounded-lg">
+                <GraduationCap className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold">13</p>
+                <p className="text-sm text-muted-foreground">Grade Levels</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="shadow-soft hover:shadow-medium transition-all duration-300">
+          <CardContent className="pt-6">
+            <div className="flex items-center gap-3">
+              <div className="p-3 bg-primary/10 rounded-lg">
                 <BookOpen className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">24</p>
+                <p className="text-2xl font-bold">150+</p>
                 <p className="text-sm text-muted-foreground">Lessons</p>
               </div>
             </div>
@@ -70,22 +84,8 @@ export default function Home() {
                 <Brain className="w-6 h-6 text-secondary" />
               </div>
               <div>
-                <p className="text-2xl font-bold">15</p>
+                <p className="text-2xl font-bold">75+</p>
                 <p className="text-sm text-muted-foreground">Quizzes</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-soft hover:shadow-medium transition-all duration-300">
-          <CardContent className="pt-6">
-            <div className="flex items-center gap-3">
-              <div className="p-3 bg-accent/10 rounded-lg">
-                <Star className="w-6 h-6 text-accent" />
-              </div>
-              <div>
-                <p className="text-2xl font-bold">1,250</p>
-                <p className="text-sm text-muted-foreground">XP Points</p>
               </div>
             </div>
           </CardContent>
