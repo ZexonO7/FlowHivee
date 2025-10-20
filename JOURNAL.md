@@ -10,18 +10,3 @@ This is my journal of the design and building process of **FlowHivee**.
 You can view this journal in more detail on **Hack Club Blueprint** [here](https://blueprint.hackclub.com/projects/371).
 
 
-## 10/10/2025 - Just built the oldd ThinkCentree ✨✨  
-
-It wass only likee 9800rs "around a 100 dollars", datss crazyy forr a full **diy serverr** ✨✨
-had to buy all the componentss.. It was like buildin yo own pc,
-CPUs oldd thoo.. 😭
-
-+ just got donee installin the **os "Linux"** in itt, easierr that I thought it be tbh..
-If yo wonderinin, I just borrowedd an old monitor from someone for a while until I can buy my ownnn
-
-the **softwares in progress** too at https://flowhivee.vercel.app
-
-![IMG_1759902671001.JPEG](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTM1OSwicHVyIjoiYmxvYl9pZCJ9fQ==--f9c1b74685637d3fcf6735aba4cd327e2be525a8/IMG_1759902671001.JPEG)
-![IMG_1759902583140.JPEG](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6MTM1OCwicHVyIjoiYmxvYl9pZCJ9fQ==--042967a6aa646ffbfda2dadd2646bcd6d2529732/IMG_1759902583140.JPEG)
-   
-
