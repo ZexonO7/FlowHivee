@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { StartScreen } from "./components/StartScreen";
+import { LanguageProvider } from "./contexts/LanguageContext";
 import Home from "./pages/Home";
 import Grades from "./pages/Grades";
 import GradeView from "./pages/GradeView";
@@ -27,38 +28,40 @@ const queryClient = new QueryClient();
 const App = () => {
   const [showStartScreen, setShowStartScreen] = useState(true);
 
-  if (showStartScreen) {
-    return <StartScreen onComplete={() => setShowStartScreen(false)} />;
-  }
-
   return (
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/grades" element={<Grades />} />
-              <Route path="/grade/:gradeId" element={<GradeView />} />
-              <Route path="/lessons" element={<Lessons />} />
-              <Route path="/lesson-content" element={<LessonContent />} />
-              <Route path="/lesson-quiz" element={<LessonQuiz />} />
-              <Route path="/notes" element={<Notes />} />
-              <Route path="/quizzes" element={<Quizzes />} />
-              <Route path="/quiz-taking" element={<QuizTaking />} />
-              <Route path="/progress" element={<Progress />} />
-              <Route path="/teacher" element={<Teacher />} />
-              <Route path="/analytics" element={<Analytics />} />
-              <Route path="/community" element={<Community />} />
-              <Route path="/settings" element={<Settings />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Layout>
-        </BrowserRouter>
-      </TooltipProvider>
+      <LanguageProvider>
+        {showStartScreen ? (
+          <StartScreen onComplete={() => setShowStartScreen(false)} />
+        ) : (
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/grades" element={<Grades />} />
+                  <Route path="/grade/:gradeId" element={<GradeView />} />
+                  <Route path="/lessons" element={<Lessons />} />
+                  <Route path="/lesson-content" element={<LessonContent />} />
+                  <Route path="/lesson-quiz" element={<LessonQuiz />} />
+                  <Route path="/notes" element={<Notes />} />
+                  <Route path="/quizzes" element={<Quizzes />} />
+                  <Route path="/quiz-taking" element={<QuizTaking />} />
+                  <Route path="/progress" element={<Progress />} />
+                  <Route path="/teacher" element={<Teacher />} />
+                  <Route path="/analytics" element={<Analytics />} />
+                  <Route path="/community" element={<Community />} />
+                  <Route path="/settings" element={<Settings />} />
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Layout>
+            </BrowserRouter>
+          </TooltipProvider>
+        )}
+      </LanguageProvider>
     </QueryClientProvider>
   );
 };

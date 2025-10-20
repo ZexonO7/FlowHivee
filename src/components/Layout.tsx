@@ -15,25 +15,27 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import logoIcon from "@/assets/logo-icon.png";
-
-const navItems = [
-  { to: "/", icon: Home, label: "Home" },
-  { to: "/grades", icon: GraduationCap, label: "Grades" },
-  { to: "/lessons", icon: BookOpen, label: "Lessons" },
-  { to: "/notes", icon: FileText, label: "Notes" },
-  { to: "/quizzes", icon: Brain, label: "Quizzes" },
-  { to: "/progress", icon: TrendingUp, label: "Progress" },
-  { to: "/teacher", icon: Users, label: "Teacher" },
-  { to: "/analytics", icon: BarChart3, label: "Analytics" },
-  { to: "/community", icon: MessageCircle, label: "Community" },
-  { to: "/settings", icon: Settings, label: "Settings" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface LayoutProps {
   children: ReactNode;
 }
 
 export function Layout({ children }: LayoutProps) {
+  const { t } = useLanguage();
+  
+  const navItems = [
+    { to: "/", icon: Home, label: t('nav.home') },
+    { to: "/grades", icon: GraduationCap, label: t('nav.grades') },
+    { to: "/lessons", icon: BookOpen, label: t('nav.lessons') },
+    { to: "/notes", icon: FileText, label: t('nav.notes') },
+    { to: "/quizzes", icon: Brain, label: t('nav.quizzes') },
+    { to: "/progress", icon: TrendingUp, label: t('nav.progress') },
+    { to: "/teacher", icon: Users, label: t('nav.teacher') },
+    { to: "/analytics", icon: BarChart3, label: t('nav.analytics') },
+    { to: "/community", icon: MessageCircle, label: t('nav.community') },
+    { to: "/settings", icon: Settings, label: t('nav.settings') },
+  ];
   return (
     <div className="flex min-h-screen bg-gradient-hero">
       {/* Sidebar */}
@@ -42,12 +44,12 @@ export function Layout({ children }: LayoutProps) {
           {/* Logo */}
           <div className="p-6 border-b border-border">
             <div className="flex items-center gap-3">
-              <img src={logoIcon} alt="FlowHivee" className="w-10 h-10 animate-float" />
+              <img src={logoIcon} alt={t('app.name')} className="w-10 h-10 animate-float" />
               <div>
                 <h1 className="text-xl font-bold bg-gradient-warm bg-clip-text text-transparent">
-                  FlowHivee
+                  {t('app.name')}
                 </h1>
-                <p className="text-xs text-muted-foreground">Learn Anywhere ✨</p>
+                <p className="text-xs text-muted-foreground">{t('app.tagline')}</p>
               </div>
             </div>
           </div>
@@ -88,9 +90,9 @@ export function Layout({ children }: LayoutProps) {
         {/* Mobile Header */}
         <header className="md:hidden bg-card border-b border-border px-4 py-3 sticky top-0 z-10 shadow-soft">
           <div className="flex items-center gap-3">
-            <img src={logoIcon} alt="FlowHivee" className="w-8 h-8" />
+            <img src={logoIcon} alt={t('app.name')} className="w-8 h-8" />
             <h1 className="text-lg font-bold bg-gradient-warm bg-clip-text text-transparent">
-              FlowHivee
+              {t('app.name')}
             </h1>
           </div>
         </header>

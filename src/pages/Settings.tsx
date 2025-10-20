@@ -4,8 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { User, Wifi, Bell, Shield } from "lucide-react";
+import { User, Wifi, Bell, Shield, Languages } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { 
   getUserSettings, 
   updateUserName, 
@@ -22,6 +23,7 @@ export default function Settings() {
   const [name, setName] = useState(settings.name);
   const [email, setEmail] = useState(settings.email);
   const { toast } = useToast();
+  const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
     const currentSettings = getUserSettings();
@@ -69,9 +71,9 @@ export default function Settings() {
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold mb-2">⚙️ Settings</h1>
+        <h1 className="text-3xl font-bold mb-2">{t('settings.title')}</h1>
         <p className="text-muted-foreground">
-          Customize your FlowHivee experience
+          {t('settings.subtitle')}
         </p>
       </div>
 
@@ -80,9 +82,9 @@ export default function Settings() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <User className="w-5 h-5 text-primary" />
-            Profile Settings
+            {t('settings.profile')}
           </CardTitle>
-          <CardDescription>Manage your personal information</CardDescription>
+          <CardDescription>{t('settings.profileDesc')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center gap-6">
@@ -100,7 +102,7 @@ export default function Settings() {
 
           <div className="grid md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Full Name</Label>
+              <Label>{t('settings.fullName')}</Label>
               <Input 
                 value={name} 
                 onChange={(e) => setName(e.target.value)}
@@ -109,13 +111,13 @@ export default function Settings() {
             </div>
 
             <div className="space-y-2">
-              <Label>Student ID</Label>
+              <Label>{t('settings.studentId')}</Label>
               <Input value={settings.studentId} disabled />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label>Email (Optional)</Label>
+            <Label>{t('settings.email')}</Label>
             <Input 
               type="email" 
               value={email}
@@ -124,7 +126,34 @@ export default function Settings() {
             />
           </div>
 
-          <Button variant="warm" onClick={handleSaveProfile}>Save Profile</Button>
+          <Button variant="warm" onClick={handleSaveProfile}>{t('settings.saveProfile')}</Button>
+        </CardContent>
+      </Card>
+
+      {/* Language Settings */}
+      <Card className="shadow-soft">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Languages className="w-5 h-5 text-primary" />
+            {t('settings.language')}
+          </CardTitle>
+          <CardDescription>{t('settings.languageDesc')}</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-medium">{t('settings.english')}</p>
+            </div>
+            <Switch 
+              checked={language === 'hi'}
+              onCheckedChange={(checked) => setLanguage(checked ? 'hi' : 'en')}
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="font-medium">{t('settings.hindi')}</p>
+            </div>
+          </div>
         </CardContent>
       </Card>
 
@@ -133,16 +162,16 @@ export default function Settings() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Bell className="w-5 h-5 text-primary" />
-            Notifications
+            {t('settings.notifications')}
           </CardTitle>
-          <CardDescription>Control what updates you receive</CardDescription>
+          <CardDescription>{t('settings.notificationsDesc')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium">New Lessons</p>
+              <p className="font-medium">{t('settings.newLessons')}</p>
               <p className="text-sm text-muted-foreground">
-                Get notified when new lessons are available
+                {t('settings.newLessonsDesc')}
               </p>
             </div>
             <Switch 
@@ -153,9 +182,9 @@ export default function Settings() {
 
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium">Quiz Reminders</p>
+              <p className="font-medium">{t('settings.quizReminders')}</p>
               <p className="text-sm text-muted-foreground">
-                Receive reminders for upcoming quizzes
+                {t('settings.quizRemindersDesc')}
               </p>
             </div>
             <Switch 
@@ -166,9 +195,9 @@ export default function Settings() {
 
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium">Achievement Badges</p>
+              <p className="font-medium">{t('settings.achievementBadges')}</p>
               <p className="text-sm text-muted-foreground">
-                Celebrate when you earn new badges
+                {t('settings.achievementBadgesDesc')}
               </p>
             </div>
             <Switch 
@@ -179,9 +208,9 @@ export default function Settings() {
 
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium">Community Updates</p>
+              <p className="font-medium">{t('settings.communityUpdates')}</p>
               <p className="text-sm text-muted-foreground">
-                Stay updated on community discussions
+                {t('settings.communityUpdatesDesc')}
               </p>
             </div>
             <Switch 
@@ -197,9 +226,9 @@ export default function Settings() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Wifi className="w-5 h-5 text-primary" />
-            Server Information
+            {t('settings.server')}
           </CardTitle>
-          <CardDescription>FlowHivee local server details</CardDescription>
+          <CardDescription>{t('settings.serverDesc')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="p-4 bg-success/10 border border-success/20 rounded-lg">
@@ -235,16 +264,16 @@ export default function Settings() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="w-5 h-5 text-primary" />
-            Privacy & Security
+            {t('settings.privacy')}
           </CardTitle>
-          <CardDescription>Control your data and privacy</CardDescription>
+          <CardDescription>{t('settings.privacyDesc')}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium">Show Progress to Others</p>
+              <p className="font-medium">{t('settings.showProgress')}</p>
               <p className="text-sm text-muted-foreground">
-                Let other students see your achievements
+                {t('settings.showProgressDesc')}
               </p>
             </div>
             <Switch 
@@ -255,9 +284,9 @@ export default function Settings() {
 
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-medium">Anonymous in Community</p>
+              <p className="font-medium">{t('settings.anonymousCommunity')}</p>
               <p className="text-sm text-muted-foreground">
-                Hide your real name in discussions
+                {t('settings.anonymousCommunityDesc')}
               </p>
             </div>
             <Switch 
@@ -268,10 +297,10 @@ export default function Settings() {
 
           <div className="pt-4 border-t">
             <Button variant="destructive" onClick={handleClearData}>
-              Clear All Data
+              {t('settings.clearData')}
             </Button>
             <p className="text-sm text-muted-foreground mt-2">
-              Remove all your personal data from this device
+              {t('settings.clearDataDesc')}
             </p>
           </div>
         </CardContent>

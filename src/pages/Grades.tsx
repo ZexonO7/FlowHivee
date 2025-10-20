@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { GraduationCap, Baby, School, BookOpen } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const grades = [
   { id: "montessori", name: "Montessori", icon: Baby, color: "bg-pink-500/10 text-pink-600", age: "Ages 3-6" },
@@ -21,13 +22,14 @@ const grades = [
 
 export default function Grades() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
     <div className="space-y-8 animate-slide-up pb-20 md:pb-8">
       <div className="space-y-4">
-        <h1 className="text-4xl font-bold">🎓 Select Your Grade Level</h1>
+        <h1 className="text-4xl font-bold">🎓 {t('grades.title')}</h1>
         <p className="text-lg text-muted-foreground">
-          Choose your grade to access curriculum-specific lessons, quizzes, and resources
+          {t('grades.subtitle')}
         </p>
       </div>
 

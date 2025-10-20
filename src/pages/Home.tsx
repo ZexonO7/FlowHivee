@@ -3,9 +3,11 @@ import { Button } from "@/components/ui/button";
 import { BookOpen, Brain, TrendingUp, Users, Star, Zap, GraduationCap } from "lucide-react";
 import heroImage from "@/assets/hero-image.jpg";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   return (
     <div className="space-y-8 animate-slide-up pb-20 md:pb-8">
       {/* Hero Section */}
@@ -17,9 +19,9 @@ export default function Home() {
               ✨ Learning Without Limits
             </div>
             <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-              Welcome to{" "}
+              {t('home.welcome')} {" "}
               <span className="bg-gradient-warm bg-clip-text text-transparent">
-                FlowHivee
+                {t('app.name')}
               </span>
             </h1>
             <p className="text-lg text-muted-foreground">
@@ -29,11 +31,11 @@ export default function Home() {
             <div className="flex gap-3">
               <Button variant="warm" size="lg" onClick={() => navigate('/grades')}>
                 <GraduationCap className="w-5 h-5" />
-                Select Grade
+                {t('home.selectGrade')}
               </Button>
               <Button variant="outline" size="lg" onClick={() => navigate('/lessons')}>
                 <BookOpen className="w-5 h-5" />
-                Browse Lessons
+                {t('home.continueLearning')}
               </Button>
             </div>
           </div>

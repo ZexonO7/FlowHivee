@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import logoIcon from "@/assets/logo-icon.png";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface StartScreenProps {
   onComplete: () => void;
 }
 
 export function StartScreen({ onComplete }: StartScreenProps) {
+  const { t } = useLanguage();
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
@@ -26,13 +28,13 @@ export function StartScreen({ onComplete }: StartScreenProps) {
       <div className="text-center space-y-6 animate-float">
         <img 
           src={logoIcon} 
-          alt="FlowHivee" 
+          alt={t('app.name')} 
           className="w-32 h-32 mx-auto animate-pulse-glow" 
         />
         <h1 className="text-4xl font-bold bg-gradient-warm bg-clip-text text-transparent">
-          FlowHivee
+          {t('app.name')}
         </h1>
-        <p className="text-lg text-muted-foreground">Learn Anywhere ✨</p>
+        <p className="text-lg text-muted-foreground">{t('app.tagline')}</p>
       </div>
     </div>
   );
