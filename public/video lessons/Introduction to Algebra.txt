@@ -1,50 +1,59 @@
 Introduction to Algebra - Video Transcript
 
-Hello students! Welcome to Introduction to Algebra. Today we're going to explore one of the most fundamental concepts in mathematics - what happens when you don't know a number which you need to find.
+[0:00] Algebra. Now I asked you to do me a big favor when we first started this topic which we haven't really looked at yet because we've been sort of working with numbers and we learned some laws - the commutative law, the associative law, and then this morning the distributive law. Okay, so we looked at all those.
 
-Let's start with a simple scenario. Imagine you have some marbles in a bag, and you know that if you add 5 more marbles, you'll have 12 marbles total. But you don't know how many marbles you started with. This is where algebra comes in!
+[0:28] Now all of those were principles for working with numbers and how we can sometimes change their order, sometimes we can rewrite the numbers to make them easy to deal with. Okay, now all of those were trying to set the stage for this guy.
 
-In algebra, we use letters to represent numbers we don't know yet. We call these letters "variables." The most common variable is "x," but we can use any letter we want - like y, z, a, b, or even more creative choices.
+[0:40] I want you to, if you've got that heading, I want you to put an arrow to algebra and I'm going to give you what my definition of algebra is because it kind of has a bit of reputation and the name itself actually comes from Arabic so it's just a transliteration into our language. I'll tell you about the backstory a little bit later, it will make sense further on.
 
-So in our marble example, we could say:
-x + 5 = 12
+[1:06] But algebra is all about mathematics when you don't know the numbers.
 
-Where x represents the number of marbles we started with. Our goal in algebra is to figure out what value x must have to make this equation true.
+[1:16] Now write that down with me and then I will try and explain what I mean, okay? Because that's all this means, it's all it means.
 
-To solve this, we need to "isolate" x - that means we want to get x all by itself on one side of the equation. We do this by performing the opposite operation. Since we're adding 5 to x, we'll subtract 5 from both sides:
+[1:26] We looked this morning at how if you have 3 times 5 and 5 times 3, we saw "oh cool, they're the same thing" and you can work out what those are. We've been looking at fractions, you can do all kinds of things to work with them and get to an answer, right?
 
-x + 5 - 5 = 12 - 5
-x = 7
+[1:41] But sometimes we want to solve problems where you don't know what the numbers actually are but you still want to work with them, okay?
 
-So we started with 7 marbles! Let's check: 7 + 5 = 12. Perfect!
+[1:49] For instance, I could tell you that I am four times the age of my daughter plus 2 years, and I'm also six times the age of my son. Okay, now I could tell you that, right? And you don't know how old I am, you don't know how old my children are either, but on that little piece of information - or two pieces of information - you can work out exactly how old I am even though you don't know the numbers, right?
 
-The key principle in algebra is that whatever we do to one side of an equation, we must do to the other side. This keeps the equation balanced, like a perfectly balanced scale.
+[2:21] Even when you don't know the numbers, you can still work with them.
 
-Let's try another example. Suppose you're saving money, and you know that if you multiply what you have by 3, you'll have $15. How much do you have now?
+[2:51] Algebra is the superpower of taking everything we established already - oh you can add or multiply in any order you like, you can group symbols in particular orders with addition and multiplication, and then you can distribute multiplication, etc. All those ideas, you can still work with them even when you don't know what the numbers are because they're still numbers so they still follow the same rules. There's the first idea. So algebra - you don't know the numbers.
 
-We can write this as:
-3x = 15
+[3:22] Secondly, algebra also gives us the tools - and I'll write this down in a second - it gives us the tools to describe patterns. It's the language to describe patterns with any number.
 
-To isolate x, we need to do the opposite of multiplication, which is division. So we divide both sides by 3:
+[3:51] Okay, I know there are lots and lots of patterns that we can take advantage of. For instance, if I give you a list of numbers, right? I could say, let's see here, 2 times 0 equals - well what's 2 times 0? It's just 0. Okay cool.
 
-3x ÷ 3 = 15 ÷ 3
-x = 5
+[4:06] How about another number? How about 5 times 0? What's that equal? It's still zero.
 
-So you have $5 saved up!
+[4:11] How about, bear with me, how about -3 times 0? What's that going to be? Zero. Okay, you're starting to get bored of me now, right? Because what I have established here is clearly a pattern.
 
-Why is algebra so important? Well, in real life, we often know some information but not all of it. Algebra gives us the tools to find the missing pieces. Engineers use it to design bridges, scientists use it to understand nature, video game programmers use it to create realistic physics, and economists use it to predict market trends.
+[4:24] You can take any number you like and multiply by zero and you'll still get zero. So how can I describe this? How can I succinctly say "0 times any number" or "any number times zero" will still equal zero?
 
-Even in everyday life, algebra helps us solve problems. Planning a party? Algebra can help figure out how much food to buy. Saving for something special? Algebra can calculate how long it will take.
+[4:43] So here's a way, here's one way I could write it. I could say, for example, I could say "a times 0 equals 0 for any number a."
 
-Remember these key points:
-1. Variables (like x) represent unknown numbers
-2. Equations show relationships between numbers
-3. We solve equations by isolating the variable
-4. Whatever we do to one side, we must do to the other side
-5. Check your answer by substituting it back into the original equation
+[5:02] So what have I done here, right? 2, 5, 3 - they're numbers. But this guy is like a temporary label, right? It's sort of standing in for an actual number and you can choose any number you like to be a. "a" is just kind of like what I'm calling that number at the moment. So I like this word - it's kind of like a label.
 
-Practice is essential in algebra. The more problems you solve, the more patterns you'll recognize, and the easier it becomes. Don't worry if it seems challenging at first - every mathematician started exactly where you are now.
+[5:42] Now there's lots and lots of language and terminology that we will get to. Remember I've been calling it over and over again, I've been calling it a label so far, okay? It's like a label for this other number.
 
-In our next lesson, we'll explore more complex equations and learn about combining like terms. For now, practice these basic solving techniques, and remember - algebra is just a tool to help us find what we don't know yet!
+[6:07] Okay, so a more technical name for this which I'm going to introduce - does anyone know? It starts with a P. More technical name for this label? Pronumeral! 
 
-Thank you for watching, and happy problem solving!
+[6:18] Okay, so pronumeral. This is a pronumeral.
+
+[6:27] Pronumeral literally means it's not a numeral. "a" is not a numeral, it's a letter, but it's standing in for a numeral. It's just kind of like temporarily saying "hey guys, I act just like a number. I can be actually any number you like and I'll still be true." You take any number, multiply by zero, you'll still get zero.
+
+[6:46] Okay, you'll see this language of pronumerals. You'll also see another word which starts with V. Called a variable!
+
+[6:55] Okay, now I'm not going to tell you this time, I'm going to ask you - why do you think it's called a variable? "It varies!" Yeah, "vary" just means change, doesn't it, right? And so here "a" - I can change it to be two, or I can change it to five, or change it to -3, and it's still true, it still makes sense.
+
+[7:19] Okay, so this idea here of being able to describe patterns that are true for any number, or to be able to talk about numbers when you don't know what the numbers are - that's all algebra is. It's not scary, it's actually a really simple idea.
+
+[7:31] We do it all the time. I can say to you, okay, I know that there are at the moment 56 eyes in this room. 56 eyes. Where did I get that number 56 from? "Counted the people in the class and then you times that number." Yeah, very good!
+
+[7:53] So I said - and you might actually, I'd love you to write this with me, right - I said "I equals 2 times the number of people," right, that'd be just P. So I can actually, because as you've seen, mathematicians are famously lazy, right? So we're like "ah, this takes so long to write, why not abbreviate this with some labels, with some pronumerals?"
+
+[8:13] Right, I could say "E equals 2 times P" - should have a times sign in there, I'll talk about the abbreviations in a second.
+
+[8:28] So again here, these two things are numbers which I don't necessarily know. I happened to count all of you as you came in and then I added me, okay? So that's how I knew how many people were in the room.
+
+[8:42] But you know what? This is a pattern that's true for any number. If I, assuming everyone's got two eyes, okay, I can go into the next classroom and if there are 31 people here - 31 people - then you don't have to go secondarily and say "okay, 1, 2, 3, 4" - you don't have to count all of those. There's a pattern here I can take advantage of and you can just say 62 eyes. Does that make sense?
