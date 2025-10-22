@@ -1,4 +1,5 @@
 // Local storage utilities for tracking user progress
+import { getUserSettings } from './settings-storage';
 
 export interface LessonProgress {
   lessonId: number;
@@ -29,10 +30,15 @@ export interface UserStats {
   badges: string[];
 }
 
-const STORAGE_KEYS = {
-  LESSONS: 'flowhivee_lessons',
-  QUIZZES: 'flowhivee_quizzes',
-  STATS: 'flowhivee_stats',
+// Get student-specific storage keys
+const getStorageKeys = () => {
+  const settings = getUserSettings();
+  const studentId = settings.studentId;
+  return {
+    LESSONS: `${studentId}_flowhivee_lessons`,
+    QUIZZES: `${studentId}_flowhivee_quizzes`,
+    STATS: `${studentId}_flowhivee_stats`,
+  };
 };
 
 // Lesson Progress Functions
@@ -42,11 +48,13 @@ export const getLessonProgress = (lessonId: number): LessonProgress | null => {
 };
 
 export const getAllLessons = (): LessonProgress[] => {
+  const STORAGE_KEYS = getStorageKeys();
   const data = localStorage.getItem(STORAGE_KEYS.LESSONS);
   return data ? JSON.parse(data) : [];
 };
 
 export const saveLessonProgress = (progress: LessonProgress): void => {
+  const STORAGE_KEYS = getStorageKeys();
   const lessons = getAllLessons();
   const index = lessons.findIndex(l => l.lessonId === progress.lessonId);
   
@@ -79,6 +87,7 @@ export const markLessonComplete = (lessonId: number, title: string, subject: str
 
 // Quiz Functions
 export const getAllQuizResults = (): QuizResult[] => {
+  const STORAGE_KEYS = getStorageKeys();
   const data = localStorage.getItem(STORAGE_KEYS.QUIZZES);
   return data ? JSON.parse(data) : [];
 };
@@ -89,6 +98,7 @@ export const getQuizResults = (lessonId: number): QuizResult[] => {
 };
 
 export const saveQuizResult = (result: QuizResult): void => {
+  const STORAGE_KEYS = getStorageKeys();
   const quizzes = getAllQuizResults();
   quizzes.push({ ...result, completedAt: new Date().toISOString() });
   localStorage.setItem(STORAGE_KEYS.QUIZZES, JSON.stringify(quizzes));
@@ -101,6 +111,7 @@ export const saveQuizResult = (result: QuizResult): void => {
 
 // User Stats Functions
 export const getUserStats = (): UserStats => {
+  const STORAGE_KEYS = getStorageKeys();
   const data = localStorage.getItem(STORAGE_KEYS.STATS);
   return data ? JSON.parse(data) : {
     totalXP: 0,
@@ -112,6 +123,7 @@ export const getUserStats = (): UserStats => {
 };
 
 export const addXP = (amount: number): void => {
+  const STORAGE_KEYS = getStorageKeys();
   const stats = getUserStats();
   stats.totalXP += amount;
   
@@ -122,6 +134,7 @@ export const addXP = (amount: number): void => {
 };
 
 export const updateDayStreak = (): void => {
+  const STORAGE_KEYS = getStorageKeys();
   const stats = getUserStats();
   const today = new Date().toDateString();
   const lastActive = new Date(stats.lastActiveDate).toDateString();
@@ -145,6 +158,7 @@ export const updateDayStreak = (): void => {
 };
 
 export const addBadge = (badgeId: string): void => {
+  const STORAGE_KEYS = getStorageKeys();
   const stats = getUserStats();
   if (!stats.badges.includes(badgeId)) {
     stats.badges.push(badgeId);

@@ -1,3 +1,5 @@
+import { getUserSettings } from './settings-storage';
+
 export interface CommunityMessage {
   id: string;
   author: string;
@@ -10,7 +12,12 @@ export interface CommunityMessage {
   replies: number;
 }
 
-const STORAGE_KEY = 'community_messages';
+// Get student-specific storage keys
+const getStorageKey = () => {
+  const settings = getUserSettings();
+  return `${settings.studentId}_community_messages`;
+};
+
 const USER_KEY = 'community_user';
 
 export const getCurrentUser = () => {
@@ -34,6 +41,7 @@ export const getCurrentUser = () => {
 };
 
 export const getAllMessages = (): CommunityMessage[] => {
+  const STORAGE_KEY = getStorageKey();
   const stored = localStorage.getItem(STORAGE_KEY);
   if (!stored) {
     const defaultMessages: CommunityMessage[] = [
@@ -78,6 +86,7 @@ export const getAllMessages = (): CommunityMessage[] => {
 };
 
 export const postMessage = (message: string): CommunityMessage => {
+  const STORAGE_KEY = getStorageKey();
   const messages = getAllMessages();
   const user = getCurrentUser();
   
@@ -99,6 +108,7 @@ export const postMessage = (message: string): CommunityMessage => {
 };
 
 export const toggleLike = (messageId: string): CommunityMessage | null => {
+  const STORAGE_KEY = getStorageKey();
   const messages = getAllMessages();
   const user = getCurrentUser();
   const userId = user.name;
