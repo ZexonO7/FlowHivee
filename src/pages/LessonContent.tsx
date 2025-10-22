@@ -339,6 +339,58 @@ const lessonContent: Record<number, any> = {
   122: createDefaultLesson(122, "Organic Chemistry", "Advanced Sciences", "60 min", "Carbon compounds"),
   123: createDefaultLesson(123, "College Essay Writing", "English IV", "55 min", "Personal statements"),
   124: createDefaultLesson(124, "Economic Systems", "Economics", "55 min", "Capitalism vs socialism"),
+  
+  // Additional Courses (Original lessons with new IDs)
+  200: {
+    title: "Introduction to Algebra",
+    subject: "Mathematics",
+    duration: "45 min",
+    videoUrl: "/video lessons/Introduction to Algebra (1 of 2_ What Happens when you don t know a number which you need to find ).mp4",
+    hasQuiz: true,
+    documents: [
+      { 
+        name: "Algebra Basics Workbook.pdf", 
+        size: "2.4 MB",
+        content: "# Algebra Basics Workbook\n\n## Chapter 1: Variables and Expressions\n\nVariables are letters that represent unknown numbers. We use them to solve problems!\n\n### Key Concepts:\n- Variables (x, y, z) represent unknown values\n- Constants are fixed numbers (1, 2, 3, etc.)\n- Expressions combine variables and constants (2x + 5)\n\n### Practice Problems:\n\n1. If x = 3, what is 2x + 4?\n   Answer: 2(3) + 4 = 6 + 4 = 10\n\n2. Solve: x + 7 = 12\n   Answer: x = 12 - 7 = 5\n\n3. What is 3(x - 2) when x = 5?\n   Answer: 3(5 - 2) = 3(3) = 9\n\n## Tips for Success:\n✓ Always isolate the variable\n✓ Do the same operation to both sides\n✓ Check your answer by substituting back\n✓ Practice daily for best results!"
+      },
+    ],
+    sections: [
+      {
+        type: "intro",
+        title: "What is Algebra?",
+        content: "Algebra is a branch of mathematics that uses letters and symbols to represent numbers and quantities in formulas and equations. It's like a puzzle where we need to find the missing pieces!",
+        videoUrl: "/video lessons/Introduction to Algebra (1 of 2_ What Happens when you don t know a number which you need to find ).mp4",
+      },
+      {
+        type: "text",
+        title: "Variables and Constants",
+        content: "In algebra, we use variables (like x, y, z) to represent unknown values. Constants are fixed numbers that don't change. For example, in the equation 2x + 5 = 11, 'x' is the variable, while 2, 5, and 11 are constants.",
+        videoUrl: "/video lessons/Variables and Constents.mp4",
+      },
+      {
+        type: "example",
+        title: "Example: Solving for x",
+        content: "Let's solve: x + 7 = 15\n\nStep 1: We want to get x alone\nStep 2: Subtract 7 from both sides\nx + 7 - 7 = 15 - 7\nx = 8\n\nThat's it! x equals 8.",
+      },
+      {
+        type: "practice",
+        title: "Try it yourself!",
+        content: "Practice problems:\n1. x + 5 = 12 (Answer: x = 7)\n2. 2x = 10 (Answer: x = 5)\n3. x - 3 = 9 (Answer: x = 12)",
+        hasWhiteboard: true,
+      },
+      {
+        type: "summary",
+        title: "Key Takeaways",
+        content: "✓ Variables represent unknown values\n✓ We can solve equations by isolating the variable\n✓ What we do to one side, we must do to the other\n✓ Practice makes perfect!",
+      },
+    ],
+  },
+  201: createDefaultLesson(201, "Creative Writing Basics", "English", "40 min", "Explore narrative structures and storytelling techniques"),
+  202: createDefaultLesson(202, "Variables and Constants", "Mathematics", "40 min", "Master the building blocks of algebra"),
+  203: createDefaultLesson(203, "Advanced Calculus", "Mathematics", "55 min", "Master integration and differentiation techniques"),
+  204: createDefaultLesson(204, "Python Programming", "Computer Science", "60 min", "Start your coding journey with Python basics"),
+  205: createDefaultLesson(205, "The Water Cycle", "Science", "30 min", "Understand how water moves through Earth's ecosystems"),
+  206: createDefaultLesson(206, "Ancient Civilizations", "History", "50 min", "Journey through the great civilizations of the past"),
 };
 
 export default function LessonContent() {

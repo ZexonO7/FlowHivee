@@ -181,4 +181,19 @@ export const curriculumData: Record<string, any> = {
       { id: 122, title: "AP Prep Test", subject: "Advanced Sciences", questions: 40 },
     ],
   },
+  // Additional Courses (All Levels)
+  additional: {
+    name: "Additional Courses",
+    subjects: ["Computer Science", "Mathematics", "English", "History"],
+    lessons: [
+      { id: 200, title: "Introduction to Algebra", subject: "Mathematics", duration: "45 min", description: "Learn the fundamentals of algebraic expressions and equations" },
+      { id: 201, title: "Creative Writing Basics", subject: "English", duration: "40 min", description: "Explore narrative structures and storytelling techniques" },
+      { id: 202, title: "Variables and Constants", subject: "Mathematics", duration: "40 min", description: "Master the building blocks of algebra" },
+      { id: 203, title: "Advanced Calculus", subject: "Mathematics", duration: "55 min", description: "Master integration and differentiation techniques" },
+      { id: 204, title: "Python Programming", subject: "Computer Science", duration: "60 min", description: "Start your coding journey with Python basics" },
+      { id: 205, title: "The Water Cycle", subject: "Science", duration: "30 min", description: "Understand how water moves through Earth's ecosystems" },
+      { id: 206, title: "Ancient Civilizations", subject: "History", duration: "50 min", description: "Journey through the great civilizations of the past" },
+    ],
+    quizzes: [],
+  },
 };
