@@ -11,8 +11,47 @@ import { Whiteboard } from "@/components/Whiteboard";
 import { VideoTranscript } from "@/components/VideoTranscript";
 import { saveLessonProgress, markLessonComplete, getLessonProgress } from "@/lib/progress-storage";
 
+// Helper function to create default lesson content
+const createDefaultLesson = (id: number, title: string, subject: string, duration: string, description: string) => ({
+  title,
+  subject,
+  duration,
+  videoUrl: "",
+  hasQuiz: true,
+  documents: [
+    { 
+      name: `${title} - Study Guide.pdf`, 
+      size: "1.5 MB",
+      content: `# ${title}\n\n## Overview\n\n${description}\n\n## Key Concepts\n\n• Understand the fundamental concepts\n• Apply knowledge through practice\n• Master the skills step by step\n\n## Learning Objectives\n\nBy the end of this lesson, you will be able to:\n1. Identify key concepts\n2. Apply what you've learned\n3. Demonstrate understanding through examples\n\n## Study Tips\n\n✓ Review material regularly\n✓ Practice with examples\n✓ Ask questions when needed\n✓ Stay focused and engaged`
+    },
+  ],
+  sections: [
+    {
+      type: "intro",
+      title: `Welcome to ${title}`,
+      content: description,
+    },
+    {
+      type: "text",
+      title: "Core Concepts",
+      content: `In this lesson, we'll explore the key ideas behind ${title}. These concepts are fundamental to understanding ${subject}.`,
+    },
+    {
+      type: "example",
+      title: "Practice Example",
+      content: "Let's work through an example together to see how these concepts apply in practice.",
+    },
+    {
+      type: "summary",
+      title: "Review",
+      content: `✓ You've learned the basics of ${title}\n✓ Practice regularly to master these skills\n✓ Ready to test your knowledge? Take the quiz!`,
+    },
+  ],
+});
+
 // Lesson content database
 const lessonContent: Record<number, any> = {
+  // Main lessons with full content
   1: {
     title: "Introduction to Algebra",
     subject: "Mathematics",
@@ -378,6 +417,80 @@ These formulas are essential for solving algebraic equations and simplifying exp
       },
     ],
   },
+  
+  // Montessori Lessons (1-4 already exist above)
+  
+  // 1st Grade Lessons
+  11: createDefaultLesson(11, "Phonics Basics", "Reading", "30 min", "Master consonants and vowel sounds"),
+  12: createDefaultLesson(12, "Addition & Subtraction", "Mathematics", "35 min", "Learn basic arithmetic operations"),
+  13: createDefaultLesson(13, "My Family & Community", "Social Studies", "25 min", "Understanding families and communities"),
+  14: createDefaultLesson(14, "Plants & Animals", "Science", "30 min", "Explore living things"),
+  
+  // 2nd Grade Lessons
+  21: createDefaultLesson(21, "Reading Fluency", "Reading", "35 min", "Build speed and comprehension"),
+  22: createDefaultLesson(22, "Place Value", "Mathematics", "40 min", "Understand ones, tens, and hundreds"),
+  23: createDefaultLesson(23, "Weather Patterns", "Science", "30 min", "Learn about climate and seasons"),
+  24: createDefaultLesson(24, "Community Helpers", "Social Studies", "25 min", "Explore different careers"),
+  
+  // 3rd Grade Lessons
+  31: createDefaultLesson(31, "Multiplication Tables", "Mathematics", "40 min", "Master times tables 1-12"),
+  32: createDefaultLesson(32, "Paragraph Writing", "Writing", "35 min", "Learn to structure paragraphs"),
+  33: createDefaultLesson(33, "States of Matter", "Science", "30 min", "Solids, liquids, and gases"),
+  34: createDefaultLesson(34, "Map Skills", "Social Studies", "30 min", "Reading and using maps"),
+  
+  // 4th Grade Lessons
+  41: createDefaultLesson(41, "Fractions & Decimals", "Mathematics", "45 min", "Understanding parts of a whole"),
+  42: createDefaultLesson(42, "Essay Writing", "Writing", "40 min", "Structure and develop essays"),
+  43: createDefaultLesson(43, "Ecosystems", "Science", "35 min", "Food chains and habitats"),
+  44: createDefaultLesson(44, "US Geography", "Social Studies", "35 min", "Learn states and capitals"),
+  
+  // 5th Grade Lessons
+  51: createDefaultLesson(51, "Volume & Area", "Mathematics", "45 min", "Calculate 3D shapes"),
+  52: createDefaultLesson(52, "The Water Cycle", "Science", "40 min", "Earth's water systems"),
+  53: createDefaultLesson(53, "American Revolution", "Social Studies", "45 min", "Birth of a nation"),
+  54: createDefaultLesson(54, "Persuasive Writing", "Language Arts", "40 min", "Convince your audience"),
+  
+  // 6th Grade Lessons
+  61: createDefaultLesson(61, "Ratios & Proportions", "Mathematics", "50 min", "Understand relationships between quantities"),
+  62: createDefaultLesson(62, "Cell Biology", "Science", "45 min", "Building blocks of life"),
+  63: createDefaultLesson(63, "Ancient Civilizations", "Social Studies", "50 min", "Rome, Greece, Egypt"),
+  64: createDefaultLesson(64, "Literary Analysis", "Language Arts", "45 min", "Themes and symbolism"),
+  
+  // 7th Grade Lessons
+  71: createDefaultLesson(71, "Introduction to Algebra", "Pre-Algebra", "50 min", "Variables and expressions"),
+  72: createDefaultLesson(72, "Human Body Systems", "Life Science", "45 min", "How our bodies work"),
+  73: createDefaultLesson(73, "Medieval History", "World History", "50 min", "The Middle Ages"),
+  74: createDefaultLesson(74, "Argumentative Writing", "Language Arts", "45 min", "Build strong arguments"),
+  
+  // 8th Grade Lessons
+  81: createDefaultLesson(81, "Linear Equations", "Algebra I", "55 min", "Graphing and solving"),
+  82: createDefaultLesson(82, "Physics Basics", "Physical Science", "50 min", "Forces and motion"),
+  83: createDefaultLesson(83, "US Constitution", "US History", "50 min", "Foundation of American government"),
+  84: createDefaultLesson(84, "Research Papers", "Language Arts", "55 min", "Academic writing skills"),
+  
+  // 9th Grade Lessons
+  91: createDefaultLesson(91, "Quadratic Equations", "Algebra I", "55 min", "Parabolas and factoring"),
+  92: createDefaultLesson(92, "Genetics & DNA", "Biology", "55 min", "Inheritance and traits"),
+  93: createDefaultLesson(93, "Shakespeare Introduction", "English I", "50 min", "Romeo and Juliet"),
+  94: createDefaultLesson(94, "World Regions", "World Geography", "50 min", "Global cultures and climates"),
+  
+  // 10th Grade Lessons
+  101: createDefaultLesson(101, "Geometry Proofs", "Geometry", "60 min", "Logical reasoning in math"),
+  102: createDefaultLesson(102, "Chemical Reactions", "Chemistry", "55 min", "Equations and stoichiometry"),
+  103: createDefaultLesson(103, "World Literature", "English II", "50 min", "Global literary perspectives"),
+  104: createDefaultLesson(104, "World Wars", "World History", "55 min", "20th century conflicts"),
+  
+  // 11th Grade Lessons
+  111: createDefaultLesson(111, "Trigonometry", "Pre-Calculus", "60 min", "Sine, cosine, and tangent"),
+  112: createDefaultLesson(112, "Electricity & Magnetism", "Physics", "60 min", "Electromagnetic forces"),
+  113: createDefaultLesson(113, "American Literature", "English III", "55 min", "Great American novels"),
+  114: createDefaultLesson(114, "Civil Rights Movement", "US History", "55 min", "Fighting for equality"),
+  
+  // 12th Grade Lessons
+  121: createDefaultLesson(121, "Derivatives", "Calculus", "65 min", "Rate of change"),
+  122: createDefaultLesson(122, "Organic Chemistry", "Advanced Sciences", "60 min", "Carbon compounds"),
+  123: createDefaultLesson(123, "College Essay Writing", "English IV", "55 min", "Personal statements"),
+  124: createDefaultLesson(124, "Economic Systems", "Economics", "55 min", "Capitalism vs socialism"),
 };
 
 export default function LessonContent() {
