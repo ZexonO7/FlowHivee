@@ -14,15 +14,42 @@ const allLessons = Object.values(curriculumData).flatMap((c: any) => c.lessons);
 
 const subjectColors: Record<string, string> = {
   Mathematics: "bg-primary/10 text-primary",
+  "Pre-Algebra": "bg-primary/10 text-primary",
+  "Algebra I": "bg-primary/10 text-primary",
+  "Algebra II": "bg-primary/10 text-primary",
+  Geometry: "bg-primary/10 text-primary",
+  "Pre-Calculus": "bg-primary/10 text-primary",
+  Calculus: "bg-primary/10 text-primary",
   Science: "bg-secondary/10 text-secondary",
+  "Life Science": "bg-secondary/10 text-secondary",
+  "Physical Science": "bg-secondary/10 text-secondary",
+  Biology: "bg-secondary/10 text-secondary",
+  Chemistry: "bg-secondary/10 text-secondary",
+  Physics: "bg-secondary/10 text-secondary",
+  "Advanced Sciences": "bg-secondary/10 text-secondary",
   English: "bg-accent/10 text-accent",
+  "English I": "bg-accent/10 text-accent",
+  "English II": "bg-accent/10 text-accent",
+  "English III": "bg-accent/10 text-accent",
+  "English IV": "bg-accent/10 text-accent",
+  Reading: "bg-accent/10 text-accent",
+  Writing: "bg-accent/10 text-accent",
+  "Language Arts": "bg-accent/10 text-accent",
   History: "bg-success/10 text-success",
+  "Social Studies": "bg-success/10 text-success",
+  "World History": "bg-success/10 text-success",
+  "US History": "bg-success/10 text-success",
+  "World Geography": "bg-success/10 text-success",
+  Economics: "bg-success/10 text-success",
   "Computer Science": "bg-destructive/10 text-destructive",
+  "Practical Life": "bg-pink-500/10 text-pink-600",
+  Sensorial: "bg-purple-500/10 text-purple-600",
 };
 
 export default function Lessons() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [searchQuery, setSearchQuery] = useState("");
   const [lessonsWithProgress, setLessonsWithProgress] = useState(
     allLessons.map(lesson => ({ ...lesson, status: 'available' as string, progress: 0 }))
   );
@@ -66,6 +93,18 @@ export default function Lessons() {
     navigate('/lesson-content', { state: { lessonId: lesson.id } });
   };
 
+  // Filter lessons based on search query
+  const filteredLessons = lessonsWithProgress.filter(lesson => {
+    if (!searchQuery.trim()) return true;
+    
+    const query = searchQuery.toLowerCase();
+    return (
+      lesson.title.toLowerCase().includes(query) ||
+      lesson.subject.toLowerCase().includes(query) ||
+      lesson.description.toLowerCase().includes(query)
+    );
+  });
+
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
       {/* Header */}
@@ -83,13 +122,21 @@ export default function Lessons() {
           <Input
             placeholder="Search lessons..."
             className="pl-10"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
       </div>
 
       {/* Lessons Grid */}
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {lessonsWithProgress.map((lesson) => (
+        {filteredLessons.length === 0 ? (
+          <div className="col-span-full text-center py-12">
+            <p className="text-muted-foreground text-lg">No lessons found matching "{searchQuery}"</p>
+            <p className="text-sm text-muted-foreground mt-2">Try a different search term</p>
+          </div>
+        ) : (
+          filteredLessons.map((lesson) => (
           <Card
             key={lesson.id}
             className={`shadow-soft hover:shadow-medium transition-all duration-300 ${
@@ -162,7 +209,7 @@ export default function Lessons() {
               </Button>
             </CardContent>
           </Card>
-        ))}
+        )))}
       </div>
     </div>
   );
