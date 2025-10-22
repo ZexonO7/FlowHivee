@@ -8,7 +8,6 @@ import { GraduationCap, Sparkles, UserPlus, LogIn, QrCode } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
 import { switchStudentAccount } from "@/lib/settings-storage";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface StartScreenProps {
   onComplete: () => void;
@@ -20,12 +19,11 @@ export function StartScreen({ onComplete }: StartScreenProps) {
   const [name, setName] = useState("");
   const [loginStudentId, setLoginStudentId] = useState("");
   const { toast } = useToast();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
-  // Check for QR code login
+  // Check for QR code login on mount
   useEffect(() => {
-    const qrStudentId = searchParams.get('studentId');
+    const params = new URLSearchParams(window.location.search);
+    const qrStudentId = params.get('studentId');
     if (qrStudentId) {
       // Auto-login with QR code
       switchStudentAccount(qrStudentId.trim());
@@ -33,12 +31,14 @@ export function StartScreen({ onComplete }: StartScreenProps) {
         title: "QR Code Login! 🎉",
         description: "Welcome back! Your account has been loaded.",
       });
+      // Clear the URL parameter
+      window.history.replaceState({}, '', window.location.pathname);
       setIsAnimating(true);
       setTimeout(() => {
         onComplete();
       }, 500);
     }
-  }, [searchParams, onComplete, toast]);
+  }, [onComplete, toast]);
 
   const handleNewStudent = () => {
     if (!name.trim()) {
