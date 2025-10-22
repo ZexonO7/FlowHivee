@@ -7,58 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { getLessonProgress, getAllLessons } from "@/lib/progress-storage";
 import { useState, useEffect } from "react";
+import { curriculumData } from "@/lib/curriculum";
 
-const lessons = [
-  {
-    id: 1,
-    title: "Introduction to Algebra",
-    subject: "Mathematics",
-    duration: "45 min",
-    description: "Learn the fundamentals of algebraic expressions and equations",
-  },
-  {
-    id: 2,
-    title: "The Water Cycle",
-    subject: "Science",
-    duration: "30 min",
-    description: "Understand how water moves through Earth's ecosystems",
-  },
-  {
-    id: 3,
-    title: "Creative Writing Basics",
-    subject: "English",
-    duration: "40 min",
-    description: "Explore narrative structures and storytelling techniques",
-  },
-  {
-    id: 4,
-    title: "Ancient Civilizations",
-    subject: "History",
-    duration: "50 min",
-    description: "Journey through the great civilizations of the past",
-  },
-  {
-    id: 5,
-    title: "Python Programming",
-    subject: "Computer Science",
-    duration: "60 min",
-    description: "Start your coding journey with Python basics",
-  },
-  {
-    id: 6,
-    title: "Variables and Constants",
-    subject: "Mathematics",
-    duration: "40 min",
-    description: "Master the building blocks of algebra",
-  },
-  {
-    id: 7,
-    title: "Advanced Calculus",
-    subject: "Mathematics",
-    duration: "55 min",
-    description: "Master integration and differentiation techniques",
-  },
-];
+const allLessons = Object.values(curriculumData).flatMap((c: any) => c.lessons);
+
 
 const subjectColors: Record<string, string> = {
   Mathematics: "bg-primary/10 text-primary",
@@ -72,14 +24,14 @@ export default function Lessons() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [lessonsWithProgress, setLessonsWithProgress] = useState(
-    lessons.map(lesson => ({ ...lesson, status: 'available' as string, progress: 0 }))
+    allLessons.map(lesson => ({ ...lesson, status: 'available' as string, progress: 0 }))
   );
 
   useEffect(() => {
     // Load progress from storage
     const allProgress = getAllLessons();
     
-    const updated = lessons.map(lesson => {
+    const updated = allLessons.map(lesson => {
       const saved = allProgress.find(p => p.lessonId === lesson.id);
       
       if (!saved) {
