@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./components/Layout";
 import { StartScreen } from "./components/StartScreen";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { hasCompletedStartScreen } from "./lib/settings-storage";
 import Home from "./pages/Home";
 import Grades from "./pages/Grades";
 import GradeView from "./pages/GradeView";
@@ -26,7 +27,12 @@ import NotFound from "./pages/NotFound";
 const queryClient = new QueryClient();
 
 const App = () => {
-  const [showStartScreen, setShowStartScreen] = useState(true);
+  const [showStartScreen, setShowStartScreen] = useState(!hasCompletedStartScreen());
+
+  useEffect(() => {
+    // Check if user has completed start screen
+    setShowStartScreen(!hasCompletedStartScreen());
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

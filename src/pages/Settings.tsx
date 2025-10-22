@@ -112,7 +112,24 @@ export default function Settings() {
 
             <div className="space-y-2">
               <Label>{t('settings.studentId')}</Label>
-              <Input value={settings.studentId} disabled />
+              <div className="flex gap-2">
+                <Input value={settings.studentId} readOnly className="bg-muted" />
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    navigator.clipboard.writeText(settings.studentId);
+                    toast({
+                      title: "Copied!",
+                      description: "Student ID copied to clipboard",
+                    });
+                  }}
+                >
+                  Copy
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Use this ID to access your account on other devices
+              </p>
             </div>
           </div>
 

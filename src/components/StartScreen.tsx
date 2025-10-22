@@ -1,41 +1,226 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { GraduationCap, Sparkles, UserPlus, LogIn } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
-import { useLanguage } from "@/contexts/LanguageContext";
+import { switchStudentAccount } from "@/lib/settings-storage";
+import { useToast } from "@/hooks/use-toast";
 
 interface StartScreenProps {
   onComplete: () => void;
 }
 
 export function StartScreen({ onComplete }: StartScreenProps) {
-  const { t } = useLanguage();
-  const [isVisible, setIsVisible] = useState(true);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [studentId, setStudentId] = useState("");
+  const [name, setName] = useState("");
+  const [loginStudentId, setLoginStudentId] = useState("");
+  const { toast } = useToast();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-      setTimeout(onComplete, 500);
-    }, 2500);
+  const handleNewStudent = () => {
+    if (!name.trim()) {
+      toast({
+        title: "Name required",
+        description: "Please enter your name to continue",
+        variant: "destructive",
+      });
+      return;
+    }
 
-    return () => clearTimeout(timer);
-  }, [onComplete]);
+    const newStudentId = studentId.trim() || `STU-2024-${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
+    
+    switchStudentAccount(newStudentId, name.trim());
+    
+    toast({
+      title: "Account Created! 🎉",
+      description: `Your Student ID is: ${newStudentId}. Save it to access your account on other devices!`,
+      duration: 7000,
+    });
+    
+    setIsAnimating(true);
+    setTimeout(() => {
+      onComplete();
+    }, 500);
+  };
+
+  const handleExistingStudent = () => {
+    if (!loginStudentId.trim()) {
+      toast({
+        title: "Student ID required",
+        description: "Please enter your Student ID to continue",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Check if student data exists
+    const studentData = localStorage.getItem(`${loginStudentId.trim()}_flowhivee_lessons`);
+    
+    switchStudentAccount(loginStudentId.trim());
+    
+    if (studentData) {
+      toast({
+        title: "Welcome back! 👋",
+        description: "Your progress has been loaded",
+      });
+    } else {
+      toast({
+        title: "Account loaded",
+        description: "This Student ID will now track your progress",
+      });
+    }
+    
+    setIsAnimating(true);
+    setTimeout(() => {
+      onComplete();
+    }, 500);
+  };
 
   return (
-    <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-gradient-hero transition-opacity duration-500 ${
-        isVisible ? "opacity-100" : "opacity-0"
-      }`}
-    >
-      <div className="text-center space-y-6 animate-float">
-        <img 
-          src={logoIcon} 
-          alt={t('app.name')} 
-          className="w-32 h-32 mx-auto animate-pulse-glow" 
-        />
-        <h1 className="text-4xl font-bold bg-gradient-warm bg-clip-text text-transparent">
-          {t('app.name')}
-        </h1>
-        <p className="text-lg text-muted-foreground">{t('app.tagline')}</p>
-      </div>
+    <div className={`min-h-screen bg-gradient-radial flex items-center justify-center p-6 transition-opacity duration-500 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
+      <Card className="w-full max-w-2xl shadow-glow border-0 bg-card/95 backdrop-blur">
+        <CardContent className="p-8 md:p-12 space-y-8">
+          {/* Logo */}
+          <div className="flex justify-center animate-float">
+            <div className="p-6 bg-primary/10 rounded-3xl">
+              <img src={logoIcon} alt="FlowHive" className="w-24 h-24" />
+            </div>
+          </div>
+
+          {/* Title */}
+          <div className="space-y-3 text-center">
+            <h1 className="text-4xl md:text-5xl font-bold bg-gradient-warm bg-clip-text text-transparent animate-slide-up">
+              Welcome to FlowHive
+            </h1>
+            <p className="text-lg text-muted-foreground animate-slide-up" style={{ animationDelay: '0.1s' }}>
+              Your Personal Learning Journey Starts Here 🚀
+            </p>
+          </div>
+
+          {/* Login/Signup Tabs */}
+          <Tabs defaultValue="new" className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="new">
+                <UserPlus className="w-4 h-4 mr-2" />
+                New Student
+              </TabsTrigger>
+              <TabsTrigger value="existing">
+                <LogIn className="w-4 h-4 mr-2" />
+                Existing Student
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="new" className="space-y-4 mt-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Create Your Account</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Your Name *</Label>
+                    <Input
+                      id="name"
+                      placeholder="Enter your full name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      maxLength={100}
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="studentId">Custom Student ID (Optional)</Label>
+                    <Input
+                      id="studentId"
+                      placeholder="Leave blank to auto-generate"
+                      value={studentId}
+                      onChange={(e) => setStudentId(e.target.value)}
+                      maxLength={50}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      If left blank, we'll generate one for you (e.g., STU-2024-1234)
+                    </p>
+                  </div>
+
+                  <Button
+                    className="w-full"
+                    variant="warm"
+                    onClick={handleNewStudent}
+                  >
+                    <GraduationCap className="w-4 h-4 mr-2" />
+                    Start Learning
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="existing" className="space-y-4 mt-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Access Your Account</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="loginStudentId">Student ID *</Label>
+                    <Input
+                      id="loginStudentId"
+                      placeholder="Enter your Student ID"
+                      value={loginStudentId}
+                      onChange={(e) => setLoginStudentId(e.target.value)}
+                      maxLength={50}
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Enter the Student ID you received when creating your account
+                    </p>
+                  </div>
+
+                  <Button
+                    className="w-full"
+                    variant="warm"
+                    onClick={handleExistingStudent}
+                  >
+                    <LogIn className="w-4 h-4 mr-2" />
+                    Continue Learning
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+
+          {/* Features */}
+          <div className="grid md:grid-cols-2 gap-4 text-left animate-slide-up" style={{ animationDelay: '0.3s' }}>
+            <div className="p-4 rounded-lg bg-primary/5 border border-primary/10">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-primary/10 rounded-lg mt-1">
+                  <GraduationCap className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Personalized Learning</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Track progress and learn at your own pace
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-lg bg-secondary/5 border border-secondary/10">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-secondary/10 rounded-lg mt-1">
+                  <Sparkles className="w-5 h-5 text-secondary" />
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-1">Cross-Device Access</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Use your Student ID to access your account anywhere
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -92,3 +92,38 @@ export const clearAllData = () => {
     window.location.reload();
   }
 };
+
+export const switchStudentAccount = (studentId: string, name: string = 'Student') => {
+  const nameParts = name.trim().split(' ');
+  const initials = nameParts
+    .map(part => part[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2) || 'ST';
+  
+  const newSettings: UserSettings = {
+    name,
+    initials,
+    email: '',
+    studentId,
+    notifications: {
+      newLessons: true,
+      quizReminders: true,
+      achievementBadges: true,
+      communityUpdates: false,
+    },
+    privacy: {
+      showProgress: true,
+      anonymousInCommunity: false,
+    },
+  };
+  
+  saveUserSettings(newSettings);
+  
+  // Mark that we've completed the start screen
+  localStorage.setItem('completed_start_screen', 'true');
+};
+
+export const hasCompletedStartScreen = (): boolean => {
+  return localStorage.getItem('completed_start_screen') === 'true';
+};
