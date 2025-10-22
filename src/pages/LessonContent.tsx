@@ -499,10 +499,25 @@ export default function LessonContent() {
   const { toast } = useToast();
   const lessonId = location.state?.lessonId || 1;
   
-  const lesson = lessonContent[lessonId] || lessonContent[1];
+  console.log('🔍 Requested Lesson ID:', lessonId);
+  console.log('📚 Available lesson IDs:', Object.keys(lessonContent));
+  console.log('✅ Lesson found?', !!lessonContent[lessonId]);
+  
+  const lesson = lessonContent[lessonId];
+  
+  if (!lesson) {
+    console.error('❌ Lesson not found! Defaulting to lesson 1');
+    toast({
+      title: "Lesson Not Available",
+      description: `Lesson #${lessonId} is not yet available. Loading Introduction to Algebra instead.`,
+      variant: "destructive",
+    });
+  }
+  
+  const finalLesson = lesson || lessonContent[1];
   const [currentSection, setCurrentSection] = useState(0);
   const [viewingDocument, setViewingDocument] = useState<any>(null);
-  const totalSections = lesson.sections.length;
+  const totalSections = finalLesson.sections.length;
   const progress = ((currentSection + 1) / totalSections) * 100;
 
   // Load saved progress
@@ -519,23 +534,23 @@ export default function LessonContent() {
   useEffect(() => {
     saveLessonProgress({
       lessonId,
-      title: lesson.title,
-      subject: lesson.subject,
+      title: finalLesson.title,
+      subject: finalLesson.subject,
       completed: currentSection === totalSections - 1,
       currentSection,
       totalSections,
       lastAccessed: new Date().toISOString(),
     });
-  }, [currentSection, lessonId, lesson.title, lesson.subject, totalSections]);
+  }, [currentSection, lessonId, finalLesson.title, finalLesson.subject, totalSections]);
 
   const handleNext = () => {
     if (currentSection < totalSections - 1) {
       setCurrentSection(currentSection + 1);
     } else {
       // Lesson complete - mark as complete
-      markLessonComplete(lessonId, lesson.title, lesson.subject, totalSections);
+      markLessonComplete(lessonId, finalLesson.title, finalLesson.subject, totalSections);
       
-      if (lesson.hasQuiz) {
+      if (finalLesson.hasQuiz) {
         toast({
           title: "Lesson Complete! 🎉",
           description: "Ready to test your knowledge? +100 XP earned!",
@@ -544,7 +559,7 @@ export default function LessonContent() {
       } else {
         toast({
           title: "Lesson Complete! 🎉",
-          description: `You've finished ${lesson.title}. +100 XP earned!`,
+          description: `You've finished ${finalLesson.title}. +100 XP earned!`,
         });
         setTimeout(() => navigate('/lessons'), 1500);
       }
@@ -552,7 +567,7 @@ export default function LessonContent() {
   };
 
   const handleDownload = (docName: string) => {
-    const doc = lesson.documents.find((d: any) => d.name === docName);
+    const doc = finalLesson.documents.find((d: any) => d.name === docName);
     
     if (doc?.file) {
       // Download actual PDF file
@@ -591,7 +606,7 @@ export default function LessonContent() {
   };
 
   const handlePlayVideo = () => {
-    if (!lesson.videoUrl) {
+    if (!finalLesson.videoUrl) {
       toast({
         title: "Video Coming Soon!",
         description: "Video content will be added shortly",
@@ -605,7 +620,7 @@ export default function LessonContent() {
     }
   };
 
-  const section = lesson.sections[currentSection];
+  const section = finalLesson.sections[currentSection];
   
   const getSectionIcon = (type: string) => {
     switch (type) {
@@ -679,11 +694,11 @@ export default function LessonContent() {
           Back to Lessons
         </Button>
         <div className="flex items-center justify-between mb-2">
-          <h1 className="text-3xl font-bold">{lesson.title}</h1>
-          <Badge variant="secondary">{lesson.subject}</Badge>
+          <h1 className="text-3xl font-bold">{finalLesson.title}</h1>
+          <Badge variant="secondary">{finalLesson.subject}</Badge>
         </div>
         <p className="text-muted-foreground">
-          Section {currentSection + 1} of {totalSections} • {lesson.duration}
+          Section {currentSection + 1} of {totalSections} • {finalLesson.duration}
         </p>
       </div>
 
@@ -697,7 +712,7 @@ export default function LessonContent() {
       </div>
 
       {/* Video Section */}
-      {((section as any).videoUrl || (currentSection === 0 && lesson.videoUrl)) && (
+      {((section as any).videoUrl || (currentSection === 0 && finalLesson.videoUrl)) && (
         <Card className="shadow-soft bg-gradient-to-br from-primary/5 to-secondary/5">
           <CardHeader>
             <div className="flex items-center gap-3">
@@ -713,7 +728,7 @@ export default function LessonContent() {
           <CardContent>
             <div className="aspect-video bg-black rounded-lg overflow-hidden">
               <video key={`${lessonId}-${currentSection}`} controls className="w-full h-full">
-                <source src={(section as any).videoUrl || lesson.videoUrl} type="video/mp4" />
+                <source src={(section as any).videoUrl || finalLesson.videoUrl} type="video/mp4" />
               </video>
             </div>
           </CardContent>
@@ -721,12 +736,12 @@ export default function LessonContent() {
       )}
 
       {/* Video Transcript */}
-      {((section as any).videoUrl || (currentSection === 0 && lesson.videoUrl)) && (
-        <VideoTranscript videoUrl={(section as any).videoUrl || lesson.videoUrl} />
+      {((section as any).videoUrl || (currentSection === 0 && finalLesson.videoUrl)) && (
+        <VideoTranscript videoUrl={(section as any).videoUrl || finalLesson.videoUrl} />
       )}
 
       {/* Downloadable Documents */}
-      {lesson.documents && lesson.documents.length > 0 && (
+      {finalLesson.documents && finalLesson.documents.length > 0 && (
         <Card className="shadow-soft">
           <CardHeader>
             <div className="flex items-center gap-3">
@@ -741,7 +756,7 @@ export default function LessonContent() {
           </CardHeader>
           <CardContent>
             <div className="grid gap-3">
-              {lesson.documents.map((doc: any, index: number) => (
+              {finalLesson.documents.map((doc: any, index: number) => (
                 <div
                   key={index}
                   className="flex items-center justify-between p-4 bg-muted/50 rounded-lg hover:bg-muted transition-colors"
@@ -843,7 +858,7 @@ export default function LessonContent() {
         <CardContent className="pt-6">
           <p className="text-sm text-muted-foreground mb-3">Lesson Sections:</p>
           <div className="space-y-2">
-            {lesson.sections.map((sec: any, index: number) => (
+            {finalLesson.sections.map((sec: any, index: number) => (
               <button
                 key={index}
                 onClick={() => setCurrentSection(index)}
