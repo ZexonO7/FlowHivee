@@ -305,7 +305,61 @@ const lessonContent: Record<number, any> = {
   64: createDefaultLesson(64, "Literary Analysis", "Language Arts", "45 min", "Themes and symbolism"),
   
   // 7th Grade Lessons
-  71: createDefaultLesson(71, "Introduction to Algebra", "Pre-Algebra", "50 min", "Variables and expressions"),
+  71: {
+    title: "Introduction to Algebra",
+    subject: "Pre-Algebra",
+    duration: "50 min",
+    videoUrl: "/video lessons/Introduction to Algebra (1 of 2_ What Happens when you don t know a number which you need to find ).mp4",
+    hasQuiz: true,
+    documents: [
+      { 
+        name: "Algebra Basics Workbook.pdf", 
+        size: "2.4 MB",
+        content: "# Algebra Basics Workbook\n\n## Chapter 1: Variables and Expressions\n\nVariables are letters that represent unknown numbers. We use them to solve problems!\n\n### Key Concepts:\n- Variables (x, y, z) represent unknown values\n- Constants are fixed numbers (1, 2, 3, etc.)\n- Expressions combine variables and constants (2x + 5)\n\n### Practice Problems:\n\n1. If x = 3, what is 2x + 4?\n   Answer: 2(3) + 4 = 6 + 4 = 10\n\n2. Solve: x + 7 = 12\n   Answer: x = 12 - 7 = 5\n\n3. What is 3(x - 2) when x = 5?\n   Answer: 3(5 - 2) = 3(3) = 9\n\n## Tips for Success:\n✓ Always isolate the variable\n✓ Do the same operation to both sides\n✓ Check your answer by substituting back\n✓ Practice daily for best results!"
+      },
+      { 
+        name: "Practice Problems.pdf", 
+        size: "1.8 MB",
+        content: "# Algebra Practice Problems\n\n## Easy Level\n1. x + 5 = 10 → x = ?\n2. 2x = 8 → x = ?\n3. x - 3 = 7 → x = ?\n\n## Medium Level\n4. 3x + 2 = 11 → x = ?\n5. 2(x + 1) = 10 → x = ?\n6. 4x - 3 = 13 → x = ?\n\n## Challenge Level\n7. 5x + 3 = 2x + 12 → x = ?\n8. 3(2x - 1) = 15 → x = ?\n9. x/2 + 4 = 7 → x = ?\n\n## Answer Key\n1. x = 5\n2. x = 4\n3. x = 10\n4. x = 3\n5. x = 4\n6. x = 4\n7. x = 3\n8. x = 3\n9. x = 6"
+      },
+      { 
+        name: "Formula Sheet.pdf", 
+        size: "890 KB",
+        file: "/lessons/algebra-formula-sheet.pdf",
+        content: `# Basic Algebra Formulas\n\n## Essential Algebraic Identities\n\n1. (a + b)² = a² + 2ab + b²\n2. (a - b)² = a² - 2ab + b²\n3. (a + b)(a - b) = a² - b²\n4. (x + a)(x + b) = x² + (a + b)x + ab\n5. (x - a)(x - b) = x² - (a + b)x + ab\n\nThese formulas are essential for solving algebraic equations and simplifying expressions.`
+      },
+    ],
+    sections: [
+      {
+        type: "intro",
+        title: "What is Algebra?",
+        content: "Algebra is a branch of mathematics that uses letters and symbols to represent numbers and quantities in formulas and equations. It's like a puzzle where we need to find the missing pieces!",
+        videoUrl: "/video lessons/Introduction to Algebra (1 of 2_ What Happens when you don t know a number which you need to find ).mp4",
+      },
+      {
+        type: "text",
+        title: "Variables and Constants",
+        content: "In algebra, we use variables (like x, y, z) to represent unknown values. Constants are fixed numbers that don't change. For example, in the equation 2x + 5 = 11, 'x' is the variable, while 2, 5, and 11 are constants.",
+        videoUrl: "/video lessons/Variables and Constents.mp4",
+      },
+      {
+        type: "example",
+        title: "Example: Solving for x",
+        content: "Let's solve: x + 7 = 15\n\nStep 1: We want to get x alone\nStep 2: Subtract 7 from both sides\nx + 7 - 7 = 15 - 7\nx = 8\n\nThat's it! x equals 8.",
+      },
+      {
+        type: "practice",
+        title: "Try it yourself!",
+        content: "Practice problems:\n1. x + 5 = 12 (Answer: x = 7)\n2. 2x = 10 (Answer: x = 5)\n3. x - 3 = 9 (Answer: x = 12)",
+        hasWhiteboard: true,
+      },
+      {
+        type: "summary",
+        title: "Key Takeaways",
+        content: "✓ Variables represent unknown values\n✓ We can solve equations by isolating the variable\n✓ What we do to one side, we must do to the other\n✓ Practice makes perfect!",
+      },
+    ],
+  },
   72: createDefaultLesson(72, "Human Body Systems", "Life Science", "45 min", "How our bodies work"),
   73: createDefaultLesson(73, "Medieval History", "World History", "50 min", "The Middle Ages"),
   74: createDefaultLesson(74, "Argumentative Writing", "Language Arts", "45 min", "Build strong arguments"),
