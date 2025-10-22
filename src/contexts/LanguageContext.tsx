@@ -63,6 +63,8 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.analytics': 'Analytics',
     'nav.community': 'Community',
     'nav.settings': 'Settings',
+    'nav.more': 'More',
+    'nav.menu': 'Menu',
     
     // Home
     'home.welcome': 'Welcome back',
@@ -135,6 +137,8 @@ const translations: Record<Language, Record<string, string>> = {
     'nav.analytics': 'विश्लेषण',
     'nav.community': 'समुदाय',
     'nav.settings': 'सेटिंग्स',
+    'nav.more': 'और',
+    'nav.menu': 'मेनू',
     
     // Home
     'home.welcome': 'वापसी पर स्वागत है',
