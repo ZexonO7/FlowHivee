@@ -1,0 +1,97 @@
+Variables and Constants - Video Transcript
+
+Welcome back to algebra! Today we're going to dive deeper into two fundamental concepts that form the foundation of algebraic thinking: variables and constants.
+
+Let's start by defining what these terms mean. A variable is a symbol, usually a letter, that represents a value that can change or that we don't know yet. Think of it as a placeholder or a box that can hold different numbers. The most commonly used variables are x, y, and z, but mathematicians can use any letter they like.
+
+On the other hand, a constant is a value that never changes. It's fixed. Numbers like 3, 7, 15, or even pi are constants because they always represent the same value no matter what.
+
+Let's look at an equation to see how these work together:
+2x + 5 = 13
+
+In this equation, x is the variable - it's what we're trying to find. The numbers 2, 5, and 13 are constants - they don't change. The 2 is called a "coefficient" because it's multiplied by the variable.
+
+Why do we need variables? Variables allow us to:
+- Represent unknown quantities
+- Describe patterns and relationships
+- Create formulas that work for many different situations
+- Model real-world problems mathematically
+
+For example, if we want to convert temperature from Celsius to Fahrenheit, we use the formula:
+F = (9/5)C + 32
+
+Here, F and C are variables representing the Fahrenheit and Celsius temperatures. The numbers 9/5 and 32 are constants - they never change, regardless of the temperature we're converting.
+
+Let's explore how variables can represent different values. Consider the expression:
+x + 3
+
+If x = 2, then x + 3 = 5
+If x = 7, then x + 3 = 10
+If x = 100, then x + 3 = 103
+
+See how the variable x can take on different values? That's the power of variables - they're flexible!
+
+Now, let's talk about different types of constants:
+
+1. Numerical constants: Regular numbers like 5, -3, or 0.75
+2. Mathematical constants: Special numbers like pi (approximately 3.14159) or e (approximately 2.71828)
+3. Physical constants: Values from science, like the speed of light
+
+In algebraic expressions, we can combine variables and constants in various ways:
+- 3x means "3 times x"
+- x² means "x times x" or "x squared"
+- 2x + 7 means "two times x, plus 7"
+
+An important concept is "like terms." Like terms are terms that have the same variable raised to the same power. For example:
+- 3x and 5x are like terms (both have x)
+- 2y² and 7y² are like terms (both have y²)
+- 4x and 6y are NOT like terms (different variables)
+
+We can combine like terms by adding or subtracting their coefficients:
+3x + 5x = 8x
+7y² - 2y² = 5y²
+
+But we cannot combine unlike terms:
+3x + 4y stays as 3x + 4y
+
+Let's work through a practical example. Suppose you're buying pencils and erasers. Pencils cost $2 each and erasers cost $1 each. If you buy some pencils and some erasers, how much do you spend?
+
+We can represent this algebraically:
+Total cost = 2p + 1e
+
+Where:
+- p is the variable representing the number of pencils (it can change)
+- e is the variable representing the number of erasers (it can change)
+- 2 and 1 are constants (the prices don't change)
+
+If you buy 3 pencils and 5 erasers:
+Total cost = 2(3) + 1(5) = 6 + 5 = $11
+
+Variables in real-world applications:
+- In physics: v = d/t (velocity equals distance divided by time)
+- In geometry: A = πr² (area of a circle)
+- In finance: I = P × r × t (simple interest formula)
+- In cooking: Doubling a recipe means multiplying all ingredient amounts by 2
+
+Here are some important rules to remember:
+
+1. Variables can be added or subtracted only if they're like terms
+2. When multiplying a constant by a variable, we write them next to each other: 5 × x becomes 5x
+3. The coefficient 1 is usually not written: 1x is simply written as x
+4. Variables can represent any real number unless otherwise specified
+
+Let's practice identifying variables and constants in these expressions:
+- In 4x + 7: x is the variable, 4 and 7 are constants
+- In 3y² - 2y + 8: y is the variable, 3, 2, and 8 are constants
+- In 2a + 3b = 15: a and b are variables, 2, 3, and 15 are constants
+
+Understanding the difference between variables and constants is crucial as you progress in algebra. Variables give us flexibility to solve problems for many different cases, while constants provide the fixed values that define specific situations.
+
+Remember:
+- Variables change or represent unknowns (x, y, z)
+- Constants never change (numbers like 5, pi, etc.)
+- Together, they help us write mathematical relationships and solve real problems
+
+Practice identifying and working with variables and constants in different equations, and you'll build a strong foundation for all future algebra work.
+
+Thank you for watching! In our next lesson, we'll explore how to solve equations with multiple variables. Keep practicing, and see you next time!

@@ -1,5 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
-import { pipeline } from '@huggingface/transformers';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -10,117 +9,61 @@ interface VideoTranscriptProps {
   videoUrl: string;
 }
 
+// Map video URLs to transcript files
+const getTranscriptPath = (videoUrl: string): string | null => {
+  if (videoUrl.includes('Introduction to Algebra')) {
+    return '/video lessons/Introduction to Algebra.txt';
+  } else if (videoUrl.includes('Variables and Constents')) {
+    return '/video lessons/Variables and Constants.txt';
+  }
+  return null;
+};
+
 export const VideoTranscript = ({ videoUrl }: VideoTranscriptProps) => {
   const [transcript, setTranscript] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
-  const [progress, setProgress] = useState<string>('');
   const { toast } = useToast();
-  const hasTranscribed = useRef(false);
 
   useEffect(() => {
-    // Reset when video URL changes
-    hasTranscribed.current = false;
+    // Reset and auto-load transcript when video URL changes
     setTranscript('');
     setError('');
+    if (videoUrl) {
+      loadTranscript();
+    }
   }, [videoUrl]);
 
-  const extractAudioFromVideo = async (videoUrl: string): Promise<Float32Array> => {
-    return new Promise((resolve, reject) => {
-      const video = document.createElement('video');
-      video.crossOrigin = 'anonymous';
-      video.src = videoUrl;
+  const loadTranscript = async () => {
+    if (!videoUrl) return;
 
-      video.addEventListener('loadedmetadata', async () => {
-        try {
-          const audioContext = new AudioContext({ sampleRate: 16000 });
-          const source = audioContext.createMediaElementSource(video);
-          const destination = audioContext.createMediaStreamDestination();
-          source.connect(destination);
-
-          const mediaRecorder = new MediaRecorder(destination.stream);
-          const chunks: Blob[] = [];
-
-          mediaRecorder.ondataavailable = (e) => {
-            if (e.data.size > 0) {
-              chunks.push(e.data);
-            }
-          };
-
-          mediaRecorder.onstop = async () => {
-            const audioBlob = new Blob(chunks, { type: 'audio/webm' });
-            const arrayBuffer = await audioBlob.arrayBuffer();
-            const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-            const float32Array = audioBuffer.getChannelData(0);
-            resolve(float32Array);
-          };
-
-          video.play();
-          mediaRecorder.start();
-
-          video.onended = () => {
-            mediaRecorder.stop();
-            audioContext.close();
-          };
-        } catch (err) {
-          reject(err);
-        }
-      });
-
-      video.onerror = () => {
-        reject(new Error('Failed to load video'));
-      };
-    });
-  };
-
-  const transcribeVideo = async () => {
-    if (hasTranscribed.current || !videoUrl) return;
+    const transcriptPath = getTranscriptPath(videoUrl);
     
+    if (!transcriptPath) {
+      setError('No transcript available for this video');
+      return;
+    }
+
     setIsLoading(true);
     setError('');
-    setTranscript('');
-    hasTranscribed.current = true;
 
     try {
-      setProgress('Loading transcription model...');
+      const response = await fetch(transcriptPath);
       
-      // Load Whisper model
-      const transcriber = await pipeline(
-        'automatic-speech-recognition',
-        'onnx-community/whisper-tiny.en',
-        {
-          device: 'webgpu',
-          dtype: 'fp32',
-        }
-      );
+      if (!response.ok) {
+        throw new Error('Transcript file not found');
+      }
 
-      setProgress('Extracting audio from video...');
-      
-      // Extract audio from video
-      const audioData = await extractAudioFromVideo(videoUrl);
-
-      setProgress('Transcribing audio... This may take a few minutes.');
-
-      // Transcribe
-      const result = await transcriber(audioData, {
-        chunk_length_s: 30,
-        stride_length_s: 5,
-        return_timestamps: false,
-      });
-
-      const transcriptText = Array.isArray(result) ? result[0]?.text : result.text;
-      setTranscript(transcriptText || '');
-      setProgress('');
+      const text = await response.text();
+      setTranscript(text);
       
       toast({
-        title: 'Transcription Complete!',
+        title: 'Transcript Loaded! ✓',
         description: 'Video transcript is ready',
       });
     } catch (err) {
-      console.error('Transcription error:', err);
-      setError(`Failed to transcribe video: ${err instanceof Error ? err.message : 'Unknown error'}`);
-      hasTranscribed.current = false;
-      setProgress('');
+      console.error('Error loading transcript:', err);
+      setError('Failed to load transcript. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -154,18 +97,13 @@ export const VideoTranscript = ({ videoUrl }: VideoTranscriptProps) => {
             <div>
               <CardTitle>Video Transcript</CardTitle>
               <CardDescription>
-                {transcript ? 'Transcription complete' : 'Generate text from video audio'}
+                {transcript ? 'Ready to read' : 'Loading transcript...'}
               </CardDescription>
             </div>
           </div>
-          {!isLoading && !transcript && (
-            <Button onClick={transcribeVideo} variant="warm">
-              Generate Transcript
-            </Button>
-          )}
           {transcript && (
             <Button onClick={downloadTranscript} variant="outline" size="sm">
-              <Download className="w-4 h-4" />
+              <Download className="w-4 h-4 mr-2" />
               Download
             </Button>
           )}
@@ -175,12 +113,7 @@ export const VideoTranscript = ({ videoUrl }: VideoTranscriptProps) => {
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-12 space-y-4">
             <Loader2 className="w-8 h-8 animate-spin text-primary" />
-            <div className="text-center space-y-2">
-              <p className="font-medium">{progress}</p>
-              <p className="text-sm text-muted-foreground">
-                This process may take a few minutes depending on video length
-              </p>
-            </div>
+            <p className="font-medium">Loading transcript...</p>
           </div>
         )}
 
@@ -188,13 +121,10 @@ export const VideoTranscript = ({ videoUrl }: VideoTranscriptProps) => {
           <div className="flex items-start gap-3 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
             <AlertCircle className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
             <div className="space-y-1">
-              <p className="font-medium text-destructive">Transcription Error</p>
+              <p className="font-medium text-destructive">Error Loading Transcript</p>
               <p className="text-sm text-destructive/80">{error}</p>
               <Button
-                onClick={() => {
-                  hasTranscribed.current = false;
-                  transcribeVideo();
-                }}
+                onClick={loadTranscript}
                 variant="outline"
                 size="sm"
                 className="mt-2"
@@ -206,23 +136,9 @@ export const VideoTranscript = ({ videoUrl }: VideoTranscriptProps) => {
         )}
 
         {transcript && !isLoading && (
-          <ScrollArea className="h-[300px] w-full rounded-lg border bg-muted/30 p-4">
+          <ScrollArea className="h-[400px] w-full rounded-lg border bg-muted/30 p-4">
             <p className="text-sm leading-relaxed whitespace-pre-wrap">{transcript}</p>
           </ScrollArea>
-        )}
-
-        {!isLoading && !transcript && !error && (
-          <div className="text-center py-12 space-y-3">
-            <div className="p-4 bg-muted/50 rounded-full w-16 h-16 mx-auto flex items-center justify-center">
-              <FileText className="w-8 h-8 text-muted-foreground" />
-            </div>
-            <p className="text-muted-foreground">
-              Click "Generate Transcript" to create a text version of the video audio
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Note: Transcription runs in your browser and may take a few minutes
-            </p>
-          </div>
         )}
       </CardContent>
     </Card>

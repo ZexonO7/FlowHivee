@@ -1,0 +1,50 @@
+Introduction to Algebra - Video Transcript
+
+Hello students! Welcome to Introduction to Algebra. Today we're going to explore one of the most fundamental concepts in mathematics - what happens when you don't know a number which you need to find.
+
+Let's start with a simple scenario. Imagine you have some marbles in a bag, and you know that if you add 5 more marbles, you'll have 12 marbles total. But you don't know how many marbles you started with. This is where algebra comes in!
+
+In algebra, we use letters to represent numbers we don't know yet. We call these letters "variables." The most common variable is "x," but we can use any letter we want - like y, z, a, b, or even more creative choices.
+
+So in our marble example, we could say:
+x + 5 = 12
+
+Where x represents the number of marbles we started with. Our goal in algebra is to figure out what value x must have to make this equation true.
+
+To solve this, we need to "isolate" x - that means we want to get x all by itself on one side of the equation. We do this by performing the opposite operation. Since we're adding 5 to x, we'll subtract 5 from both sides:
+
+x + 5 - 5 = 12 - 5
+x = 7
+
+So we started with 7 marbles! Let's check: 7 + 5 = 12. Perfect!
+
+The key principle in algebra is that whatever we do to one side of an equation, we must do to the other side. This keeps the equation balanced, like a perfectly balanced scale.
+
+Let's try another example. Suppose you're saving money, and you know that if you multiply what you have by 3, you'll have $15. How much do you have now?
+
+We can write this as:
+3x = 15
+
+To isolate x, we need to do the opposite of multiplication, which is division. So we divide both sides by 3:
+
+3x ÷ 3 = 15 ÷ 3
+x = 5
+
+So you have $5 saved up!
+
+Why is algebra so important? Well, in real life, we often know some information but not all of it. Algebra gives us the tools to find the missing pieces. Engineers use it to design bridges, scientists use it to understand nature, video game programmers use it to create realistic physics, and economists use it to predict market trends.
+
+Even in everyday life, algebra helps us solve problems. Planning a party? Algebra can help figure out how much food to buy. Saving for something special? Algebra can calculate how long it will take.
+
+Remember these key points:
+1. Variables (like x) represent unknown numbers
+2. Equations show relationships between numbers
+3. We solve equations by isolating the variable
+4. Whatever we do to one side, we must do to the other side
+5. Check your answer by substituting it back into the original equation
+
+Practice is essential in algebra. The more problems you solve, the more patterns you'll recognize, and the easier it becomes. Don't worry if it seems challenging at first - every mathematician started exactly where you are now.
+
+In our next lesson, we'll explore more complex equations and learn about combining like terms. For now, practice these basic solving techniques, and remember - algebra is just a tool to help us find what we don't know yet!
+
+Thank you for watching, and happy problem solving!
