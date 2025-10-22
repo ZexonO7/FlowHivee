@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GraduationCap, Sparkles, UserPlus, LogIn } from "lucide-react";
+import { GraduationCap, Sparkles, UserPlus, LogIn, QrCode } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
 import { switchStudentAccount } from "@/lib/settings-storage";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 interface StartScreenProps {
   onComplete: () => void;
@@ -19,6 +20,25 @@ export function StartScreen({ onComplete }: StartScreenProps) {
   const [name, setName] = useState("");
   const [loginStudentId, setLoginStudentId] = useState("");
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  // Check for QR code login
+  useEffect(() => {
+    const qrStudentId = searchParams.get('studentId');
+    if (qrStudentId) {
+      // Auto-login with QR code
+      switchStudentAccount(qrStudentId.trim());
+      toast({
+        title: "QR Code Login! 🎉",
+        description: "Welcome back! Your account has been loaded.",
+      });
+      setIsAnimating(true);
+      setTimeout(() => {
+        onComplete();
+      }, 500);
+    }
+  }, [searchParams, onComplete, toast]);
 
   const handleNewStudent = () => {
     if (!name.trim()) {
@@ -184,6 +204,24 @@ export function StartScreen({ onComplete }: StartScreenProps) {
                     <LogIn className="w-4 h-4 mr-2" />
                     Continue Learning
                   </Button>
+
+                  <div className="relative">
+                    <div className="absolute inset-0 flex items-center">
+                      <span className="w-full border-t" />
+                    </div>
+                    <div className="relative flex justify-center text-xs uppercase">
+                      <span className="bg-background px-2 text-muted-foreground">
+                        Or scan QR code
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="text-center p-6 bg-muted/50 rounded-lg border-2 border-dashed border-muted-foreground/25">
+                    <QrCode className="w-12 h-12 mx-auto mb-2 text-muted-foreground" />
+                    <p className="text-sm text-muted-foreground">
+                      Scan a FlowHive QR code to instantly log in
+                    </p>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>

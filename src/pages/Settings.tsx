@@ -4,9 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { User, Wifi, Bell, Shield, Languages } from "lucide-react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { User, Wifi, Bell, Shield, Languages, QrCode } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import QRCode from "react-qr-code";
 import { 
   getUserSettings, 
   updateUserName, 
@@ -126,9 +128,45 @@ export default function Settings() {
                 >
                   Copy
                 </Button>
+                <Dialog>
+                  <DialogTrigger asChild>
+                    <Button variant="warm">
+                      <QrCode className="w-4 h-4 mr-2" />
+                      QR Code
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Quick Connect QR Code</DialogTitle>
+                      <DialogDescription>
+                        Scan this QR code on another device to instantly access your account
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="flex flex-col items-center gap-6 py-6">
+                      <div className="bg-white p-6 rounded-xl shadow-lg" data-qr-code>
+                        <QRCode
+                          value={`${window.location.origin}/?studentId=${settings.studentId}`}
+                          size={256}
+                          level="H"
+                          fgColor="#8B4513"
+                          style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                        />
+                      </div>
+                      <div className="text-center space-y-2">
+                        <p className="font-semibold text-lg">{settings.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          Student ID: {settings.studentId}
+                        </p>
+                      </div>
+                      <p className="text-xs text-center text-muted-foreground px-4">
+                        Anyone can scan this QR code to log into your account. Keep it private!
+                      </p>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
               <p className="text-xs text-muted-foreground">
-                Use this ID to access your account on other devices
+                Use this ID to access your account on other devices or share your QR code
               </p>
             </div>
           </div>
