@@ -51,377 +51,225 @@ const createDefaultLesson = (id: number, title: string, subject: string, duratio
 
 // Lesson content database
 const lessonContent: Record<number, any> = {
-  // Main lessons with full content
+  // Montessori Lessons
   1: {
-    title: "Introduction to Algebra",
-    subject: "Mathematics",
-    duration: "45 min",
-    videoUrl: "/video lessons/Introduction to Algebra (1 of 2_ What Happens when you don t know a number which you need to find ).mp4",
+    title: "Letter Recognition",
+    subject: "Language Arts",
+    duration: "20 min",
+    videoUrl: "",
     hasQuiz: true,
     documents: [
       { 
-        name: "Algebra Basics Workbook.pdf", 
-        size: "2.4 MB",
-        content: "# Algebra Basics Workbook\n\n## Chapter 1: Variables and Expressions\n\nVariables are letters that represent unknown numbers. We use them to solve problems!\n\n### Key Concepts:\n- Variables (x, y, z) represent unknown values\n- Constants are fixed numbers (1, 2, 3, etc.)\n- Expressions combine variables and constants (2x + 5)\n\n### Practice Problems:\n\n1. If x = 3, what is 2x + 4?\n   Answer: 2(3) + 4 = 6 + 4 = 10\n\n2. Solve: x + 7 = 12\n   Answer: x = 12 - 7 = 5\n\n3. What is 3(x - 2) when x = 5?\n   Answer: 3(5 - 2) = 3(3) = 9\n\n## Tips for Success:\n✓ Always isolate the variable\n✓ Do the same operation to both sides\n✓ Check your answer by substituting back\n✓ Practice daily for best results!"
-      },
-      { 
-        name: "Practice Problems.pdf", 
-        size: "1.8 MB",
-        content: "# Algebra Practice Problems\n\n## Easy Level\n1. x + 5 = 10 → x = ?\n2. 2x = 8 → x = ?\n3. x - 3 = 7 → x = ?\n\n## Medium Level\n4. 3x + 2 = 11 → x = ?\n5. 2(x + 1) = 10 → x = ?\n6. 4x - 3 = 13 → x = ?\n\n## Challenge Level\n7. 5x + 3 = 2x + 12 → x = ?\n8. 3(2x - 1) = 15 → x = ?\n9. x/2 + 4 = 7 → x = ?\n\n## Answer Key\n1. x = 5\n2. x = 4\n3. x = 10\n4. x = 3\n5. x = 4\n6. x = 4\n7. x = 3\n8. x = 3\n9. x = 6"
-      },
-      { 
-        name: "Formula Sheet.pdf", 
-        size: "890 KB",
-        file: "/lessons/algebra-formula-sheet.pdf",
-        content: `# Basic Algebra Formulas
-
-## Essential Algebraic Identities
-
-1. (a + b)² = a² + 2ab + b²
-2. (a - b)² = a² - 2ab + b²
-3. (a + b)(a - b) = a² - b²
-4. (x + a)(x + b) = x² + (a + b)x + ab
-5. (x - a)(x - b) = x² - (a + b)x + ab
-6. (a + b + c)² = a² + b² + c² + 2(ab + bc + ca)
-7. (a - b - c)² = a² + b² + c² - 2(ab - bc + ca)
-8. (a + b)³ = a³ + 3a²b + 3ab² + b³
-9. (a - b)³ = a³ - 3a²b + 3ab² - b³
-10. (a + b + c)³ = a³ + b³ + c³ + 3(a + b)(b + c)(c + a)
-
-These formulas are essential for solving algebraic equations and simplifying expressions.`
+        name: "Alphabet Activity Cards.pdf", 
+        size: "1.2 MB",
+        content: "# Letter Recognition Activities\n\n## Learning the Alphabet\n\nLearning letters is the first step to reading! Let's explore each letter through fun activities.\n\n### Letter A\n🍎 Apple\n✈️ Airplane\n🐜 Ant\n\n### Letter B\n🐻 Bear\n🎈 Balloon\n🏀 Ball\n\n### Letter C\n🐱 Cat\n🚗 Car\n🍪 Cookie\n\n## Practice Activities\n\n1. **Letter Tracing**: Use your finger to trace letters in sand or on paper\n2. **Sound Games**: Say the letter sound and find objects that start with that sound\n3. **Letter Hunt**: Find letters in books and magazines\n4. **Sensory Letters**: Make letters with playdough or clay\n\n## Tips for Parents\n✓ Make it multi-sensory (touch, see, hear)\n✓ Keep sessions short (10-15 minutes)\n✓ Celebrate every success!\n✓ Practice letter sounds, not just names"
       },
     ],
     sections: [
       {
         type: "intro",
-        title: "What is Algebra?",
-        content: "Algebra is a branch of mathematics that uses letters and symbols to represent numbers and quantities in formulas and equations. It's like a puzzle where we need to find the missing pieces!",
-        videoUrl: "/video lessons/Introduction to Algebra (1 of 2_ What Happens when you don t know a number which you need to find ).mp4",
+        title: "Welcome to Letters!",
+        content: "Letters are the building blocks of words! Every letter has a name and a sound. Let's learn them together through fun activities and games.",
       },
       {
         type: "text",
-        title: "Variables and Constants",
-        content: "In algebra, we use variables (like x, y, z) to represent unknown values. Constants are fixed numbers that don't change. For example, in the equation 2x + 5 = 11, 'x' is the variable, while 2, 5, and 11 are constants.",
-        videoUrl: "/video lessons/Variables and Constents.mp4",
+        title: "The Alphabet Song",
+        content: "Let's sing the alphabet song together:\n\nA-B-C-D-E-F-G,\nH-I-J-K-L-M-N-O-P,\nQ-R-S, T-U-V,\nW-X, Y and Z,\nNow I know my ABCs,\nNext time won't you sing with me!\n\nSinging helps us remember the order of letters.",
       },
       {
         type: "example",
-        title: "Example: Solving for x",
-        content: "Let's solve: x + 7 = 15\n\nStep 1: We want to get x alone\nStep 2: Subtract 7 from both sides\nx + 7 - 7 = 15 - 7\nx = 8\n\nThat's it! x equals 8.",
+        title: "Letter A Activities",
+        content: "🅰️ Letter A says 'aaa' like in Apple!\n\nLet's practice:\n• Look at the letter A\n• Trace it with your finger\n• Say 'aaa' like an apple\n• Find things that start with A: Apple, Ant, Airplane",
       },
       {
         type: "practice",
-        title: "Try it yourself!",
-        content: "Practice problems:\n1. x + 5 = 12 (Answer: x = 7)\n2. 2x = 10 (Answer: x = 5)\n3. x - 3 = 9 (Answer: x = 12)",
+        title: "Letter Hunt Game",
+        content: "👀 Find these letters around you:\n\n1. Find something that starts with 'A'\n2. Find something that starts with 'B'\n3. Find something that starts with 'C'\n\nPoint to the letter and say its sound!",
         hasWhiteboard: true,
       },
       {
         type: "summary",
-        title: "Key Takeaways",
-        content: "✓ Variables represent unknown values\n✓ We can solve equations by isolating the variable\n✓ What we do to one side, we must do to the other\n✓ Practice makes perfect!",
+        title: "Great Job!",
+        content: "✓ You learned letter names and sounds\n✓ You practiced finding letters\n✓ You traced letters\n✓ Keep practicing every day!",
       },
     ],
   },
+  
   2: {
-    title: "The Water Cycle",
-    subject: "Science",
-    duration: "30 min",
-    videoUrl: "", // User will provide later
+    title: "Counting 1-10",
+    subject: "Mathematics",
+    duration: "15 min",
+    videoUrl: "",
     hasQuiz: true,
     documents: [
       { 
-        name: "Water Cycle Diagram.pdf", 
-        size: "1.2 MB",
-        content: "# The Water Cycle\n\n## Visual Diagram\n\n```\n        ☀️ SUN HEATS WATER\n            ↓\n    💨 EVAPORATION\n    (liquid → vapor)\n            ↓\n        ☁️ CONDENSATION\n    (vapor → droplets)\n            ↓\n        🌧️ PRECIPITATION\n        (rain, snow)\n            ↓\n    🌊 COLLECTION\n    (rivers, oceans)\n            ↓\n        (cycle repeats)\n```\n\n## The Four Stages:\n\n1. **EVAPORATION** 💨\n   - Sun heats water\n   - Liquid turns to vapor\n   - Rises into atmosphere\n\n2. **CONDENSATION** ☁️\n   - Vapor cools down\n   - Forms tiny droplets\n   - Creates clouds\n\n3. **PRECIPITATION** 🌧️\n   - Droplets combine\n   - Become heavy\n   - Fall as rain/snow\n\n4. **COLLECTION** 🌊\n   - Water gathers\n   - In oceans, lakes, rivers\n   - Cycle starts again!"
-      },
-      { 
-        name: "Study Notes.pdf", 
-        size: "950 KB",
-        content: "# Water Cycle Study Notes\n\n## Key Terms\n\n**Evaporation**: Process where liquid water becomes water vapor (gas)\n- Happens when sun heats water\n- Water molecules gain energy\n- Rise into the air\n\n**Condensation**: Water vapor becomes liquid\n- Vapor cools in atmosphere\n- Forms tiny water droplets\n- These droplets make clouds\n\n**Precipitation**: Water falling from sky\n- Rain, snow, sleet, or hail\n- Happens when clouds get heavy\n- Returns water to Earth\n\n**Collection**: Water gathering on Earth\n- Flows to oceans, rivers, lakes\n- Some soaks into ground\n- Cycle continues from here\n\n## Why It Matters\n- Water is never created or destroyed\n- Same water has been cycling for billions of years\n- Essential for all life on Earth\n- Helps regulate Earth's temperature"
-      },
-      { 
-        name: "Experiment Guide.pdf", 
-        size: "1.5 MB",
-        content: "# Water Cycle Experiments\n\n## Experiment 1: Mini Water Cycle\n\n**Materials:**\n- Clear plastic bowl\n- Plastic wrap\n- Small cup\n- Water\n- Small weight (like a coin)\n\n**Steps:**\n1. Put cup in center of bowl\n2. Pour water around cup (not in it)\n3. Cover bowl with plastic wrap\n4. Put weight on wrap over cup\n5. Place in sunny spot\n6. Wait a few hours\n\n**What Happens:**\n- Water evaporates from bowl\n- Condenses on plastic wrap\n- Drips into cup (precipitation!)\n\n## Experiment 2: Cloud in a Jar\n\n**Materials:**\n- Glass jar\n- Hot water\n- Ice cubes\n- Plate\n\n**Steps:**\n1. Pour hot water in jar (1 inch)\n2. Put plate with ice on top\n3. Watch what happens!\n\n**Result:** You'll see a cloud form inside the jar!"
+        name: "Counting Practice.pdf", 
+        size: "900 KB",
+        content: "# Counting 1-10\n\n## Numbers with Pictures\n\n**1** - One 🌟\n**2** - Two 👟👟\n**3** - Three 🌸🌸🌸\n**4** - Four 🦋🦋🦋🦋\n**5** - Five ✋\n**6** - Six 🎈🎈🎈🎈🎈🎈\n**7** - Seven 🌈 (colors)\n**8** - Eight 🕷️ (spider legs)\n**9** - Nine ⚾⚾⚾⚾⚾⚾⚾⚾⚾\n**10** - Ten 👆 (fingers)\n\n## Counting Activities\n\n1. **Count Your Toys**: Count your favorite toys\n2. **Count Snacks**: Count crackers or fruit pieces\n3. **Jump and Count**: Jump while counting to 10\n4. **Clap and Count**: Clap your hands while counting\n\n## Practice Problems\n\nCount the objects:\n🍎🍎🍎 = ?\n⭐⭐⭐⭐⭐ = ?\n🚗🚗 = ?"
       },
     ],
     sections: [
       {
         type: "intro",
-        title: "Understanding the Water Cycle",
-        content: "The water cycle is Earth's natural recycling system! Water moves continuously between the ocean, atmosphere, and land through four main processes.",
+        title: "Let's Count Together!",
+        content: "Numbers help us count things! We use numbers every day to count toys, snacks, and so much more. Let's learn to count from 1 to 10!",
       },
       {
         type: "text",
-        title: "1. Evaporation",
-        content: "When the sun heats water in rivers, lakes, or oceans, it turns into water vapor (a gas) and rises into the air. This is called evaporation. Think of it like water 'disappearing' into the air!",
+        title: "The Counting Song",
+        content: "Let's count together:\n\n1️⃣ One little, 2️⃣ two little, 3️⃣ three little numbers,\n4️⃣ Four little, 5️⃣ five little, 6️⃣ six little numbers,\n7️⃣ Seven little, 8️⃣ eight little, 9️⃣ nine little numbers,\n🔟 Ten little numbers!\n\nCounting is fun when we sing!",
       },
       {
-        type: "text",
-        title: "2. Condensation",
-        content: "As water vapor rises and cools down, it turns back into tiny water droplets. These droplets come together to form clouds. This process is called condensation - it's why you see water droplets on a cold glass!",
+        type: "example",
+        title: "Counting with Objects",
+        content: "Let's count apples:\n\n🍎 = 1 (one apple)\n🍎🍎 = 2 (two apples)\n🍎🍎🍎 = 3 (three apples)\n\nEach time we add one more, the number gets bigger!",
       },
       {
-        type: "text",
-        title: "3. Precipitation",
-        content: "When clouds get heavy with water droplets, they fall back to Earth as rain, snow, sleet, or hail. This is precipitation - nature's way of returning water to the ground.",
-      },
-      {
-        type: "text",
-        title: "4. Collection",
-        content: "When precipitation reaches the ground, it collects in oceans, rivers, lakes, and underground. From here, the cycle starts all over again with evaporation!",
+        type: "practice",
+        title: "Count These!",
+        content: "How many do you see?\n\n⭐⭐⭐ = ?\n🎈🎈🎈🎈🎈 = ?\n🌸🌸 = ?\n\nPoint and count each one!",
       },
       {
         type: "summary",
-        title: "The Cycle Continues",
-        content: "🌊 Evaporation → ☁️ Condensation → 🌧️ Precipitation → 🏞️ Collection → repeat!\n\nThis cycle has been happening for billions of years and is essential for all life on Earth.",
+        title: "You Can Count!",
+        content: "✓ You learned numbers 1-10\n✓ You counted objects\n✓ You sang the counting song\n✓ Practice counting everything you see!",
       },
     ],
   },
+  
   3: {
-    title: "Creative Writing Basics",
-    subject: "English",
-    duration: "40 min",
-    videoUrl: "", // User will provide later
-    hasQuiz: true,
-    documents: [
-      { 
-        name: "Writing Prompts Collection.pdf", 
-        size: "2.1 MB",
-        content: "# Creative Writing Prompts\n\n## Story Starters\n\n1. **The Mysterious Door**\n   You find a door in your basement you've never seen before...\n\n2. **Time Traveler's Mistake**\n   You accidentally travel 100 years into the future...\n\n3. **The Talking Pet**\n   One morning, your pet starts speaking to you...\n\n4. **Magical Backpack**\n   Your backpack grants one wish per day, but...\n\n5. **Invisible for a Day**\n   You wake up invisible. What do you do?\n\n## Character Ideas\n\n- A shy inventor who builds talking robots\n- A brave girl who can speak to animals\n- A clumsy wizard's apprentice\n- A detective who solves mysteries with her cat\n\n## Setting Ideas\n\n- A floating city in the clouds\n- An underwater kingdom\n- A magical library where books come alive\n- A school on Mars\n\n## Tips for Writing:\n✍️ Start with an interesting character\n✍️ Create a problem they must solve\n✍️ Add unexpected twists\n✍️ Show emotions through actions\n✍️ End with a satisfying conclusion"
-      },
-      { 
-        name: "Grammar Guide.pdf", 
-        size: "1.7 MB",
-        content: "# Grammar Quick Guide\n\n## Parts of Speech\n\n**Nouns**: Person, place, or thing\n- Examples: cat, school, happiness\n\n**Verbs**: Action or state of being\n- Examples: run, jump, is, was\n\n**Adjectives**: Describe nouns\n- Examples: big, blue, happy\n\n**Adverbs**: Describe verbs\n- Examples: quickly, slowly, carefully\n\n## Common Mistakes\n\n❌ Their/There/They're\n✓ Their = possessive (their book)\n✓ There = location (over there)\n✓ They're = they are (they're happy)\n\n❌ Your/You're\n✓ Your = possessive (your pencil)\n✓ You're = you are (you're smart)\n\n❌ Its/It's\n✓ Its = possessive (its tail)\n✓ It's = it is (it's raining)\n\n## Punctuation\n\n**Period (.)** - End of sentence\n**Question Mark (?)** - Asking\n**Exclamation (!)** - Strong feeling\n**Comma (,)** - Pause or list\n**Quotation (\"\")** - Speech"
-      },
-      { 
-        name: "Story Templates.pdf", 
-        size: "1.3 MB",
-        content: "# Story Templates\n\n## The Hero's Journey\n\n1. **Ordinary World**: Introduce your character\n2. **Call to Adventure**: Something happens\n3. **Challenges**: Problems they face\n4. **Climax**: Biggest challenge\n5. **Resolution**: How it ends\n\n## Example:\n\n**Beginning**\nSam was an ordinary student who loved science...\n\n**Middle**\nOne day, Sam discovered a formula that could...\nBut then, a problem occurred...\n\n**End**\nAfter facing many challenges, Sam finally...\n\n## Story Planning Sheet\n\n**Main Character**: _______\n**Setting**: _______\n**Problem**: _______\n**How they solve it**: _______\n**Ending**: _______\n\n## Helpful Words\n\n**Time Words**: first, next, then, finally, meanwhile\n**Feeling Words**: excited, nervous, proud, worried\n**Action Words**: raced, whispered, grabbed, discovered"
-      },
-    ],
-    sections: [
-      {
-        type: "intro",
-        title: "The Art of Storytelling",
-        content: "Every great story has certain elements that make it engaging and memorable. Let's explore the building blocks of creative writing!",
-      },
-      {
-        type: "text",
-        title: "Story Elements",
-        content: "Every story needs:\n\n• Characters - Who is in your story?\n• Setting - Where and when does it take place?\n• Plot - What happens? (Beginning, Middle, End)\n• Conflict - What problem do the characters face?\n• Resolution - How is the problem solved?",
-      },
-      {
-        type: "text",
-        title: "Show, Don't Tell",
-        content: "Instead of: 'She was sad.'\nTry: 'Tears rolled down her cheeks as she stared at the empty chair.'\n\nShowing emotions through actions and descriptions makes your writing come alive!",
-      },
-      {
-        type: "example",
-        title: "Descriptive Writing",
-        content: "Compare these:\n\nTelling: 'The room was messy.'\n\nShowing: 'Clothes spilled from the overflowing hamper, books lay scattered across the floor, and yesterday's dishes created a small mountain on the desk.'",
-      },
-      {
-        type: "practice",
-        title: "Your Turn to Write!",
-        content: "Writing prompt: Write a short paragraph about your favorite place. Use descriptive words that appeal to all five senses (sight, sound, smell, taste, touch).",
-      },
-      {
-        type: "summary",
-        title: "Remember",
-        content: "✍️ Every story needs characters, setting, and plot\n✍️ Show emotions through actions and descriptions\n✍️ Use sensory details to bring your writing to life\n✍️ Practice regularly - every writer started somewhere!",
-      },
-    ],
-  },
-  4: {
-    title: "Ancient Civilizations",
-    subject: "History",
-    duration: "50 min",
-    videoUrl: "", // User will provide later
-    hasQuiz: true,
-    documents: [
-      { 
-        name: "Ancient Civilizations Timeline.pdf", 
-        size: "3.2 MB",
-        content: "# Ancient Civilizations Timeline\n\n## 🏜️ Ancient Egypt (3100 BCE - 30 BCE)\n\n**Key Dates:**\n- 3100 BCE: Egypt unified under first pharaoh\n- 2560 BCE: Great Pyramid of Giza built\n- 1334 BCE: King Tutankhamun rules\n- 30 BCE: Egypt becomes part of Roman Empire\n\n**Achievements:**\n- Built pyramids and sphinx\n- Invented hieroglyphic writing\n- Advanced mathematics and astronomy\n- Mummification techniques\n- Paper from papyrus reeds\n\n## 🏛️ Ancient Greece (800 BCE - 146 BCE)\n\n**Key Dates:**\n- 776 BCE: First Olympic Games\n- 508 BCE: Democracy begins in Athens\n- 432 BCE: Parthenon completed\n- 146 BCE: Rome conquers Greece\n\n**Achievements:**\n- Democracy (government by the people)\n- Philosophy (Socrates, Plato, Aristotle)\n- Olympic Games\n- Theater and drama\n- Advanced mathematics (geometry)\n\n## 🏛️ Ancient Rome (753 BCE - 476 CE)\n\n**Key Dates:**\n- 753 BCE: Rome founded\n- 44 BCE: Julius Caesar assassinated\n- 27 BCE: Roman Empire begins\n- 476 CE: Western Empire falls\n\n**Achievements:**\n- Roads and aqueducts\n- Roman law system\n- Concrete and arches\n- Latin language\n- Military tactics"
-      },
-      { 
-        name: "Map of Ancient World.pdf", 
-        size: "2.8 MB",
-        content: "# Ancient World Geography\n\n## Ancient Egypt\n\n```\n    MEDITERRANEAN SEA\n         |\n    [NILE DELTA]\n         |\n    [LOWER EGYPT]\n         |\n    === NILE RIVER ===\n         |\n    [UPPER EGYPT]\n         |\n    [VALLEY OF KINGS]\n         |\n    [NUBIA]\n```\n\n**Key Locations:**\n- Giza: Pyramids and Sphinx\n- Cairo: Modern capital\n- Luxor: Valley of the Kings\n- Alexandria: Great Library\n\n## Ancient Greece\n\n```\n[MACEDONIA]\n    |\n[ATHENS] --- [SPARTA]\n    |\n[MEDITERRANEAN SEA]\n    |\n[CRETE]\n```\n\n**Key City-States:**\n- Athens: Democracy, philosophy\n- Sparta: Military power\n- Corinth: Trade center\n- Delphi: Oracle temple\n\n## Ancient Rome\n\n```\n     [GAUL]\n        |\n    [ROME] --- [GREECE]\n        |\n   [CARTHAGE]\n        |\n    [EGYPT]\n```\n\n**Empire at Peak:**\n- Stretched from Britain to Egypt\n- Mediterranean = \"Roman Lake\"\n- 50+ million people"
-      },
-      { 
-        name: "Cultural Comparisons.pdf", 
-        size: "1.9 MB",
-        content: "# Comparing Ancient Civilizations\n\n## Government\n\n**Egypt**: Pharaoh (god-king)\n- Absolute power\n- Religious leader\n- Ruled for life\n\n**Greece**: Democracy (Athens)\n- Citizens vote\n- Direct participation\n- Only free men\n\n**Rome**: Republic → Empire\n- Senate and consuls\n- Later: emperors\n- Written laws\n\n## Religion\n\n**Egypt**: Many gods\n- Ra (sun god)\n- Osiris (afterlife)\n- Animal-headed gods\n\n**Greece**: Olympic gods\n- Zeus (king of gods)\n- Athena (wisdom)\n- Human-like gods\n\n**Rome**: Adopted Greek gods\n- Jupiter (Zeus)\n- Mars (war god)\n- Later: Christianity\n\n## Legacy\n\n**Egypt gave us:**\n- Calendar (365 days)\n- Paper (papyrus)\n- Architecture\n\n**Greece gave us:**\n- Democracy\n- Philosophy\n- Olympics\n- Theater\n\n**Rome gave us:**\n- Law systems\n- Engineering\n- Roads\n- Latin language"
-      },
-    ],
-    sections: [
-      {
-        type: "intro",
-        title: "Journey to the Past",
-        content: "Ancient civilizations built incredible societies thousands of years ago. Let's explore three of the greatest: Egypt, Greece, and Rome!",
-      },
-      {
-        type: "text",
-        title: "Ancient Egypt (3100 BCE - 30 BCE)",
-        content: "The Egyptian civilization flourished along the Nile River. They are famous for:\n\n🏛️ Pyramids and Sphinx\n📜 Hieroglyphic writing\n👑 Powerful Pharaohs\n⚰️ Mummification practices\n\nThe Nile River was crucial - its annual floods provided rich soil for farming!",
-      },
-      {
-        type: "text",
-        title: "Ancient Greece (800 BCE - 146 BCE)",
-        content: "Greek civilization gave us:\n\n🏛️ Democracy (rule by the people)\n🎭 Theater and drama\n🏃 Olympic Games\n📚 Philosophy (Socrates, Plato, Aristotle)\n⚡ Mythology (Zeus, Athena, Apollo)\n\nGreek ideas about government and thinking still influence us today!",
-      },
-      {
-        type: "text",
-        title: "Ancient Rome (753 BCE - 476 CE)",
-        content: "The Roman Empire was massive and powerful:\n\n🏛️ Advanced architecture (Colosseum, aqueducts)\n⚔️ Powerful military and conquered lands\n📜 Roman law system\n🛣️ Roads connecting the empire\n🗣️ Latin language (root of many modern languages)\n\nRome's influence on law, language, and government is still felt worldwide!",
-      },
-      {
-        type: "example",
-        title: "Comparing the Three",
-        content: "Egypt: Known for monuments and preservation of the dead\nGreece: Known for ideas, philosophy, and democracy\nRome: Known for engineering, law, and military might\n\nEach civilization contributed unique achievements to human history!",
-      },
-      {
-        type: "summary",
-        title: "Legacy of Ancient Civilizations",
-        content: "🌍 These civilizations shaped our modern world\n📚 Their inventions and ideas still influence us\n🏛️ They built lasting monuments we can still visit\n💡 They solved problems creatively with limited technology",
-      },
-    ],
-  },
-  5: {
-    title: "Python Programming",
-    subject: "Computer Science",
-    duration: "60 min",
-    videoUrl: "", // User will provide later
-    hasQuiz: true,
-    documents: [
-      { 
-        name: "Python Cheat Sheet.pdf", 
-        size: "1.1 MB",
-        content: "# Python Cheat Sheet\n\n## Basic Commands\n\n```python\n# Print output\nprint('Hello, World!')\nprint(42)\nprint('My age is', 13)\n\n# Variables\nname = 'Alex'\nage = 13\nheight = 5.5\n\n# User Input\nname = input('What is your name? ')\nprint('Hello,', name)\n```\n\n## Data Types\n\n```python\n# String (text)\nmessage = 'Hello'\nname = \"Python\"\n\n# Integer (whole numbers)\nage = 13\nscore = 100\n\n# Float (decimals)\nheight = 5.5\nprice = 9.99\n\n# Boolean (True/False)\nis_student = True\nhas_homework = False\n```\n\n## Math Operations\n\n```python\n# Basic Math\nprint(5 + 3)   # 8\nprint(10 - 4)  # 6\nprint(6 * 7)   # 42\nprint(15 / 3)  # 5.0\nprint(10 % 3)  # 1 (remainder)\n\n# Variables\nx = 5\ny = 3\nprint(x + y)   # 8\n```\n\n## Conditionals\n\n```python\nage = 13\nif age >= 13:\n    print('Teenager')\nelif age >= 6:\n    print('Child')\nelse:\n    print('Younger')\n```"
-      },
-      { 
-        name: "Code Examples.pdf", 
-        size: "2.3 MB",
-        content: "# Python Code Examples\n\n## Example 1: Simple Calculator\n\n```python\nnum1 = int(input('First number: '))\nnum2 = int(input('Second number: '))\n\nprint('Sum:', num1 + num2)\nprint('Difference:', num1 - num2)\nprint('Product:', num1 * num2)\nprint('Quotient:', num1 / num2)\n```\n\n## Example 2: Age Checker\n\n```python\nage = int(input('How old are you? '))\n\nif age >= 18:\n    print('You are an adult!')\nelif age >= 13:\n    print('You are a teenager!')\nelse:\n    print('You are a child!')\n```\n\n## Example 3: Counting Loop\n\n```python\n# Count from 1 to 5\nfor i in range(1, 6):\n    print(i)\n\n# Count from 1 to 10 by 2s\nfor i in range(1, 11, 2):\n    print(i)\n```\n\n## Example 4: Greeting Program\n\n```python\nname = input('What is your name? ')\nfavorite_color = input('Favorite color? ')\n\nprint(f'Hello {name}!')\nprint(f'I love {favorite_color} too!')\n```\n\n## Example 5: Simple Game\n\n```python\nimport random\n\nsecret = random.randint(1, 10)\nguess = int(input('Guess (1-10): '))\n\nif guess == secret:\n    print('You won! 🎉')\nelse:\n    print(f'Wrong! It was {secret}')\n```"
-      },
-      { 
-        name: "Projects Guide.pdf", 
-        size: "3.5 MB",
-        content: "# Python Project Ideas\n\n## Beginner Projects\n\n### 1. Mad Libs Game\n```python\nnoun = input('Enter a noun: ')\nverb = input('Enter a verb: ')\nadjective = input('Enter an adjective: ')\n\nstory = f'The {adjective} {noun} {verb} quickly!'\nprint(story)\n```\n\n### 2. Temperature Converter\n```python\ncelsius = float(input('Celsius: '))\nfahrenheit = (celsius * 9/5) + 32\nprint(f'{celsius}°C = {fahrenheit}°F')\n```\n\n### 3. Countdown Timer\n```python\nimport time\n\nfor i in range(10, 0, -1):\n    print(i)\n    time.sleep(1)\nprint('Blast off! 🚀')\n```\n\n## Intermediate Projects\n\n### 4. Simple Quiz\n```python\nscore = 0\n\nprint('Question 1: What is 2+2?')\nif input() == '4':\n    score += 1\n    print('Correct!')\n\nprint('Question 2: Capital of France?')\nif input().lower() == 'paris':\n    score += 1\n    print('Correct!')\n\nprint(f'Score: {score}/2')\n```\n\n### 5. Rock Paper Scissors\n```python\nimport random\n\ncomputer = random.choice(['rock', 'paper', 'scissors'])\nplayer = input('Choose: ').lower()\n\nprint(f'Computer chose: {computer}')\n\nif player == computer:\n    print('Tie!')\nelif (player == 'rock' and computer == 'scissors') or \\\n     (player == 'paper' and computer == 'rock') or \\\n     (player == 'scissors' and computer == 'paper'):\n    print('You win! 🎉')\nelse:\n    print('Computer wins!')\n```"
-      },
-    ],
-    sections: [
-      {
-        type: "intro",
-        title: "Welcome to Python!",
-        content: "Python is one of the most popular programming languages in the world. It's easy to read, powerful, and fun to learn. Let's start coding!",
-      },
-      {
-        type: "text",
-        title: "Your First Python Program",
-        content: "Every programmer starts here:\n\nprint('Hello, World!')\n\nThis simple line tells Python to display text on the screen. Try it yourself!",
-      },
-      {
-        type: "text",
-        title: "Variables: Storing Information",
-        content: "Variables are like labeled boxes that hold information:\n\nname = 'Alex'\nage = 14\nheight = 5.5\n\nNow Python remembers these values and you can use them anytime!",
-      },
-      {
-        type: "example",
-        title: "Using Variables",
-        content: "name = 'Sam'\nage = 13\n\nprint('Hello, my name is ' + name)\nprint('I am ' + str(age) + ' years old')\n\nOutput:\nHello, my name is Sam\nI am 13 years old",
-      },
-      {
-        type: "text",
-        title: "Data Types",
-        content: "Python has different types of data:\n\n• String: text ('hello', 'Python')\n• Integer: whole numbers (1, 42, 100)\n• Float: decimal numbers (3.14, 5.5)\n• Boolean: True or False\n\nPython automatically figures out which type you're using!",
-      },
-      {
-        type: "practice",
-        title: "Try These Exercises",
-        content: "1. Create a variable with your favorite color\n2. Create a variable with your age\n3. Print both variables\n4. Create a variable that adds two numbers together",
-      },
-      {
-        type: "summary",
-        title: "What You Learned",
-        content: "💻 How to print output with print()\n📦 How to store data in variables\n🔤 Different data types (strings, numbers, booleans)\n✨ Python is easy to read and write\n\nKeep practicing - coding gets easier with time!",
-      },
-    ],
-  },
-  6: {
-    title: "Variables and Constants",
-    subject: "Mathematics",
-    duration: "40 min",
-    videoUrl: "/video lessons/Variables and Constents.mp4",
-    hasQuiz: true,
-    documents: [
-      { 
-        name: "Variables Guide.pdf", 
-        size: "1.5 MB",
-        content: "# Variables and Constants Guide\n\n## What are Variables?\n\nVariables are symbols (usually letters) that represent unknown or changing values in mathematics.\n\n### Common Variables:\n- x, y, z (most common in algebra)\n- a, b, c (often used for constants or coefficients)\n- n, m (frequently used for counting)\n\n### Examples of Variables:\n- If x = 5, then 2x = 10\n- In y + 3 = 7, the variable y = 4\n- Temperature can be represented as T\n\n## What are Constants?\n\nConstants are fixed values that never change.\n\n### Examples of Constants:\n- Numbers: 1, 2, 3, 100, -5, 3.14\n- π (pi) ≈ 3.14159...\n- e (Euler's number) ≈ 2.71828...\n\n## Variables vs Constants\n\n| Variables | Constants |\n|-----------|----------|\n| Can change | Fixed value |\n| Represented by letters | Usually numbers |\n| Unknown values | Known values |\n| x, y, z | 1, 2, 3, π |\n\n## Practice Problems:\n\n1. In 3x + 7 = 19, identify the variable and constants\n   - Variable: x\n   - Constants: 3, 7, 19\n\n2. If y = 4, find 5y + 2\n   - Answer: 5(4) + 2 = 20 + 2 = 22\n\n3. Solve for x: x - 8 = 15\n   - Answer: x = 23"
-      },
-    ],
-    sections: [
-      {
-        type: "intro",
-        title: "Understanding Variables and Constants",
-        content: "Variables and constants are the building blocks of algebra. Understanding the difference between them is crucial for solving equations!",
-      },
-      {
-        type: "text",
-        title: "What is a Variable?",
-        content: "A variable is a symbol (usually a letter like x, y, or z) that represents a value that can change or is unknown. Think of it as a container that can hold different numbers!",
-      },
-      {
-        type: "text",
-        title: "What is a Constant?",
-        content: "A constant is a fixed number that doesn't change. In the expression 3x + 5, the number 5 is a constant because it always stays the same, while x is a variable that can be different values.",
-      },
-      {
-        type: "example",
-        title: "Example: Identifying Variables and Constants",
-        content: "In the equation 2x + 7 = 15:\n\n• Variable: x (the unknown we're solving for)\n• Constants: 2, 7, and 15 (fixed numbers)\n\nTo solve:\n2x + 7 = 15\n2x = 15 - 7\n2x = 8\nx = 4",
-      },
-      {
-        type: "practice",
-        title: "Practice Time!",
-        content: "Try these:\n1. In 4y + 3 = 19, what is the variable? (Answer: y)\n2. What are the constants in 5x - 2 = 13? (Answer: 5, 2, 13)\n3. If a = 6, what is 3a + 4? (Answer: 22)",
-      },
-      {
-        type: "summary",
-        title: "Key Points",
-        content: "✓ Variables = letters that represent unknown values\n✓ Constants = fixed numbers that don't change\n✓ Variables can take on different values\n✓ Understanding both helps you solve equations!",
-      },
-    ],
-  },
-  7: {
-    title: "Advanced Calculus",
-    subject: "Mathematics",
-    duration: "55 min",
+    title: "Pouring Activities",
+    subject: "Practical Life",
+    duration: "25 min",
     videoUrl: "",
     hasQuiz: false,
-    documents: [],
+    documents: [
+      { 
+        name: "Practical Life Guide.pdf", 
+        size: "1.1 MB",
+        content: "# Pouring Activities\n\n## Why Pouring is Important\n\nPouring helps develop:\n• Fine motor skills\n• Hand-eye coordination\n• Concentration\n• Independence\n• Confidence\n\n## Pouring Exercises\n\n### Level 1: Dry Pouring\nStart with easy materials:\n• Rice\n• Beans\n• Small pasta\n• Sand\n\n### Level 2: Water Pouring\nProgress to liquids:\n• Water between two cups\n• Water from pitcher to glass\n• Filling containers\n\n## Step-by-Step Guide\n\n1. Choose your materials\n2. Set up on a tray\n3. Pour slowly and carefully\n4. Watch the material move\n5. Stop when full\n6. Clean up any spills\n\n## Tips for Success\n✓ Start with larger containers\n✓ Use a sponge for spills\n✓ Practice makes perfect\n✓ Go slowly and focus"
+      },
+    ],
     sections: [
       {
         type: "intro",
-        title: "🔒 Locked Content",
-        content: "This lesson requires you to complete previous mathematics lessons first. Keep learning to unlock advanced content!",
+        title: "Learning to Pour",
+        content: "Pouring is an important skill! When we pour carefully, we practice using our hands with control and concentration. Let's learn how to pour like a pro!",
       },
       {
         type: "text",
-        title: "Coming Soon",
-        content: "Advanced Calculus covers:\n\n• Integration techniques\n• Differentiation rules\n• Limits and continuity\n• Applications in real-world problems\n\nComplete 'Introduction to Algebra' and other basic math lessons to access this content.",
+        title: "Getting Ready",
+        content: "Before we start pouring:\n\n1. 🎯 Choose your materials (rice, water, or beans)\n2. 📦 Get two containers (cups, bowls, or pitchers)\n3. 🧽 Have a sponge or towel nearby for spills\n4. 🪑 Sit comfortably at a table\n\nRemember: It's okay if you spill! That's how we learn.",
+      },
+      {
+        type: "example",
+        title: "How to Pour",
+        content: "Follow these steps:\n\n1. Hold the container with both hands\n2. Lift it slowly and steadily\n3. Tip it gently over the other container\n4. Watch the material pour\n5. Stop when the container is full\n6. Set it down carefully\n\nGo slow and focus on what you're doing!",
+      },
+      {
+        type: "practice",
+        title: "Your Turn to Practice!",
+        content: "Now it's your turn!\n\nTry pouring:\n• Rice from one cup to another\n• Water from a small pitcher to a glass\n• Beans from a bowl to a container\n\nRemember to go slowly and concentrate. If you spill, just clean it up and try again!",
+      },
+      {
+        type: "summary",
+        title: "You're Learning!",
+        content: "✓ You learned how to pour carefully\n✓ You practiced concentration\n✓ You developed hand control\n✓ Keep practicing every day!",
       },
     ],
   },
   
-  // Montessori Lessons (1-4 already exist above)
+  4: {
+    title: "Color Matching",
+    subject: "Sensorial",
+    duration: "20 min",
+    videoUrl: "",
+    hasQuiz: true,
+    documents: [
+      { 
+        name: "Color Activities.pdf", 
+        size: "1.3 MB",
+        content: "# Color Matching Activities\n\n## Primary Colors\n\n🔴 **Red** - Like an apple or fire truck\n🔵 **Blue** - Like the sky or ocean\n🟡 **Yellow** - Like the sun or banana\n\n## Secondary Colors\n\n🟠 **Orange** - Red + Yellow\n🟢 **Green** - Blue + Yellow\n🟣 **Purple** - Red + Blue\n\n## Color Activities\n\n### Activity 1: Color Hunt\nFind objects of each color in your home:\n• 3 red things\n• 3 blue things\n• 3 yellow things\n\n### Activity 2: Color Sorting\nSort objects by color:\n• Put all red toys together\n• Put all blue toys together\n• Put all yellow toys together\n\n### Activity 3: Color Mixing\nMix colors with paint or playdough:\n• Red + Yellow = Orange\n• Blue + Yellow = Green\n• Red + Blue = Purple\n\n## Color Words\nPractice saying:\n• \"This is red\"\n• \"I found something blue\"\n• \"That's yellow like the sun\""
+      },
+    ],
+    sections: [
+      {
+        type: "intro",
+        title: "Welcome to Colors!",
+        content: "Colors are all around us! They make our world beautiful and help us describe things. Let's explore different colors and learn to match them together!",
+      },
+      {
+        type: "text",
+        title: "Primary Colors",
+        content: "The three most important colors are called primary colors:\n\n🔴 Red - Like a fire truck or strawberry\n🔵 Blue - Like the ocean or sky\n🟡 Yellow - Like the sun or a banana\n\nAll other colors are made by mixing these three colors!",
+      },
+      {
+        type: "example",
+        title: "Finding Colors",
+        content: "Let's practice finding colors:\n\n👀 Look around you right now.\n\nCan you find:\n• Something RED? (Maybe a toy or clothing)\n• Something BLUE? (Maybe a book or cup)\n• Something YELLOW? (Maybe a pencil or ball)\n\nPoint to each color and say its name!",
+      },
+      {
+        type: "practice",
+        title: "Color Matching Game",
+        content: "Let's play a matching game!\n\nMatch these colors:\n\n1. Find something RED in your room\n2. Find something BLUE in your room\n3. Find something YELLOW in your room\n4. Find something GREEN in your room\n\nCan you group things by their color?",
+        hasWhiteboard: true,
+      },
+      {
+        type: "summary",
+        title: "Color Champion!",
+        content: "✓ You learned the primary colors\n✓ You found colors around you\n✓ You practiced matching colors\n✓ Keep looking for colors everywhere!",
+      },
+    ],
+  },
   
   // 1st Grade Lessons
-  11: createDefaultLesson(11, "Phonics Basics", "Reading", "30 min", "Master consonants and vowel sounds"),
+  11: {
+    title: "Phonics Basics",
+    subject: "Reading",
+    duration: "30 min",
+    videoUrl: "",
+    hasQuiz: true,
+    documents: [
+      { 
+        name: "Phonics Workbook.pdf", 
+        size: "1.8 MB",
+        content: "# Phonics Basics\n\n## Consonant Sounds\n\n**B** - /b/ as in Ball, Bat, Book\n**C** - /k/ as in Cat, Cup, Car\n**D** - /d/ as in Dog, Door, Duck\n**F** - /f/ as in Fish, Fun, Fox\n**G** - /g/ as in Goat, Game, Girl\n**H** - /h/ as in Hat, House, Hand\n**J** - /j/ as in Jump, Jam, Jet\n**K** - /k/ as in Kite, Key, King\n**L** - /l/ as in Lion, Leaf, Lamp\n**M** - /m/ as in Moon, Mouse, Man\n\n## Vowel Sounds\n\n**A** - /a/ as in Apple, Ant\n**E** - /e/ as in Egg, Elephant\n**I** - /i/ as in Igloo, Itch\n**O** - /o/ as in Octopus, Ox\n**U** - /u/ as in Umbrella, Up\n\n## Blending Sounds\n\nPractice blending letters to make words:\n• C + A + T = CAT\n• D + O + G = DOG\n• S + U + N = SUN\n• P + I + G = PIG\n\n## Practice Words\n\nRead these simple words:\n1. bat\n2. cat\n3. rat\n4. mat\n5. hat\n6. dog\n7. log\n8. fog\n9. sun\n10. run"
+      },
+    ],
+    sections: [
+      {
+        type: "intro",
+        title: "Welcome to Phonics!",
+        content: "Phonics helps us read! When we know the sounds that letters make, we can blend them together to read words. Let's learn letter sounds together!",
+      },
+      {
+        type: "text",
+        title: "Consonant Sounds",
+        content: "Consonants are letters that are not vowels. Each consonant makes a special sound:\n\n• B says /b/ like in 'ball'\n• C says /k/ like in 'cat'\n• D says /d/ like in 'dog'\n• F says /f/ like in 'fish'\n• M says /m/ like in 'mom'\n\nLet's practice each sound!",
+      },
+      {
+        type: "text",
+        title: "Vowel Sounds",
+        content: "Vowels are special letters: A, E, I, O, U\n\n• A says /a/ like in 'apple'\n• E says /e/ like in 'egg'\n• I says /i/ like in 'igloo'\n• O says /o/ like in 'octopus'\n• U says /u/ like in 'umbrella'\n\nEvery word needs at least one vowel!",
+      },
+      {
+        type: "example",
+        title: "Blending Sounds",
+        content: "Let's blend sounds to make words!\n\nThe word CAT:\n• C says /k/\n• A says /a/\n• T says /t/\n• Blend: /k/ + /a/ + /t/ = CAT!\n\nNow you try with DOG:\n• D says /d/\n• O says /o/\n• G says /g/\n• Blend them together!",
+      },
+      {
+        type: "practice",
+        title: "Read These Words",
+        content: "Practice reading these words by sounding them out:\n\n1. bat\n2. cat\n3. sun\n4. pig\n5. dog\n6. red\n7. big\n8. run\n\nSound out each letter, then blend them together!",
+      },
+      {
+        type: "summary",
+        title: "You're Reading!",
+        content: "✓ You learned consonant sounds\n✓ You learned vowel sounds\n✓ You practiced blending\n✓ You read real words!\n\nKeep practicing every day!",
+      },
+    ],
+  },
+  
   12: createDefaultLesson(12, "Addition & Subtraction", "Mathematics", "35 min", "Learn basic arithmetic operations"),
   13: createDefaultLesson(13, "My Family & Community", "Social Studies", "25 min", "Understanding families and communities"),
   14: createDefaultLesson(14, "Plants & Animals", "Science", "30 min", "Explore living things"),
