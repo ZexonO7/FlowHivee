@@ -12,9 +12,132 @@ import { saveQuizResult } from "@/lib/progress-storage";
 
 // Lesson quizzes with diagrams
 const lessonQuizzes: Record<number, any> = {
+  // Montessori Lessons
   1: {
-    title: "Algebra Basics Quiz",
+    title: "Letter Recognition Quiz",
+    subject: "Language Arts",
+    questions: [
+      {
+        id: 1,
+        question: "What sound does the letter A make?",
+        diagram: "🅰️ Letter A\n\nListen: /aaa/\nlike in Apple 🍎",
+        options: ["/bee/", "/aaa/", "/see/", "/dee/"],
+        correctAnswer: 1,
+        explanation: "The letter A makes the /aaa/ sound like you hear at the beginning of 'apple'!",
+      },
+      {
+        id: 2,
+        question: "Which word starts with the letter B?",
+        diagram: "🐻 Bear   🎈 Balloon\n🏀 Ball    📝 Book\n\nAll start with B!",
+        options: ["Cat", "Ball", "Dog", "Sun"],
+        correctAnswer: 1,
+        explanation: "Ball starts with the letter B! B makes the /buh/ sound.",
+      },
+      {
+        id: 3,
+        question: "How many letters are in the alphabet?",
+        diagram: "🔤 A-B-C-D-E...\n...X-Y-Z\n\nCount them all!",
+        options: ["20", "26", "30", "25"],
+        correctAnswer: 1,
+        explanation: "There are 26 letters in the English alphabet, from A to Z!",
+      },
+    ],
+  },
+  2: {
+    title: "Counting 1-10 Quiz",
     subject: "Mathematics",
+    questions: [
+      {
+        id: 1,
+        question: "How many apples? 🍎🍎🍎",
+        diagram: "🍎 🍎 🍎\n\nCount them!",
+        options: ["2", "3", "4", "5"],
+        correctAnswer: 1,
+        explanation: "There are 3 apples! Count: 1, 2, 3!",
+      },
+      {
+        id: 2,
+        question: "What number comes after 5?",
+        diagram: "1, 2, 3, 4, 5, ?\n\nWhat's next?",
+        options: ["4", "6", "7", "8"],
+        correctAnswer: 1,
+        explanation: "6 comes after 5! The pattern is 1, 2, 3, 4, 5, 6!",
+      },
+      {
+        id: 3,
+        question: "How many stars? ⭐⭐⭐⭐⭐⭐⭐",
+        diagram: "⭐⭐⭐⭐⭐⭐⭐\n\nCount carefully!",
+        options: ["6", "7", "8", "9"],
+        correctAnswer: 1,
+        explanation: "There are 7 stars! Great counting!",
+      },
+    ],
+  },
+  4: {
+    title: "Color Matching Quiz",
+    subject: "Sensorial",
+    questions: [
+      {
+        id: 1,
+        question: "What are the three primary colors?",
+        diagram: "🔴 Red\n🔵 Blue\n🟡 Yellow\n\nThese are PRIMARY!",
+        options: ["Red, Blue, Yellow", "Red, Green, Yellow", "Blue, Green, Orange", "Red, Purple, Blue"],
+        correctAnswer: 0,
+        explanation: "Red, Blue, and Yellow are the three primary colors! All other colors are made by mixing these!",
+      },
+      {
+        id: 2,
+        question: "What color do you get when you mix Red + Yellow?",
+        diagram: "🔴 Red + 🟡 Yellow\n     ↓\n     ?",
+        options: ["Purple", "Orange", "Green", "Brown"],
+        correctAnswer: 1,
+        explanation: "Red + Yellow = Orange! 🟠 Try mixing paint or playdough to see!",
+      },
+      {
+        id: 3,
+        question: "Which color is the sky on a sunny day?",
+        diagram: "☀️ Sunny Day\n\nLook up!",
+        options: ["Green", "Blue", "Yellow", "Red"],
+        correctAnswer: 1,
+        explanation: "The sky is blue on a sunny day! ☀️🔵",
+      },
+    ],
+  },
+  // 1st Grade Lessons
+  11: {
+    title: "Phonics Basics Quiz",
+    subject: "Reading",
+    questions: [
+      {
+        id: 1,
+        question: "Which letter makes the /mmm/ sound?",
+        diagram: "/mmm/ sound\n\nLike in 'Mom' 👩",
+        options: ["B", "M", "N", "D"],
+        correctAnswer: 1,
+        explanation: "The letter M makes the /mmm/ sound, like at the beginning of 'mom' and 'moon'!",
+      },
+      {
+        id: 2,
+        question: "What word do these sounds make: C-A-T?",
+        diagram: "/k/ + /a/ + /t/\n\nBlend them together!",
+        options: ["Dog", "Cat", "Bat", "Hat"],
+        correctAnswer: 1,
+        explanation: "C-A-T makes 'cat'! You blended the sounds together perfectly!",
+      },
+      {
+        id: 3,
+        question: "Which are the vowel letters?",
+        diagram: "Special Letters:\nA E I O U\n\nEvery word needs one!",
+        options: ["A, E, I, O, U", "B, C, D, F, G", "X, Y, Z", "L, M, N"],
+        correctAnswer: 0,
+        explanation: "A, E, I, O, U are the vowels! Every word needs at least one vowel.",
+      },
+    ],
+  },
+  // 7th Grade Lessons  
+  71: {
+    title: "Algebra Basics Quiz",
+    subject: "Pre-Algebra",
     questions: [
       {
         id: 1,
@@ -42,172 +165,8 @@ const lessonQuizzes: Record<number, any> = {
       },
     ],
   },
-  2: {
-    title: "Water Cycle Quiz",
-    subject: "Science",
-    questions: [
-      {
-        id: 1,
-        question: "What happens during evaporation?",
-        diagram: "☀️ Sun heats water\n🌊 Liquid Water → 💨 Water Vapor",
-        options: [
-          "Water falls from clouds",
-          "Water turns into vapor",
-          "Clouds form",
-          "Water freezes",
-        ],
-        correctAnswer: 1,
-        explanation: "Evaporation is when liquid water turns into water vapor (gas) due to heat from the sun.",
-      },
-      {
-        id: 2,
-        question: "What is condensation?",
-        diagram: "💨 Water Vapor (gas)\n     ↓ (cools down)\n💧 Water Droplets → ☁️ Clouds",
-        options: [
-          "Water evaporating",
-          "Water vapor turning to liquid",
-          "Rain falling",
-          "Ice melting",
-        ],
-        correctAnswer: 1,
-        explanation: "Condensation occurs when water vapor cools and turns back into liquid droplets, forming clouds.",
-      },
-      {
-        id: 3,
-        question: "Put the water cycle steps in order:",
-        diagram: "🔄 The Water Cycle:\n1️⃣ → 2️⃣ → 3️⃣ → 4️⃣",
-        options: [
-          "Evaporation → Condensation → Precipitation → Collection",
-          "Collection → Precipitation → Evaporation → Condensation",
-          "Condensation → Evaporation → Collection → Precipitation",
-          "Precipitation → Collection → Condensation → Evaporation",
-        ],
-        correctAnswer: 0,
-        explanation: "The water cycle: Water evaporates → vapor condenses into clouds → precipitation falls → water collects → cycle repeats!",
-      },
-    ],
-  },
-  3: {
-    title: "Creative Writing Quiz",
-    subject: "English",
-    questions: [
-      {
-        id: 1,
-        question: "Which is an example of 'showing' instead of 'telling'?",
-        diagram: "✗ TELLING: She was sad\n✓ SHOWING: Tears rolled down her face",
-        options: [
-          "He was angry",
-          "His fists clenched and his face turned red",
-          "She felt happy",
-          "The day was boring",
-        ],
-        correctAnswer: 1,
-        explanation: "'His fists clenched and his face turned red' shows anger through actions, not just stating it.",
-      },
-      {
-        id: 2,
-        question: "What are the main elements of a story?",
-        diagram: "📚 Story Elements:\n👥 Characters\n📍 Setting\n📖 Plot\n⚡ Conflict\n✅ Resolution",
-        options: [
-          "Words, sentences, paragraphs",
-          "Characters, setting, plot, conflict, resolution",
-          "Beginning, middle, end",
-          "Title, author, pages",
-        ],
-        correctAnswer: 1,
-        explanation: "A complete story needs characters, setting, plot, conflict, and resolution.",
-      },
-      {
-        id: 3,
-        question: "Which sentence uses sensory details best?",
-        diagram: "👁️ Sight  👂 Sound  👃 Smell\n👅 Taste  ✋ Touch",
-        options: [
-          "The food was good",
-          "The warm, buttery bread smelled like fresh-baked heaven",
-          "I ate dinner",
-          "The meal was nice",
-        ],
-        correctAnswer: 1,
-        explanation: "This sentence appeals to touch (warm), taste (buttery), and smell (fresh-baked heaven).",
-      },
-    ],
-  },
-  4: {
-    title: "Ancient Civilizations Quiz",
-    subject: "History",
-    questions: [
-      {
-        id: 1,
-        question: "Which ancient civilization built the pyramids?",
-        diagram: "🏜️ Ancient Egypt\n🔺 Pyramids of Giza\n👑 Pharaohs ruled",
-        options: ["Ancient Greece", "Ancient Rome", "Ancient Egypt", "Ancient China"],
-        correctAnswer: 2,
-        explanation: "Ancient Egyptians built the pyramids as tombs for their pharaohs along the Nile River.",
-      },
-      {
-        id: 2,
-        question: "What did Ancient Greece give us?",
-        diagram: "🏛️ Ancient Greece\n⚖️ Democracy\n🏃 Olympics\n📚 Philosophy",
-        options: [
-          "The Great Wall",
-          "Democracy and Olympics",
-          "Pyramids",
-          "Gladiator fights",
-        ],
-        correctAnswer: 1,
-        explanation: "Ancient Greece created democracy (government by the people) and started the Olympic Games.",
-      },
-      {
-        id: 3,
-        question: "What was Ancient Rome famous for?",
-        diagram: "🏛️ Ancient Rome\n🛣️ Roads & Aqueducts\n⚔️ Strong Military\n⚖️ Roman Law",
-        options: [
-          "Building pyramids",
-          "Inventing writing",
-          "Engineering and law",
-          "Discovering America",
-        ],
-        correctAnswer: 2,
-        explanation: "Rome was famous for advanced engineering (roads, aqueducts) and their system of laws.",
-      },
-    ],
-  },
-  5: {
-    title: "Python Basics Quiz",
-    subject: "Computer Science",
-    questions: [
-      {
-        id: 1,
-        question: "What does this code print? print('Hello')",
-        diagram: "print('Hello')\n\nHint: print() shows text\nwithout the quotes",
-        options: ["'Hello'", "Hello", "print", "Error"],
-        correctAnswer: 1,
-        explanation: "The print() function displays text without the quotes, so it outputs: Hello",
-      },
-      {
-        id: 2,
-        question: "What is a variable in Python?",
-        diagram: "name = 'Alex'\n\n📦 A box that can\nhold information",
-        options: [
-          "A number",
-          "A container that stores data",
-          "A function",
-          "An error",
-        ],
-        correctAnswer: 1,
-        explanation: "A variable is like a labeled box that stores data (numbers, text, etc.) you can use later.",
-      },
-      {
-        id: 3,
-        question: "What is the output? age = 10; print(age + 5)",
-        diagram: "age = 10\nprint(age + 5)\n\nHint: Python will do\nthe math for you",
-        options: ["10", "5", "15", "105"],
-        correctAnswer: 2,
-        explanation: "Python adds the numbers: 10 + 5 = 15",
-      },
-    ],
-  },
 };
+
 
 export default function LessonQuiz() {
   const navigate = useNavigate();
