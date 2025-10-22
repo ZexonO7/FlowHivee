@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -7,6 +7,7 @@ import { useToast } from '@/hooks/use-toast';
 
 interface VideoTranscriptProps {
   videoUrl: string;
+  videoElement?: HTMLVideoElement | null;
 }
 
 // Map video URLs to transcript files
@@ -19,20 +20,98 @@ const getTranscriptPath = (videoUrl: string): string | null => {
   return null;
 };
 
-export const VideoTranscript = ({ videoUrl }: VideoTranscriptProps) => {
+// Parse transcript into segments with timestamps
+interface TranscriptSegment {
+  timestamp: number;
+  text: string;
+}
+
+const parseTranscript = (text: string): TranscriptSegment[] => {
+  const segments: TranscriptSegment[] = [];
+  const lines = text.split('\n');
+  
+  let currentSegment: TranscriptSegment | null = null;
+  
+  for (const line of lines) {
+    const timestampMatch = line.match(/^\[(\d+):(\d+)\]/);
+    
+    if (timestampMatch) {
+      if (currentSegment) {
+        segments.push(currentSegment);
+      }
+      const minutes = parseInt(timestampMatch[1]);
+      const seconds = parseInt(timestampMatch[2]);
+      const timestamp = minutes * 60 + seconds;
+      
+      const text = line.replace(/^\[\d+:\d+\]\s*/, '');
+      currentSegment = { timestamp, text };
+    } else if (currentSegment && line.trim()) {
+      currentSegment.text += ' ' + line.trim();
+    }
+  }
+  
+  if (currentSegment) {
+    segments.push(currentSegment);
+  }
+  
+  return segments;
+};
+
+export const VideoTranscript = ({ videoUrl, videoElement }: VideoTranscriptProps) => {
   const [transcript, setTranscript] = useState<string>('');
+  const [segments, setSegments] = useState<TranscriptSegment[]>([]);
+  const [currentSegmentIndex, setCurrentSegmentIndex] = useState<number>(-1);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>('');
   const { toast } = useToast();
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const activeSegmentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Reset and auto-load transcript when video URL changes
     setTranscript('');
+    setSegments([]);
+    setCurrentSegmentIndex(-1);
     setError('');
     if (videoUrl) {
       loadTranscript();
     }
   }, [videoUrl]);
+
+  // Track video time and update highlighted segment
+  useEffect(() => {
+    if (!videoElement || segments.length === 0) return;
+
+    const handleTimeUpdate = () => {
+      const currentTime = videoElement.currentTime;
+      
+      // Find the current segment based on video time
+      let newIndex = -1;
+      for (let i = segments.length - 1; i >= 0; i--) {
+        if (currentTime >= segments[i].timestamp) {
+          newIndex = i;
+          break;
+        }
+      }
+      
+      if (newIndex !== currentSegmentIndex) {
+        setCurrentSegmentIndex(newIndex);
+      }
+    };
+
+    videoElement.addEventListener('timeupdate', handleTimeUpdate);
+    return () => videoElement.removeEventListener('timeupdate', handleTimeUpdate);
+  }, [videoElement, segments, currentSegmentIndex]);
+
+  // Auto-scroll to active segment
+  useEffect(() => {
+    if (activeSegmentRef.current && scrollAreaRef.current) {
+      activeSegmentRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      });
+    }
+  }, [currentSegmentIndex]);
 
   const loadTranscript = async () => {
     if (!videoUrl) return;
@@ -57,9 +136,13 @@ export const VideoTranscript = ({ videoUrl }: VideoTranscriptProps) => {
       const text = await response.text();
       setTranscript(text);
       
+      // Parse transcript into segments
+      const parsedSegments = parseTranscript(text);
+      setSegments(parsedSegments);
+      
       toast({
         title: 'Transcript Loaded! ✓',
-        description: 'Video transcript is ready',
+        description: 'Follow along as the video plays',
       });
     } catch (err) {
       console.error('Error loading transcript:', err);
@@ -136,8 +219,39 @@ export const VideoTranscript = ({ videoUrl }: VideoTranscriptProps) => {
         )}
 
         {transcript && !isLoading && (
-          <ScrollArea className="h-[400px] w-full rounded-lg border bg-muted/30 p-4">
-            <p className="text-sm leading-relaxed whitespace-pre-wrap">{transcript}</p>
+          <ScrollArea className="h-[400px] w-full rounded-lg border bg-muted/30 p-4" ref={scrollAreaRef}>
+            <div className="space-y-3">
+              {segments.map((segment, index) => {
+                const minutes = Math.floor(segment.timestamp / 60);
+                const seconds = segment.timestamp % 60;
+                const isActive = index === currentSegmentIndex;
+                
+                return (
+                  <div
+                    key={index}
+                    ref={isActive ? activeSegmentRef : null}
+                    className={`p-3 rounded-lg transition-all duration-300 ${
+                      isActive 
+                        ? 'bg-primary/20 border-l-4 border-primary shadow-sm scale-[1.02]' 
+                        : 'bg-transparent hover:bg-muted/50'
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      <span className={`text-xs font-mono flex-shrink-0 mt-0.5 ${
+                        isActive ? 'text-primary font-semibold' : 'text-muted-foreground'
+                      }`}>
+                        {minutes}:{seconds.toString().padStart(2, '0')}
+                      </span>
+                      <p className={`text-sm leading-relaxed ${
+                        isActive ? 'font-medium' : ''
+                      }`}>
+                        {segment.text}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </ScrollArea>
         )}
       </CardContent>

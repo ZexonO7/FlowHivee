@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -471,6 +471,7 @@ export default function LessonContent() {
   const finalLesson = lesson || lessonContent[1];
   const [currentSection, setCurrentSection] = useState(0);
   const [viewingDocument, setViewingDocument] = useState<any>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const totalSections = finalLesson.sections.length;
   const progress = ((currentSection + 1) / totalSections) * 100;
 
@@ -681,7 +682,12 @@ export default function LessonContent() {
           </CardHeader>
           <CardContent>
             <div className="aspect-video bg-black rounded-lg overflow-hidden">
-              <video key={`${lessonId}-${currentSection}`} controls className="w-full h-full">
+              <video 
+                ref={videoRef}
+                key={`${lessonId}-${currentSection}`} 
+                controls 
+                className="w-full h-full"
+              >
                 <source src={(section as any).videoUrl || finalLesson.videoUrl} type="video/mp4" />
               </video>
             </div>
@@ -691,7 +697,10 @@ export default function LessonContent() {
 
       {/* Video Transcript */}
       {((section as any).videoUrl || (currentSection === 0 && finalLesson.videoUrl)) && (
-        <VideoTranscript videoUrl={(section as any).videoUrl || finalLesson.videoUrl} />
+        <VideoTranscript 
+          videoUrl={(section as any).videoUrl || finalLesson.videoUrl} 
+          videoElement={videoRef.current}
+        />
       )}
 
       {/* Downloadable Documents */}
