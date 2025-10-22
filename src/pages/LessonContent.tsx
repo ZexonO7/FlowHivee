@@ -8,6 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { BookOpen, ArrowLeft, ArrowRight, CheckCircle, Video, FileText, Headphones, Download, Play, Brain, Eye } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Whiteboard } from "@/components/Whiteboard";
+import { VideoTranscript } from "@/components/VideoTranscript";
 import { saveLessonProgress, markLessonComplete, getLessonProgress } from "@/lib/progress-storage";
 
 // Lesson content database
@@ -604,6 +605,11 @@ export default function LessonContent() {
             </div>
           </CardContent>
         </Card>
+      )}
+
+      {/* Video Transcript */}
+      {((section as any).videoUrl || (currentSection === 0 && lesson.videoUrl)) && (
+        <VideoTranscript videoUrl={(section as any).videoUrl || lesson.videoUrl} />
       )}
 
       {/* Downloadable Documents */}
