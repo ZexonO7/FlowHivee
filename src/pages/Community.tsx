@@ -69,8 +69,20 @@ export default function Community() {
     try {
       let message;
       if (remoteEnabled) {
-        message = await postRemoteMessage(newMessage.trim(), currentUser);
-        setMessages(prev => [message, ...prev]);
+        try {
+          message = await postRemoteMessage(newMessage.trim(), currentUser);
+          setMessages(prev => [message, ...prev]);
+        } catch {
+          // Fall back to local storage if remote fails
+          message = postMessage(newMessage.trim());
+          setMessages(prev => [message, ...prev]);
+          toast({
+            title: "Message posted locally! 📢",
+            description: "Backend unavailable - message saved on your device",
+          });
+          setNewMessage("");
+          return;
+        }
       } else {
         message = postMessage(newMessage.trim());
         setMessages(prev => [message, ...prev]);
@@ -88,8 +100,16 @@ export default function Community() {
   const handleLike = async (messageId: string) => {
     try {
       if (remoteEnabled) {
-        const updatedMessage = await toggleRemoteLike(messageId, currentUser.name);
-        setMessages(prev => prev.map(m => m.id === messageId ? updatedMessage : m));
+        try {
+          const updatedMessage = await toggleRemoteLike(messageId, currentUser.name);
+          setMessages(prev => prev.map(m => m.id === messageId ? updatedMessage : m));
+        } catch {
+          // Fall back to local storage if remote fails
+          const updatedMessage = toggleLike(messageId);
+          if (updatedMessage) {
+            setMessages(prev => prev.map(m => m.id === messageId ? updatedMessage : m));
+          }
+        }
       } else {
         const updatedMessage = toggleLike(messageId);
         if (updatedMessage) {
