@@ -139,21 +139,20 @@ export default function Settings() {
           </CardTitle>
           <CardDescription>{t('settings.languageDesc')}</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
+            <div className="flex items-center gap-4">
               <p className="font-medium">{t('settings.english')}</p>
-            </div>
-            <Switch 
-              checked={language === 'hi'}
-              onCheckedChange={(checked) => setLanguage(checked ? 'hi' : 'en')}
-            />
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
+              <Switch 
+                checked={language === 'hi'}
+                onCheckedChange={(checked) => setLanguage(checked ? 'hi' : 'en')}
+              />
               <p className="font-medium">{t('settings.hindi')}</p>
             </div>
           </div>
+          <p className="text-sm text-muted-foreground">
+            {language === 'en' ? 'Currently displaying in English' : 'वर्तमान में हिंदी में प्रदर्शित'}
+          </p>
         </CardContent>
       </Card>
 
