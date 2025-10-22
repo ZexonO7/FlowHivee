@@ -300,10 +300,12 @@ export default function Settings() {
           <div className="space-y-2">
             <Label>QR Code for Quick Connect</Label>
             <div className="p-8 bg-muted rounded-lg flex items-center justify-center">
-              <div className="w-48 h-48 bg-white rounded-lg flex items-center justify-center border-2 border-border">
-                <p className="text-center text-sm text-muted-foreground">
-                  QR Code<br />Would Display Here
-                </p>
+              <div className="w-48 h-48 bg-white rounded-lg flex items-center justify-center border-2 border-border p-2">
+                <img 
+                  src={new URL('@/assets/flowhive-qr-code.png', import.meta.url).href} 
+                  alt="FlowHivee Quick Connect QR Code"
+                  className="w-full h-full object-contain"
+                />
               </div>
             </div>
             <p className="text-sm text-muted-foreground">
