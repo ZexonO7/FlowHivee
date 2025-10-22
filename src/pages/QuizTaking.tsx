@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { Progress } from "@/components/ui/progress";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Brain, Trophy, Star, ArrowRight, ArrowLeft, CheckCircle, XCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { saveQuizResult } from "@/lib/progress-storage";
 
 // Sample quiz questions
 const quizData: Record<number, any> = {
@@ -137,6 +138,22 @@ export default function QuizTaking() {
   const correctAnswers = quiz.questions.filter(
     (q: any, index: number) => answers[index] === q.correctAnswer
   ).length;
+
+  // Save quiz result when completed
+  useEffect(() => {
+    if (showResults && score >= 0) {
+      saveQuizResult({
+        quizId: quizId,
+        lessonId: quizId,
+        title: quiz.title,
+        subject: quiz.subject,
+        score: score,
+        totalQuestions: totalQuestions,
+        correctAnswers: correctAnswers,
+        completedAt: new Date().toISOString(),
+      });
+    }
+  }, [showResults, score, quizId, quiz.title, quiz.subject, totalQuestions, correctAnswers]);
 
   if (showResults) {
     return (

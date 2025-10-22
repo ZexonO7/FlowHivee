@@ -4,10 +4,40 @@ import { BookOpen, Brain, TrendingUp, Users, Star, Zap, GraduationCap } from "lu
 import heroImage from "@/assets/hero-image.jpg";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getAllLessons, getUserStats } from "@/lib/progress-storage";
+import { curriculumData } from "@/lib/curriculum";
 
 export default function Home() {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  
+  // Get all lessons from curriculum
+  const allLessons = Object.values(curriculumData).flatMap((c: any) => c.lessons);
+  
+  // Get actual lesson progress
+  const lessonProgress = getAllLessons();
+  const stats = getUserStats();
+  
+  // Get in-progress lessons (not completed, but accessed)
+  const inProgressLessons = lessonProgress
+    .filter(l => !l.completed && l.currentSection > 0)
+    .sort((a, b) => new Date(b.lastAccessed).getTime() - new Date(a.lastAccessed).getTime())
+    .slice(0, 3);
+  
+  // If no in-progress lessons, show recently accessed or completed ones
+  const displayLessons = inProgressLessons.length > 0 
+    ? inProgressLessons 
+    : lessonProgress
+        .sort((a, b) => new Date(b.lastAccessed).getTime() - new Date(a.lastAccessed).getTime())
+        .slice(0, 3);
+  
+  const subjectColors: Record<string, string> = {
+    'Mathematics': 'warm',
+    'Science': 'cool',
+    'English': 'creative',
+    'History': 'success',
+    'Computer Science': 'warm',
+  };
   return (
     <div className="space-y-8 animate-slide-up pb-20 md:pb-8">
       {/* Hero Section */}
@@ -118,44 +148,52 @@ export default function Home() {
           <CardDescription>Pick up where you left off</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="font-medium">Mathematics - Chapter 5</p>
-                <p className="text-sm text-muted-foreground">Algebra Basics</p>
-              </div>
-              <Button size="sm" variant="warm" onClick={() => navigate('/lessons')}>Resume</Button>
+          {displayLessons.length > 0 ? (
+            displayLessons.map((lesson) => {
+              const progress = (lesson.currentSection / lesson.totalSections) * 100;
+              const variant = subjectColors[lesson.subject] || 'warm';
+              const lessonInfo = allLessons.find(l => l.id === lesson.lessonId);
+              
+              return (
+                <div key={lesson.lessonId} className="space-y-3">
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <p className="font-medium">{lesson.subject}</p>
+                      <p className="text-sm text-muted-foreground">{lesson.title}</p>
+                    </div>
+                    <Button 
+                      size="sm" 
+                      variant={variant as any}
+                      onClick={() => navigate('/lesson-content', { state: { lessonId: lesson.lessonId } })}
+                    >
+                      {lesson.completed ? 'Review' : 'Resume'}
+                    </Button>
+                  </div>
+                  <div className="h-2 bg-muted rounded-full overflow-hidden">
+                    <div 
+                      className={`h-full transition-all duration-300 ${
+                        variant === 'warm' ? 'bg-primary' :
+                        variant === 'cool' ? 'bg-secondary' :
+                        variant === 'creative' ? 'bg-accent' :
+                        'bg-success'
+                      }`}
+                      style={{ width: `${Math.round(progress)}%` }} 
+                    />
+                  </div>
+                  <p className="text-xs text-muted-foreground text-right">
+                    {Math.round(progress)}% complete
+                  </p>
+                </div>
+              );
+            })
+          ) : (
+            <div className="text-center py-6">
+              <p className="text-muted-foreground mb-3">No lessons in progress yet</p>
+              <Button variant="warm" onClick={() => navigate('/lessons')}>
+                Start Learning
+              </Button>
             </div>
-            <div className="h-2 bg-muted rounded-full overflow-hidden">
-              <div className="h-full bg-primary transition-all duration-300" style={{ width: "65%" }} />
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="font-medium">Science - Unit 3</p>
-                <p className="text-sm text-muted-foreground">The Water Cycle</p>
-              </div>
-              <Button size="sm" variant="cool" onClick={() => navigate('/lessons')}>Resume</Button>
-            </div>
-            <div className="h-2 bg-muted rounded-full overflow-hidden">
-              <div className="h-full bg-secondary transition-all duration-300" style={{ width: "40%" }} />
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="font-medium">English - Lesson 8</p>
-                <p className="text-sm text-muted-foreground">Creative Writing</p>
-              </div>
-              <Button size="sm" variant="creative" onClick={() => navigate('/lessons')}>Resume</Button>
-            </div>
-            <div className="h-2 bg-muted rounded-full overflow-hidden">
-              <div className="h-full bg-accent transition-all duration-300" style={{ width: "85%" }} />
-            </div>
-          </div>
+          )}
         </CardContent>
       </Card>
 
@@ -168,10 +206,13 @@ export default function Home() {
             </div>
             <div className="flex-1">
               <h3 className="text-xl font-bold text-white mb-1">
-                Great Progress This Week! 🎉
+                {stats.dayStreak > 0 ? `${stats.dayStreak} Day Streak! 🔥` : 'Start Your Learning Journey! 🎉'}
               </h3>
               <p className="text-white/90">
-                You've completed 5 lessons and earned 3 new badges. Keep it up!
+                {stats.totalXP > 0 
+                  ? `Level ${stats.level} • ${stats.totalXP} XP earned • ${stats.badges.length} badges unlocked!`
+                  : 'Complete lessons and quizzes to earn XP and unlock badges!'
+                }
               </p>
             </div>
           </div>
