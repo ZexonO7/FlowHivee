@@ -6,7 +6,12 @@
   ==================================================================
 -->
 
-This is my journal of the design and building process of **FlowHivee**.  
-You can view this journal in more detail on **Hack Club Blueprint** [here](https://blueprint.hackclub.com/projects/371).
+## 10/23/2025 - Madee the Blueprintt ✨✨  
 
+Took me like 5ish hrs to make dis bluepintt.. "with AI".. 😭😭
+Andd dats just the **hardware blueprint**, still gotta make one for the software dat the servers gonna run
++ I'm gonna start buildin it noww, soo.. I gotta find **ALLL** the partss ✨✨
+**CANTT WAITT**
+![blueprint - final .png](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NDY1OCwicHVyIjoiYmxvYl9pZCJ9fQ==--69269827d50e8fe12788c74b17ef92888aceb0f3/blueprint%20-%20final%20.png)
+  
 
