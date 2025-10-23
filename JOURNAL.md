@@ -6,12 +6,33 @@
   ==================================================================
 -->
 
-## 10/23/2025 - Madee the Blueprintt ✨✨  
+## 10/23/2025 11 AM - Madee the Blueprintt ✨✨  
 
 Took me like 5ish hrs to make dis bluepintt.. "with AI".. 😭😭
 Andd dats just the **hardware blueprint**, still gotta make one for the software dat the servers gonna run
 + I'm gonna start buildin it noww, soo.. I gotta find **ALLL** the partss ✨✨
 **CANTT WAITT**
 ![blueprint - final .png](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NDY1OCwicHVyIjoiYmxvYl9pZCJ9fQ==--69269827d50e8fe12788c74b17ef92888aceb0f3/blueprint%20-%20final%20.png)
+  
+
+## 10/23/2025 12 PM - Just got done placin the orderss for all the partss ✨✨  
+
+Just got donee placin the order of all the partss for the serverr crazyyy! ✨✨
++ Got everthin for like **rlyyy** cheapp too.. not dat cheap thoo.. still **like $100**,
+hcb..? 😭😭
+
+Intel Core i5-4570
+LGA1150 Motherboard (H81 / B85 chipset)
+16GB DDR3 (2×8GB @1600MHz)
+512GB SATA SSD
+ATX Mid Tower Case
+120mm Fans 
+
+![IMG_E3801ADF-37C0-4EF0-AB7C-DA2A9D41E9F6.JPEG](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NDY2OCwicHVyIjoiYmxvYl9pZCJ9fQ==--5a24ffc5a556ff38677be2f8f8e0258ff8bf2995/IMG_E3801ADF-37C0-4EF0-AB7C-DA2A9D41E9F6.JPEG)
+
+![IMG_4906.jpg](https://blueprint.hackclub.com/user-attachments/blobs/proxy/eyJfcmFpbHMiOnsiZGF0YSI6NDY3MCwicHVyIjoiYmxvYl9pZCJ9fQ==--1aa4e916b354e48393207c892a63e0f35b2f71e8/IMG_4906.jpg)
+
+
+
   
 
