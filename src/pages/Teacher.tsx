@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Users, BookOpen, FileText, Activity, Trophy, Flame, TrendingUp, Lock, Search, ChevronDown, ChevronUp, Calendar, Clock, GraduationCap, Video, CheckCircle2, PlayCircle, Award, Star, Download, Brain, Target, Zap, Shield, Lightbulb, TrendingDown, ArrowRight, ArrowLeft } from "lucide-react";
 import { getAllStudentsData, getTeacherStats, formatRelativeTime, type StudentData } from "@/lib/teacher-storage";
+import { seedSampleStudents } from "@/lib/seed-students";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -772,6 +773,16 @@ export default function Teacher() {
     setPasswordInput("");
   };
 
+  const handleSeedData = () => {
+    const count = seedSampleStudents();
+    const studentsData = getAllStudentsData();
+    setStudents(studentsData.sort((a, b) => 
+      new Date(b.lastActive).getTime() - new Date(a.lastActive).getTime()
+    ));
+    setStats(getTeacherStats());
+    toast.success(`${count} sample students added successfully!`);
+  };
+
   const startModule = (moduleId: number) => {
     setActiveModuleId(moduleId);
     setShowAssessment(false);
@@ -990,9 +1001,14 @@ export default function Teacher() {
             Monitor student progress and performance
           </p>
         </div>
-        <Button variant="outline" onClick={handleLogout}>
-          Logout
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={handleSeedData}>
+            Add Sample Students
+          </Button>
+          <Button variant="outline" onClick={handleLogout}>
+            Logout
+          </Button>
+        </div>
       </div>
 
       {/* Main Content Tabs */}
