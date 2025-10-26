@@ -5,8 +5,9 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { User, Wifi, Bell, Shield, Languages, QrCode } from "lucide-react";
+import { User, Wifi, Bell, Shield, Languages, QrCode, KeyRound } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import QRCode from "react-qr-code";
 import { 
@@ -21,6 +22,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 
 export default function Settings() {
+  const navigate = useNavigate();
   const [settings, setSettings] = useState<UserSettings>(getUserSettings());
   const [name, setName] = useState(settings.name);
   const [email, setEmail] = useState(settings.email);
@@ -361,6 +363,17 @@ export default function Settings() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Discrete Admin Access Link */}
+      <div className="text-center pt-4">
+        <button
+          onClick={() => navigate('/admin')}
+          className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+        >
+          <KeyRound className="w-3 h-3" />
+          System Administration
+        </button>
+      </div>
     </div>
   );
 }

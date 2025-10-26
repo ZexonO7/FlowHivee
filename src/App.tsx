@@ -19,6 +19,7 @@ import Quizzes from "./pages/Quizzes";
 import QuizTaking from "./pages/QuizTaking";
 import Progress from "./pages/Progress";
 import Teacher from "./pages/Teacher";
+import Admin from "./pages/Admin";
 import Analytics from "./pages/Analytics";
 import Community from "./pages/Community";
 import Settings from "./pages/Settings";
@@ -57,6 +58,7 @@ const App = () => {
                   <Route path="/quiz-taking" element={<QuizTaking />} />
                   <Route path="/progress" element={<Progress />} />
                   <Route path="/teacher" element={<Teacher />} />
+                  <Route path="/admin" element={<Admin />} />
                   <Route path="/analytics" element={<Analytics />} />
                   <Route path="/community" element={<Community />} />
                   <Route path="/settings" element={<Settings />} />
