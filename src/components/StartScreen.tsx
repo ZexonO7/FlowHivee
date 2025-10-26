@@ -116,6 +116,8 @@ export function StartScreen({ onComplete }: StartScreenProps) {
     if (teacherPassword === "FlowHive@123") {
       sessionStorage.setItem("teacher_authenticated", "true");
       sessionStorage.setItem("teacher_name", teacherName.trim());
+      // Mark start screen as completed so the app doesn't send you back here
+      localStorage.setItem("completed_start_screen", "true");
       toast({
         title: `Welcome to Teacher Portal, ${teacherName.trim()}! 👨‍🏫`,
         description: "You have successfully logged in",
