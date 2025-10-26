@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, BookOpen, FileText, Activity, Trophy, Flame, TrendingUp, Lock, Search, ChevronDown, ChevronUp, Calendar, Clock, GraduationCap, Video, CheckCircle2, PlayCircle } from "lucide-react";
+import { Users, BookOpen, FileText, Activity, Trophy, Flame, TrendingUp, Lock, Search, ChevronDown, ChevronUp, Calendar, Clock, GraduationCap, Video, CheckCircle2, PlayCircle, Award, Star, Download, Brain, Target, Zap, Shield, Lightbulb, TrendingDown } from "lucide-react";
 import { getAllStudentsData, getTeacherStats, formatRelativeTime, type StudentData } from "@/lib/teacher-storage";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
@@ -10,60 +10,157 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 
-const TRAINING_MODULES = [
+interface TrainingModule {
+  id: number;
+  title: string;
+  description: string;
+  duration: string;
+  type: "video" | "article" | "interactive";
+  level: "beginner" | "intermediate" | "advanced";
+  xp: number;
+  resources: string[];
+  assessment: {
+    questions: number;
+    passingScore: number;
+  };
+}
+
+interface ModuleProgress {
+  completed: boolean;
+  completedAt?: string;
+  assessmentScore?: number;
+  timeSpent?: number;
+  certificateIssued?: boolean;
+}
+
+const TRAINING_MODULES: TrainingModule[] = [
   {
     id: 1,
     title: "Getting Started with FlowHive",
-    description: "Learn the basics of the FlowHive platform and how to navigate the teacher dashboard",
+    description: "Master the basics of the FlowHive platform, teacher dashboard navigation, and core features for student monitoring",
     duration: "15 min",
     type: "video",
-    completed: false,
+    level: "beginner",
+    xp: 100,
+    resources: ["Quick Start Guide.pdf", "Dashboard Overview.pdf"],
+    assessment: { questions: 5, passingScore: 80 },
   },
   {
     id: 2,
     title: "Understanding Student Analytics",
-    description: "Discover how to interpret student progress data, quiz scores, and engagement metrics",
+    description: "Deep dive into interpreting student progress data, quiz scores, engagement metrics, and behavioral patterns",
     duration: "20 min",
     type: "video",
-    completed: false,
+    level: "beginner",
+    xp: 150,
+    resources: ["Analytics Guide.pdf", "Data Interpretation Cheat Sheet.pdf"],
+    assessment: { questions: 8, passingScore: 75 },
   },
   {
     id: 3,
-    title: "Best Practices for Student Support",
-    description: "Strategies for identifying struggling students and providing targeted help",
-    duration: "25 min",
-    type: "article",
-    completed: false,
+    title: "Identifying At-Risk Students",
+    description: "Learn to recognize early warning signs and patterns that indicate students need additional support",
+    duration: "18 min",
+    type: "interactive",
+    level: "intermediate",
+    xp: 200,
+    resources: ["Warning Signs Checklist.pdf", "Intervention Framework.pdf"],
+    assessment: { questions: 10, passingScore: 80 },
   },
   {
     id: 4,
-    title: "Using Data to Drive Instruction",
-    description: "Learn how to use student performance data to inform your teaching decisions",
+    title: "Data-Driven Instruction Strategies",
+    description: "Advanced techniques for using student performance data to inform and personalize your teaching approach",
     duration: "30 min",
     type: "video",
-    completed: false,
+    level: "intermediate",
+    xp: 250,
+    resources: ["Data Strategy Workbook.pdf", "Case Studies.pdf"],
+    assessment: { questions: 12, passingScore: 85 },
   },
   {
     id: 5,
-    title: "Gamification in Education",
-    description: "Understand how XP, levels, and streaks motivate students and improve engagement",
-    duration: "18 min",
+    title: "Gamification & Student Motivation",
+    description: "Understand the psychology behind XP, levels, streaks, and badges to maximize student engagement",
+    duration: "25 min",
     type: "article",
-    completed: false,
+    level: "intermediate",
+    xp: 200,
+    resources: ["Gamification Research.pdf", "Motivation Techniques.pdf"],
+    assessment: { questions: 8, passingScore: 75 },
   },
   {
     id: 6,
-    title: "Creating Effective Interventions",
-    description: "Develop strategies for students who fall behind or lose their learning streak",
-    duration: "22 min",
+    title: "Personalized Learning Paths",
+    description: "Design customized learning experiences based on individual student needs, pace, and learning styles",
+    duration: "28 min",
     type: "video",
-    completed: false,
+    level: "advanced",
+    xp: 300,
+    resources: ["Differentiation Strategies.pdf", "Learning Styles Guide.pdf"],
+    assessment: { questions: 10, passingScore: 85 },
   },
+  {
+    id: 7,
+    title: "Effective Parent Communication",
+    description: "Best practices for sharing student progress with parents and building supportive home-school partnerships",
+    duration: "22 min",
+    type: "article",
+    level: "intermediate",
+    xp: 150,
+    resources: ["Communication Templates.pdf", "Parent Meeting Guide.pdf"],
+    assessment: { questions: 7, passingScore: 80 },
+  },
+  {
+    id: 8,
+    title: "Crisis & Intervention Management",
+    description: "Develop strategies for students experiencing significant struggles, learning gaps, or motivational issues",
+    duration: "35 min",
+    type: "interactive",
+    level: "advanced",
+    xp: 350,
+    resources: ["Intervention Protocols.pdf", "Success Stories.pdf"],
+    assessment: { questions: 15, passingScore: 85 },
+  },
+  {
+    id: 9,
+    title: "Advanced Analytics & Predictive Insights",
+    description: "Master complex analytics features, trend analysis, and predictive modeling for proactive teaching",
+    duration: "40 min",
+    type: "video",
+    level: "advanced",
+    xp: 400,
+    resources: ["Advanced Analytics Manual.pdf", "Prediction Models.pdf"],
+    assessment: { questions: 12, passingScore: 90 },
+  },
+  {
+    id: 10,
+    title: "Building a Growth Mindset Culture",
+    description: "Create a classroom environment that celebrates effort, embraces challenges, and promotes resilience",
+    duration: "30 min",
+    type: "article",
+    level: "intermediate",
+    xp: 250,
+    resources: ["Growth Mindset Toolkit.pdf", "Classroom Activities.pdf"],
+    assessment: { questions: 8, passingScore: 80 },
+  },
+];
+
+const ACHIEVEMENTS = [
+  { id: "first_module", title: "First Steps", description: "Complete your first module", icon: Star, xp: 50 },
+  { id: "half_complete", title: "Halfway There", description: "Complete 5 modules", icon: Target, xp: 100 },
+  { id: "all_complete", title: "Master Educator", description: "Complete all modules", icon: Trophy, xp: 500 },
+  { id: "perfect_score", title: "Perfect Score", description: "Get 100% on any assessment", icon: Zap, xp: 150 },
+  { id: "speed_learner", title: "Speed Learner", description: "Complete 3 modules in one day", icon: Flame, xp: 200 },
+  { id: "advanced_scholar", title: "Advanced Scholar", description: "Complete all advanced modules", icon: Brain, xp: 300 },
 ];
 
 const ADMIN_PASSWORD = "FlowHive@123";
 const AUTH_KEY = "teacher_authenticated";
 const TRAINING_PROGRESS_KEY = "teacher_training_progress";
+const TRAINING_XP_KEY = "teacher_training_xp";
+const TRAINING_ACHIEVEMENTS_KEY = "teacher_achievements";
+const ASSESSMENT_SCORES_KEY = "teacher_assessment_scores";
 
 export default function Teacher() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -71,7 +168,12 @@ export default function Teacher() {
   const [students, setStudents] = useState<StudentData[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedStudent, setExpandedStudent] = useState<string | null>(null);
-  const [trainingModules, setTrainingModules] = useState(TRAINING_MODULES);
+  const [moduleProgress, setModuleProgress] = useState<Record<number, ModuleProgress>>({});
+  const [totalXP, setTotalXP] = useState(0);
+  const [unlockedAchievements, setUnlockedAchievements] = useState<string[]>([]);
+  const [assessmentScores, setAssessmentScores] = useState<Record<number, number>>({});
+  const [activeModuleId, setActiveModuleId] = useState<number | null>(null);
+  const [showAssessment, setShowAssessment] = useState(false);
   const [stats, setStats] = useState({
     totalStudents: 0,
     totalLessonsCompleted: 0,
@@ -90,15 +192,35 @@ export default function Teacher() {
     const savedProgress = localStorage.getItem(TRAINING_PROGRESS_KEY);
     if (savedProgress) {
       try {
-        const completedIds = JSON.parse(savedProgress);
-        setTrainingModules(
-          TRAINING_MODULES.map(module => ({
-            ...module,
-            completed: completedIds.includes(module.id),
-          }))
-        );
+        setModuleProgress(JSON.parse(savedProgress));
       } catch (e) {
         console.error("Failed to load training progress");
+      }
+    }
+
+    // Load XP
+    const savedXP = localStorage.getItem(TRAINING_XP_KEY);
+    if (savedXP) {
+      setTotalXP(parseInt(savedXP));
+    }
+
+    // Load achievements
+    const savedAchievements = localStorage.getItem(TRAINING_ACHIEVEMENTS_KEY);
+    if (savedAchievements) {
+      try {
+        setUnlockedAchievements(JSON.parse(savedAchievements));
+      } catch (e) {
+        console.error("Failed to load achievements");
+      }
+    }
+
+    // Load assessment scores
+    const savedScores = localStorage.getItem(ASSESSMENT_SCORES_KEY);
+    if (savedScores) {
+      try {
+        setAssessmentScores(JSON.parse(savedScores));
+      } catch (e) {
+        console.error("Failed to load assessment scores");
       }
     }
   }, []);
@@ -139,21 +261,130 @@ export default function Teacher() {
     setPasswordInput("");
   };
 
-  const toggleModuleComplete = (moduleId: number) => {
-    const updatedModules = trainingModules.map(module =>
-      module.id === moduleId ? { ...module, completed: !module.completed } : module
-    );
-    setTrainingModules(updatedModules);
+  const startModule = (moduleId: number) => {
+    setActiveModuleId(moduleId);
+    setShowAssessment(false);
+  };
 
-    // Save to localStorage
-    const completedIds = updatedModules.filter(m => m.completed).map(m => m.id);
-    localStorage.setItem(TRAINING_PROGRESS_KEY, JSON.stringify(completedIds));
+  const startAssessment = (moduleId: number) => {
+    setActiveModuleId(moduleId);
+    setShowAssessment(true);
+  };
 
-    toast.success(
-      updatedModules.find(m => m.id === moduleId)?.completed
-        ? "Module marked as complete!"
-        : "Module marked as incomplete"
-    );
+  const completeAssessment = (moduleId: number, score: number) => {
+    const module = TRAINING_MODULES.find(m => m.id === moduleId);
+    if (!module) return;
+
+    const passed = score >= module.assessment.passingScore;
+    
+    if (passed) {
+      // Update module progress
+      const newProgress = {
+        ...moduleProgress,
+        [moduleId]: {
+          completed: true,
+          completedAt: new Date().toISOString(),
+          assessmentScore: score,
+          certificateIssued: true,
+        }
+      };
+      setModuleProgress(newProgress);
+      localStorage.setItem(TRAINING_PROGRESS_KEY, JSON.stringify(newProgress));
+
+      // Award XP
+      const newXP = totalXP + module.xp + (score === 100 ? 50 : 0);
+      setTotalXP(newXP);
+      localStorage.setItem(TRAINING_XP_KEY, newXP.toString());
+
+      // Save assessment score
+      const newScores = { ...assessmentScores, [moduleId]: score };
+      setAssessmentScores(newScores);
+      localStorage.setItem(ASSESSMENT_SCORES_KEY, JSON.stringify(newScores));
+
+      // Check achievements
+      checkAndUnlockAchievements(newProgress, score);
+
+      toast.success(
+        score === 100 
+          ? `Perfect score! +${module.xp + 50} XP (Bonus +50)` 
+          : `Module completed! +${module.xp} XP`
+      );
+    } else {
+      toast.error(`Score ${score}% - Need ${module.assessment.passingScore}% to pass. Try again!`);
+    }
+
+    setShowAssessment(false);
+    setActiveModuleId(null);
+  };
+
+  const checkAndUnlockAchievements = (progress: Record<number, ModuleProgress>, lastScore: number) => {
+    const completedCount = Object.keys(progress).length;
+    const newAchievements = [...unlockedAchievements];
+
+    // First module
+    if (completedCount === 1 && !newAchievements.includes("first_module")) {
+      newAchievements.push("first_module");
+      toast.success("🏆 Achievement Unlocked: First Steps! +50 XP");
+    }
+
+    // Halfway
+    if (completedCount === 5 && !newAchievements.includes("half_complete")) {
+      newAchievements.push("half_complete");
+      toast.success("🏆 Achievement Unlocked: Halfway There! +100 XP");
+    }
+
+    // All complete
+    if (completedCount === TRAINING_MODULES.length && !newAchievements.includes("all_complete")) {
+      newAchievements.push("all_complete");
+      toast.success("🏆 Achievement Unlocked: Master Educator! +500 XP");
+    }
+
+    // Perfect score
+    if (lastScore === 100 && !newAchievements.includes("perfect_score")) {
+      newAchievements.push("perfect_score");
+      toast.success("🏆 Achievement Unlocked: Perfect Score! +150 XP");
+    }
+
+    // Advanced scholar
+    const advancedModules = TRAINING_MODULES.filter(m => m.level === "advanced");
+    const completedAdvanced = advancedModules.filter(m => progress[m.id]?.completed);
+    if (completedAdvanced.length === advancedModules.length && !newAchievements.includes("advanced_scholar")) {
+      newAchievements.push("advanced_scholar");
+      toast.success("🏆 Achievement Unlocked: Advanced Scholar! +300 XP");
+    }
+
+    if (newAchievements.length > unlockedAchievements.length) {
+      setUnlockedAchievements(newAchievements);
+      localStorage.setItem(TRAINING_ACHIEVEMENTS_KEY, JSON.stringify(newAchievements));
+      
+      // Add achievement XP
+      const achievementXP = ACHIEVEMENTS
+        .filter(a => newAchievements.includes(a.id) && !unlockedAchievements.includes(a.id))
+        .reduce((sum, a) => sum + a.xp, 0);
+      if (achievementXP > 0) {
+        const newTotalXP = totalXP + achievementXP;
+        setTotalXP(newTotalXP);
+        localStorage.setItem(TRAINING_XP_KEY, newTotalXP.toString());
+      }
+    }
+  };
+
+  const downloadCertificate = (moduleId: number) => {
+    const module = TRAINING_MODULES.find(m => m.id === moduleId);
+    const progress = moduleProgress[moduleId];
+    if (!module || !progress?.completed) return;
+
+    toast.success(`Certificate for "${module.title}" downloaded!`);
+  };
+
+  const downloadResource = (resource: string) => {
+    toast.success(`Downloaded: ${resource}`);
+  };
+
+  const isModuleUnlocked = (moduleId: number): boolean => {
+    if (moduleId === 1) return true;
+    const previousModule = TRAINING_MODULES.find(m => m.id === moduleId - 1);
+    return previousModule ? moduleProgress[previousModule.id]?.completed === true : false;
   };
 
   const filteredStudents = students.filter(student =>
@@ -194,8 +425,9 @@ export default function Teacher() {
     );
   }
 
-  const completedTraining = trainingModules.filter(m => m.completed).length;
-  const trainingProgress = Math.round((completedTraining / trainingModules.length) * 100);
+  const completedTraining = Object.keys(moduleProgress).filter(id => moduleProgress[parseInt(id)]?.completed).length;
+  const trainingProgress = Math.round((completedTraining / TRAINING_MODULES.length) * 100);
+  const teacherLevel = Math.floor(totalXP / 500) + 1;
 
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
@@ -222,9 +454,9 @@ export default function Teacher() {
           <TabsTrigger value="training" className="flex items-center gap-2">
             <GraduationCap className="w-4 h-4" />
             Training Program
-            {completedTraining < trainingModules.length && (
+            {completedTraining < TRAINING_MODULES.length && (
               <Badge variant="secondary" className="ml-2">
-                {completedTraining}/{trainingModules.length}
+                {completedTraining}/{TRAINING_MODULES.length}
               </Badge>
             )}
           </TabsTrigger>
@@ -556,97 +788,323 @@ export default function Teacher() {
             <CardContent>
               <Progress value={trainingProgress} className="h-3" />
               <p className="text-sm text-muted-foreground mt-2">
-                {completedTraining} of {trainingModules.length} modules completed
+                {completedTraining} of {TRAINING_MODULES.length} modules completed
               </p>
             </CardContent>
           </Card>
 
-          {/* Training Modules */}
-          <Card className="shadow-soft">
+          {/* XP & Level Card */}
+          <Card className="shadow-soft bg-gradient-to-br from-primary/10 to-secondary/10">
             <CardHeader>
-              <CardTitle>Available Modules</CardTitle>
-              <CardDescription>
-                Click on any module to mark it as complete
-              </CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="flex items-center gap-2">
+                    <Trophy className="w-5 h-5 text-primary" />
+                    Your Progress
+                  </CardTitle>
+                  <CardDescription>
+                    Complete modules to earn XP and unlock achievements
+                  </CardDescription>
+                </div>
+                <Badge variant="default" className="text-lg px-4 py-2">
+                  Level {teacherLevel}
+                </Badge>
+              </div>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-3">
-                {trainingModules.map((module) => (
-                  <div
-                    key={module.id}
-                    className={`p-4 border rounded-lg transition-all cursor-pointer hover:shadow-md ${
-                      module.completed
-                        ? "bg-primary/5 border-primary/20"
-                        : "bg-card border-border hover:border-primary/40"
-                    }`}
-                    onClick={() => toggleModuleComplete(module.id)}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div
-                        className={`mt-1 p-2 rounded-lg ${
-                          module.type === "video"
-                            ? "bg-purple-500/10"
-                            : "bg-blue-500/10"
-                        }`}
-                      >
-                        {module.type === "video" ? (
-                          <Video className="w-5 h-5 text-purple-500" />
-                        ) : (
-                          <FileText className="w-5 h-5 text-blue-500" />
-                        )}
-                      </div>
-
-                      <div className="flex-1">
-                        <div className="flex items-start justify-between gap-2">
-                          <div>
-                            <h3 className="font-semibold mb-1 flex items-center gap-2">
-                              {module.title}
-                              {module.completed && (
-                                <CheckCircle2 className="w-4 h-4 text-success" />
-                              )}
-                            </h3>
-                            <p className="text-sm text-muted-foreground mb-2">
-                              {module.description}
-                            </p>
-                            <div className="flex items-center gap-3 text-xs">
-                              <Badge variant="outline" className="text-xs">
-                                <Clock className="w-3 h-3 mr-1" />
-                                {module.duration}
-                              </Badge>
-                              <Badge variant="secondary" className="text-xs">
-                                {module.type === "video" ? "Video" : "Article"}
-                              </Badge>
-                            </div>
-                          </div>
-
-                          <Button
-                            variant={module.completed ? "outline" : "default"}
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleModuleComplete(module.id);
-                            }}
-                          >
-                            {module.completed ? (
-                              <>
-                                <CheckCircle2 className="w-4 h-4 mr-1" />
-                                Completed
-                              </>
-                            ) : (
-                              <>
-                                <PlayCircle className="w-4 h-4 mr-1" />
-                                Start
-                              </>
-                            )}
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+            <CardContent className="space-y-4">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm font-medium">Total XP</span>
+                  <span className="text-2xl font-bold text-primary">{totalXP}</span>
+                </div>
+                <Progress value={(totalXP % 500) / 5} className="h-2" />
+                <p className="text-xs text-muted-foreground mt-1">
+                  {500 - (totalXP % 500)} XP to Level {teacherLevel + 1}
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-4 pt-4 border-t">
+                <div className="text-center">
+                  <p className="text-2xl font-bold">{completedTraining}</p>
+                  <p className="text-xs text-muted-foreground">Completed</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold">{unlockedAchievements.length}</p>
+                  <p className="text-xs text-muted-foreground">Achievements</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold">{trainingProgress}%</p>
+                  <p className="text-xs text-muted-foreground">Progress</p>
+                </div>
               </div>
             </CardContent>
           </Card>
+
+          {/* Achievements */}
+          {unlockedAchievements.length > 0 && (
+            <Card className="shadow-soft">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Award className="w-5 h-5" />
+                  Achievements Unlocked
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-2 gap-3">
+                  {ACHIEVEMENTS.filter(a => unlockedAchievements.includes(a.id)).map((achievement) => {
+                    const Icon = achievement.icon;
+                    return (
+                      <div
+                        key={achievement.id}
+                        className="flex items-start gap-3 p-3 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg border border-primary/20"
+                      >
+                        <div className="p-2 bg-primary/10 rounded-lg">
+                          <Icon className="w-5 h-5 text-primary" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm">{achievement.title}</h4>
+                          <p className="text-xs text-muted-foreground">{achievement.description}</p>
+                          <Badge variant="outline" className="text-xs mt-1">
+                            +{achievement.xp} XP
+                          </Badge>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Training Modules */}
+          <Card className="shadow-soft">
+            <CardHeader>
+              <CardTitle>Training Modules</CardTitle>
+              <CardDescription>
+                Complete modules sequentially. Pass assessments to unlock certificates and earn XP.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {TRAINING_MODULES.map((module) => {
+                  const progress = moduleProgress[module.id];
+                  const isCompleted = progress?.completed;
+                  const isUnlocked = isModuleUnlocked(module.id);
+                  const assessmentScore = assessmentScores[module.id];
+
+                  const getLevelColor = (level: string) => {
+                    switch(level) {
+                      case "beginner": return "bg-green-500/10 text-green-600";
+                      case "intermediate": return "bg-yellow-500/10 text-yellow-600";
+                      case "advanced": return "bg-red-500/10 text-red-600";
+                      default: return "bg-gray-500/10 text-gray-600";
+                    }
+                  };
+
+                  const getTypeIcon = () => {
+                    switch(module.type) {
+                      case "video": return <Video className="w-5 h-5 text-purple-500" />;
+                      case "article": return <FileText className="w-5 h-5 text-blue-500" />;
+                      case "interactive": return <Brain className="w-5 h-5 text-green-500" />;
+                    }
+                  };
+
+                  return (
+                    <div
+                      key={module.id}
+                      className={`p-5 border rounded-lg transition-all ${
+                        isCompleted
+                          ? "bg-primary/5 border-primary/30 shadow-sm"
+                          : isUnlocked
+                          ? "bg-card border-border hover:border-primary/40 hover:shadow-md"
+                          : "bg-muted/30 border-border opacity-60"
+                      }`}
+                    >
+                      <div className="flex items-start gap-4">
+                        {/* Icon */}
+                        <div className={`mt-1 p-3 rounded-lg ${
+                          module.type === "video" ? "bg-purple-500/10" :
+                          module.type === "article" ? "bg-blue-500/10" :
+                          "bg-green-500/10"
+                        }`}>
+                          {getTypeIcon()}
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 space-y-3">
+                          {/* Header */}
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-2">
+                                <h3 className="font-semibold text-lg">
+                                  {!isUnlocked && <Lock className="w-4 h-4 inline mr-2" />}
+                                  {module.title}
+                                </h3>
+                                {isCompleted && (
+                                  <CheckCircle2 className="w-5 h-5 text-success" />
+                                )}
+                              </div>
+                              <p className="text-sm text-muted-foreground mb-3">
+                                {module.description}
+                              </p>
+                              
+                              {/* Meta info */}
+                              <div className="flex flex-wrap items-center gap-2">
+                                <Badge variant="outline" className={`text-xs ${getLevelColor(module.level)}`}>
+                                  <Shield className="w-3 h-3 mr-1" />
+                                  {module.level.charAt(0).toUpperCase() + module.level.slice(1)}
+                                </Badge>
+                                <Badge variant="outline" className="text-xs">
+                                  <Clock className="w-3 h-3 mr-1" />
+                                  {module.duration}
+                                </Badge>
+                                <Badge variant="outline" className="text-xs">
+                                  <Trophy className="w-3 h-3 mr-1" />
+                                  {module.xp} XP
+                                </Badge>
+                                <Badge variant="secondary" className="text-xs capitalize">
+                                  {module.type}
+                                </Badge>
+                              </div>
+                            </div>
+
+                            {/* Actions */}
+                            <div className="flex flex-col gap-2">
+                              {isCompleted ? (
+                                <>
+                                  <Badge className="whitespace-nowrap">
+                                    Score: {assessmentScore}%
+                                  </Badge>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => downloadCertificate(module.id)}
+                                    className="whitespace-nowrap"
+                                  >
+                                    <Download className="w-4 h-4 mr-1" />
+                                    Certificate
+                                  </Button>
+                                </>
+                              ) : isUnlocked ? (
+                                <Button
+                                  size="sm"
+                                  onClick={() => startAssessment(module.id)}
+                                >
+                                  <PlayCircle className="w-4 h-4 mr-1" />
+                                  Take Assessment
+                                </Button>
+                              ) : (
+                                <Button size="sm" disabled>
+                                  <Lock className="w-4 h-4 mr-1" />
+                                  Locked
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Resources */}
+                          {isUnlocked && module.resources.length > 0 && (
+                            <div className="pt-3 border-t space-y-2">
+                              <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                                Resources
+                              </p>
+                              <div className="flex flex-wrap gap-2">
+                                {module.resources.map((resource, idx) => (
+                                  <Button
+                                    key={idx}
+                                    size="sm"
+                                    variant="ghost"
+                                    className="text-xs h-7"
+                                    onClick={() => downloadResource(resource)}
+                                  >
+                                    <Download className="w-3 h-3 mr-1" />
+                                    {resource}
+                                  </Button>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Assessment info */}
+                          {isUnlocked && !isCompleted && (
+                            <div className="pt-3 border-t">
+                              <p className="text-xs text-muted-foreground">
+                                <Lightbulb className="w-3 h-3 inline mr-1" />
+                                Assessment: {module.assessment.questions} questions • 
+                                Pass with {module.assessment.passingScore}% or higher
+                              </p>
+                            </div>
+                          )}
+
+                          {/* Completion info */}
+                          {isCompleted && progress.completedAt && (
+                            <div className="pt-3 border-t">
+                              <p className="text-xs text-muted-foreground">
+                                <Calendar className="w-3 h-3 inline mr-1" />
+                                Completed on {new Date(progress.completedAt).toLocaleDateString()} at{" "}
+                                {new Date(progress.completedAt).toLocaleTimeString()}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Mock Assessment Dialog */}
+          {showAssessment && activeModuleId && (
+            <Card className="shadow-elegant border-2 border-primary animate-fade-in">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Brain className="w-5 h-5" />
+                  Module Assessment
+                </CardTitle>
+                <CardDescription>
+                  {TRAINING_MODULES.find(m => m.id === activeModuleId)?.title}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="p-6 bg-muted/30 rounded-lg text-center space-y-3">
+                  <p className="text-sm text-muted-foreground">
+                    This is a simulated assessment. In production, this would contain actual questions.
+                  </p>
+                  <div className="flex gap-3 justify-center">
+                    <Button
+                      onClick={() => completeAssessment(activeModuleId, 100)}
+                      className="bg-green-600 hover:bg-green-700"
+                    >
+                      Pass with 100%
+                    </Button>
+                    <Button
+                      onClick={() => completeAssessment(activeModuleId, 85)}
+                      variant="secondary"
+                    >
+                      Pass with 85%
+                    </Button>
+                    <Button
+                      onClick={() => completeAssessment(activeModuleId, 65)}
+                      variant="outline"
+                    >
+                      Fail with 65%
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        setShowAssessment(false);
+                        setActiveModuleId(null);
+                      }}
+                      variant="ghost"
+                    >
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Certification */}
           {trainingProgress === 100 && (
