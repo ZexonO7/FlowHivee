@@ -127,31 +127,43 @@ export const getSystemStats = (): SystemStats => {
   };
 };
 
-// Get engagement data for charts
+// Get engagement data for charts (last 7 days)
 export const getEngagementData = () => {
   const students = getAllStudentsData();
-  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const data = [];
+  const now = new Date();
   
-  return days.map((day, index) => {
+  // Get last 7 days of activity
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date(now);
+    date.setDate(date.getDate() - i);
+    date.setHours(0, 0, 0, 0);
+    
+    const nextDay = new Date(date);
+    nextDay.setDate(nextDay.getDate() + 1);
+    
     const dayActivity = students.reduce((sum, student) => {
       const lessonsOnDay = student.lessons.filter(l => {
-        const date = new Date(l.lastAccessed);
-        return date.getDay() === index;
+        const lessonDate = new Date(l.lastAccessed);
+        return lessonDate >= date && lessonDate < nextDay;
       }).length;
       
       const quizzesOnDay = student.quizzes.filter(q => {
-        const date = new Date(q.completedAt);
-        return date.getDay() === index;
+        const quizDate = new Date(q.completedAt);
+        return quizDate >= date && quizDate < nextDay;
       }).length;
       
       return sum + lessonsOnDay + quizzesOnDay;
     }, 0);
     
-    return {
-      day,
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    data.push({
+      day: i === 0 ? 'Today' : i === 1 ? 'Yesterday' : dayNames[date.getDay()],
       activities: dayActivity,
-    };
-  });
+    });
+  }
+  
+  return data;
 };
 
 // Get subject performance data
@@ -169,9 +181,18 @@ export const getSubjectPerformance = () => {
     });
     
     student.quizzes.forEach(quiz => {
-      // Try to match quiz to subject (simplified)
-      const subject = quiz.title.includes('Algebra') ? 'Mathematics' : 
-                     quiz.title.includes('History') ? 'History' : 'Other';
+      // Match quiz to subject based on title keywords
+      const title = quiz.title.toLowerCase();
+      const subject = title.includes('algebra') || title.includes('variable') || title.includes('math') || title.includes('geometry') 
+        ? 'Mathematics' 
+        : title.includes('history') || title.includes('rome') || title.includes('timeline')
+        ? 'History'
+        : title.includes('science') || title.includes('water') || title.includes('cycle')
+        ? 'Science'
+        : title.includes('essay') || title.includes('writing')
+        ? 'English'
+        : 'Other';
+      
       if (!subjects[subject]) {
         subjects[subject] = { total: 0, completed: 0, avgScore: 0, scores: [] };
       }
