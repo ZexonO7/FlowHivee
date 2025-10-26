@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 
 interface TrainingModule {
@@ -1056,55 +1057,56 @@ export default function Teacher() {
           </Card>
 
           {/* Mock Assessment Dialog */}
-          {showAssessment && activeModuleId && (
-            <Card className="shadow-elegant border-2 border-primary animate-fade-in">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+          <Dialog open={showAssessment} onOpenChange={setShowAssessment}>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2">
                   <Brain className="w-5 h-5" />
                   Module Assessment
-                </CardTitle>
-                <CardDescription>
-                  {TRAINING_MODULES.find(m => m.id === activeModuleId)?.title}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="p-6 bg-muted/30 rounded-lg text-center space-y-3">
-                  <p className="text-sm text-muted-foreground">
-                    This is a simulated assessment. In production, this would contain actual questions.
-                  </p>
-                  <div className="flex gap-3 justify-center">
-                    <Button
-                      onClick={() => completeAssessment(activeModuleId, 100)}
-                      className="bg-green-600 hover:bg-green-700"
-                    >
-                      Pass with 100%
-                    </Button>
-                    <Button
-                      onClick={() => completeAssessment(activeModuleId, 85)}
-                      variant="secondary"
-                    >
-                      Pass with 85%
-                    </Button>
-                    <Button
-                      onClick={() => completeAssessment(activeModuleId, 65)}
-                      variant="outline"
-                    >
-                      Fail with 65%
-                    </Button>
-                    <Button
-                      onClick={() => {
-                        setShowAssessment(false);
-                        setActiveModuleId(null);
-                      }}
-                      variant="ghost"
-                    >
-                      Cancel
-                    </Button>
-                  </div>
+                </DialogTitle>
+                <DialogDescription>
+                  {activeModuleId && TRAINING_MODULES.find(m => m.id === activeModuleId)?.title}
+                </DialogDescription>
+              </DialogHeader>
+              <div className="p-6 bg-muted/30 rounded-lg text-center space-y-4">
+                <p className="text-sm text-muted-foreground">
+                  This is a simulated assessment. In production, this would contain actual questions.
+                </p>
+                <div className="flex flex-col gap-2">
+                  <Button
+                    onClick={() => activeModuleId && completeAssessment(activeModuleId, 100)}
+                    className="bg-green-600 hover:bg-green-700 w-full"
+                  >
+                    Pass with 100%
+                  </Button>
+                  <Button
+                    onClick={() => activeModuleId && completeAssessment(activeModuleId, 85)}
+                    variant="secondary"
+                    className="w-full"
+                  >
+                    Pass with 85%
+                  </Button>
+                  <Button
+                    onClick={() => activeModuleId && completeAssessment(activeModuleId, 65)}
+                    variant="outline"
+                    className="w-full"
+                  >
+                    Fail with 65%
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setShowAssessment(false);
+                      setActiveModuleId(null);
+                    }}
+                    variant="ghost"
+                    className="w-full"
+                  >
+                    Cancel
+                  </Button>
                 </div>
-              </CardContent>
-            </Card>
-          )}
+              </div>
+            </DialogContent>
+          </Dialog>
 
           {/* Certification */}
           {trainingProgress === 100 && (
