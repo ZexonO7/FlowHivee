@@ -19,6 +19,7 @@ export function StartScreen({ onComplete }: StartScreenProps) {
   const [name, setName] = useState("");
   const [loginStudentId, setLoginStudentId] = useState("");
   const [teacherPassword, setTeacherPassword] = useState("");
+  const [teacherName, setTeacherName] = useState("");
   const { toast } = useToast();
 
   // Check for QR code login on mount
@@ -103,10 +104,20 @@ export function StartScreen({ onComplete }: StartScreenProps) {
   const handleTeacherLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!teacherName.trim()) {
+      toast({
+        title: "Name required",
+        description: "Please enter your name to continue",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     if (teacherPassword === "FlowHive@123") {
       sessionStorage.setItem("teacher_authenticated", "true");
+      sessionStorage.setItem("teacher_name", teacherName.trim());
       toast({
-        title: "Welcome to Teacher Portal! 👨‍🏫",
+        title: `Welcome to Teacher Portal, ${teacherName.trim()}! 👨‍🏫`,
         description: "You have successfully logged in",
       });
       setIsAnimating(true);
@@ -263,6 +274,18 @@ export function StartScreen({ onComplete }: StartScreenProps) {
                 <CardContent>
                   <form onSubmit={handleTeacherLogin} className="space-y-4">
                     <div className="space-y-2">
+                      <Label htmlFor="teacherName">Your Name *</Label>
+                      <Input
+                        id="teacherName"
+                        placeholder="Enter your name"
+                        value={teacherName}
+                        onChange={(e) => setTeacherName(e.target.value)}
+                        maxLength={100}
+                        autoFocus
+                      />
+                    </div>
+                    
+                    <div className="space-y-2">
                       <Label htmlFor="teacherPassword">Password *</Label>
                       <Input
                         id="teacherPassword"
@@ -270,7 +293,6 @@ export function StartScreen({ onComplete }: StartScreenProps) {
                         placeholder="Enter teacher password"
                         value={teacherPassword}
                         onChange={(e) => setTeacherPassword(e.target.value)}
-                        autoFocus
                       />
                       <p className="text-xs text-muted-foreground">
                         Access the teacher dashboard to monitor student progress
