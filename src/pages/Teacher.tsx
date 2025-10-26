@@ -1,16 +1,69 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Users, BookOpen, FileText, Activity, Trophy, Flame, TrendingUp, Lock, Search, ChevronDown, ChevronUp, Calendar, Clock } from "lucide-react";
+import { Users, BookOpen, FileText, Activity, Trophy, Flame, TrendingUp, Lock, Search, ChevronDown, ChevronUp, Calendar, Clock, GraduationCap, Video, CheckCircle2, PlayCircle } from "lucide-react";
 import { getAllStudentsData, getTeacherStats, formatRelativeTime, type StudentData } from "@/lib/teacher-storage";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
+
+const TRAINING_MODULES = [
+  {
+    id: 1,
+    title: "Getting Started with FlowHive",
+    description: "Learn the basics of the FlowHive platform and how to navigate the teacher dashboard",
+    duration: "15 min",
+    type: "video",
+    completed: false,
+  },
+  {
+    id: 2,
+    title: "Understanding Student Analytics",
+    description: "Discover how to interpret student progress data, quiz scores, and engagement metrics",
+    duration: "20 min",
+    type: "video",
+    completed: false,
+  },
+  {
+    id: 3,
+    title: "Best Practices for Student Support",
+    description: "Strategies for identifying struggling students and providing targeted help",
+    duration: "25 min",
+    type: "article",
+    completed: false,
+  },
+  {
+    id: 4,
+    title: "Using Data to Drive Instruction",
+    description: "Learn how to use student performance data to inform your teaching decisions",
+    duration: "30 min",
+    type: "video",
+    completed: false,
+  },
+  {
+    id: 5,
+    title: "Gamification in Education",
+    description: "Understand how XP, levels, and streaks motivate students and improve engagement",
+    duration: "18 min",
+    type: "article",
+    completed: false,
+  },
+  {
+    id: 6,
+    title: "Creating Effective Interventions",
+    description: "Develop strategies for students who fall behind or lose their learning streak",
+    duration: "22 min",
+    type: "video",
+    completed: false,
+  },
+];
 
 const ADMIN_PASSWORD = "FlowHive@123";
 const AUTH_KEY = "teacher_authenticated";
+const TRAINING_PROGRESS_KEY = "teacher_training_progress";
 
 export default function Teacher() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -18,6 +71,7 @@ export default function Teacher() {
   const [students, setStudents] = useState<StudentData[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [expandedStudent, setExpandedStudent] = useState<string | null>(null);
+  const [trainingModules, setTrainingModules] = useState(TRAINING_MODULES);
   const [stats, setStats] = useState({
     totalStudents: 0,
     totalLessonsCompleted: 0,
@@ -30,6 +84,22 @@ export default function Teacher() {
     const authenticated = sessionStorage.getItem(AUTH_KEY);
     if (authenticated === "true") {
       setIsAuthenticated(true);
+    }
+
+    // Load training progress
+    const savedProgress = localStorage.getItem(TRAINING_PROGRESS_KEY);
+    if (savedProgress) {
+      try {
+        const completedIds = JSON.parse(savedProgress);
+        setTrainingModules(
+          TRAINING_MODULES.map(module => ({
+            ...module,
+            completed: completedIds.includes(module.id),
+          }))
+        );
+      } catch (e) {
+        console.error("Failed to load training progress");
+      }
     }
   }, []);
 
@@ -67,6 +137,23 @@ export default function Teacher() {
     sessionStorage.removeItem(AUTH_KEY);
     setIsAuthenticated(false);
     setPasswordInput("");
+  };
+
+  const toggleModuleComplete = (moduleId: number) => {
+    const updatedModules = trainingModules.map(module =>
+      module.id === moduleId ? { ...module, completed: !module.completed } : module
+    );
+    setTrainingModules(updatedModules);
+
+    // Save to localStorage
+    const completedIds = updatedModules.filter(m => m.completed).map(m => m.id);
+    localStorage.setItem(TRAINING_PROGRESS_KEY, JSON.stringify(completedIds));
+
+    toast.success(
+      updatedModules.find(m => m.id === moduleId)?.completed
+        ? "Module marked as complete!"
+        : "Module marked as incomplete"
+    );
   };
 
   const filteredStudents = students.filter(student =>
@@ -107,6 +194,9 @@ export default function Teacher() {
     );
   }
 
+  const completedTraining = trainingModules.filter(m => m.completed).length;
+  const trainingProgress = Math.round((completedTraining / trainingModules.length) * 100);
+
   return (
     <div className="space-y-6 animate-slide-up pb-20 md:pb-8">
       {/* Header */}
@@ -122,8 +212,27 @@ export default function Teacher() {
         </Button>
       </div>
 
-      {/* Quick Stats */}
-      <div className="grid md:grid-cols-4 gap-4">
+      {/* Main Content Tabs */}
+      <Tabs defaultValue="students" className="w-full">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="students" className="flex items-center gap-2">
+            <Users className="w-4 h-4" />
+            Students
+          </TabsTrigger>
+          <TabsTrigger value="training" className="flex items-center gap-2">
+            <GraduationCap className="w-4 h-4" />
+            Training Program
+            {completedTraining < trainingModules.length && (
+              <Badge variant="secondary" className="ml-2">
+                {completedTraining}/{trainingModules.length}
+              </Badge>
+            )}
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="students" className="space-y-6 mt-6">
+          {/* Quick Stats */}
+          <div className="grid md:grid-cols-4 gap-4">
         <Card className="shadow-soft">
           <CardContent className="pt-6">
             <div className="flex items-center gap-3">
@@ -179,9 +288,9 @@ export default function Teacher() {
             </div>
           </CardContent>
         </Card>
-      </div>
+          </div>
 
-      {/* Students List */}
+          {/* Students List */}
       <Card className="shadow-soft">
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -421,7 +530,151 @@ export default function Teacher() {
             </div>
           )}
         </CardContent>
-      </Card>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="training" className="space-y-6 mt-6">
+          {/* Training Overview */}
+          <Card className="shadow-soft">
+            <CardHeader>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle className="flex items-center gap-2">
+                    <GraduationCap className="w-5 h-5" />
+                    Teacher Training Program
+                  </CardTitle>
+                  <CardDescription>
+                    Complete training modules to enhance your teaching effectiveness
+                  </CardDescription>
+                </div>
+                <div className="text-right">
+                  <p className="text-2xl font-bold text-primary">{trainingProgress}%</p>
+                  <p className="text-xs text-muted-foreground">Complete</p>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <Progress value={trainingProgress} className="h-3" />
+              <p className="text-sm text-muted-foreground mt-2">
+                {completedTraining} of {trainingModules.length} modules completed
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* Training Modules */}
+          <Card className="shadow-soft">
+            <CardHeader>
+              <CardTitle>Available Modules</CardTitle>
+              <CardDescription>
+                Click on any module to mark it as complete
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {trainingModules.map((module) => (
+                  <div
+                    key={module.id}
+                    className={`p-4 border rounded-lg transition-all cursor-pointer hover:shadow-md ${
+                      module.completed
+                        ? "bg-primary/5 border-primary/20"
+                        : "bg-card border-border hover:border-primary/40"
+                    }`}
+                    onClick={() => toggleModuleComplete(module.id)}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div
+                        className={`mt-1 p-2 rounded-lg ${
+                          module.type === "video"
+                            ? "bg-purple-500/10"
+                            : "bg-blue-500/10"
+                        }`}
+                      >
+                        {module.type === "video" ? (
+                          <Video className="w-5 h-5 text-purple-500" />
+                        ) : (
+                          <FileText className="w-5 h-5 text-blue-500" />
+                        )}
+                      </div>
+
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <h3 className="font-semibold mb-1 flex items-center gap-2">
+                              {module.title}
+                              {module.completed && (
+                                <CheckCircle2 className="w-4 h-4 text-success" />
+                              )}
+                            </h3>
+                            <p className="text-sm text-muted-foreground mb-2">
+                              {module.description}
+                            </p>
+                            <div className="flex items-center gap-3 text-xs">
+                              <Badge variant="outline" className="text-xs">
+                                <Clock className="w-3 h-3 mr-1" />
+                                {module.duration}
+                              </Badge>
+                              <Badge variant="secondary" className="text-xs">
+                                {module.type === "video" ? "Video" : "Article"}
+                              </Badge>
+                            </div>
+                          </div>
+
+                          <Button
+                            variant={module.completed ? "outline" : "default"}
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleModuleComplete(module.id);
+                            }}
+                          >
+                            {module.completed ? (
+                              <>
+                                <CheckCircle2 className="w-4 h-4 mr-1" />
+                                Completed
+                              </>
+                            ) : (
+                              <>
+                                <PlayCircle className="w-4 h-4 mr-1" />
+                                Start
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Certification */}
+          {trainingProgress === 100 && (
+            <Card className="shadow-elegant bg-gradient-to-br from-primary/5 to-secondary/5 border-primary/20 animate-fade-in">
+              <CardContent className="pt-6">
+                <div className="text-center space-y-4">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-2">
+                    <Trophy className="w-8 h-8 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-bold mb-2">
+                      🎉 Congratulations! Training Complete!
+                    </h3>
+                    <p className="text-muted-foreground">
+                      You've completed all training modules and are now a certified
+                      FlowHive educator!
+                    </p>
+                  </div>
+                  <Badge className="text-sm px-4 py-2">
+                    <GraduationCap className="w-4 h-4 mr-2" />
+                    Certified FlowHive Educator
+                  </Badge>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
