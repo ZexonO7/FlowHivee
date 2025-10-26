@@ -8,7 +8,6 @@ import { GraduationCap, Sparkles, UserPlus, LogIn, QrCode, Users, Shield } from 
 import logoIcon from "@/assets/logo-icon.png";
 import { switchStudentAccount } from "@/lib/settings-storage";
 import { useToast } from "@/hooks/use-toast";
-import { useNavigate } from "react-router-dom";
 
 interface StartScreenProps {
   onComplete: () => void;
@@ -21,7 +20,6 @@ export function StartScreen({ onComplete }: StartScreenProps) {
   const [loginStudentId, setLoginStudentId] = useState("");
   const [teacherPassword, setTeacherPassword] = useState("");
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   // Check for QR code login on mount
   useEffect(() => {
@@ -114,7 +112,7 @@ export function StartScreen({ onComplete }: StartScreenProps) {
       setIsAnimating(true);
       setTimeout(() => {
         onComplete();
-        navigate("/teacher");
+        window.location.href = "/teacher";
       }, 500);
     } else {
       toast({
