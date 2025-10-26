@@ -4,10 +4,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GraduationCap, Sparkles, UserPlus, LogIn, QrCode } from "lucide-react";
+import { GraduationCap, Sparkles, UserPlus, LogIn, QrCode, Users, Shield } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
 import { switchStudentAccount } from "@/lib/settings-storage";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 interface StartScreenProps {
   onComplete: () => void;
@@ -18,7 +19,9 @@ export function StartScreen({ onComplete }: StartScreenProps) {
   const [studentId, setStudentId] = useState("");
   const [name, setName] = useState("");
   const [loginStudentId, setLoginStudentId] = useState("");
+  const [teacherPassword, setTeacherPassword] = useState("");
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Check for QR code login on mount
   useEffect(() => {
@@ -99,6 +102,30 @@ export function StartScreen({ onComplete }: StartScreenProps) {
     }, 500);
   };
 
+  const handleTeacherLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (teacherPassword === "FlowHive@123") {
+      sessionStorage.setItem("teacher_authenticated", "true");
+      toast({
+        title: "Welcome to Teacher Portal! 👨‍🏫",
+        description: "You have successfully logged in",
+      });
+      setIsAnimating(true);
+      setTimeout(() => {
+        onComplete();
+        navigate("/teacher");
+      }, 500);
+    } else {
+      toast({
+        title: "Incorrect password",
+        description: "Please try again",
+        variant: "destructive",
+      });
+      setTeacherPassword("");
+    }
+  };
+
   return (
     <div className={`min-h-screen bg-gradient-radial flex items-center justify-center p-6 transition-opacity duration-500 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
       <Card className="w-full max-w-2xl shadow-glow border-0 bg-card/95 backdrop-blur">
@@ -122,7 +149,7 @@ export function StartScreen({ onComplete }: StartScreenProps) {
 
           {/* Login/Signup Tabs */}
           <Tabs defaultValue="new" className="animate-slide-up" style={{ animationDelay: '0.2s' }}>
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="new">
                 <UserPlus className="w-4 h-4 mr-2" />
                 New Student
@@ -130,6 +157,10 @@ export function StartScreen({ onComplete }: StartScreenProps) {
               <TabsTrigger value="existing">
                 <LogIn className="w-4 h-4 mr-2" />
                 Existing Student
+              </TabsTrigger>
+              <TabsTrigger value="teacher">
+                <Users className="w-4 h-4 mr-2" />
+                Teacher
               </TabsTrigger>
             </TabsList>
 
@@ -221,6 +252,57 @@ export function StartScreen({ onComplete }: StartScreenProps) {
                     <p className="text-sm text-muted-foreground">
                       Scan a FlowHive QR code to instantly log in
                     </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="teacher" className="space-y-4 mt-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Teacher Portal Access</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleTeacherLogin} className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="teacherPassword">Password *</Label>
+                      <Input
+                        id="teacherPassword"
+                        type="password"
+                        placeholder="Enter teacher password"
+                        value={teacherPassword}
+                        onChange={(e) => setTeacherPassword(e.target.value)}
+                        autoFocus
+                      />
+                      <p className="text-xs text-muted-foreground">
+                        Access the teacher dashboard to monitor student progress
+                      </p>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full"
+                      variant="warm"
+                    >
+                      <Users className="w-4 h-4 mr-2" />
+                      Access Teacher Portal
+                    </Button>
+                  </form>
+
+                  <div className="mt-6 p-4 rounded-lg bg-primary/5 border border-primary/10">
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-primary/10 rounded-lg mt-1">
+                        <Shield className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold mb-1">Teacher Features</h3>
+                        <ul className="text-sm text-muted-foreground space-y-1">
+                          <li>• Monitor all student progress</li>
+                          <li>• Access detailed analytics</li>
+                          <li>• Complete training modules</li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
