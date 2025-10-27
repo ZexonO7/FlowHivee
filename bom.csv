@@ -5,5 +5,5 @@ Category,"Parts	",Qty,Cost (INR),Description
 "Server	",512GB SATA SSD ,1,"2,457",Storage Drive to run the Software + Store the local Repo.
 Server,Halonix Power Box,1,460,"Powering the Server. Monitor, LAN.."
 "Server	","	ATX Mid Tower Case",1,"1,016",Servers casing 
-Network,D-Link Eagel Pro AX 1500 Router,1,"3,099",Router for hostin the servers software on the  LAN
-"	",,,"11,861",Total
+,,,"8,761",Total
+"	",,,,
