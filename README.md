@@ -74,3 +74,10 @@ Built with ❤️ by students who believe education should reach everyone, every
 ## 🏷️ Tags
 `EdTech` `Offline Learning` `LAN Server` `QR Codes` `Hackathon Project` `Community Impact` `Innovation`
 
+<div align="center">
+  <a href="https://moonshot.hackclub.com" target="_blank" rel="noopener noreferrer">
+    <img src="https://hc-cdn.hel1.your-objectstorage.com/s/v3/35ad2be8c916670f3e1ac63c1df04d76a4b337d1_moonshot.png"
+         alt="This project is part of Moonshot — a 4-day hackathon in Florida."
+         style="max-width:600px; width:100%; height:auto;">
+  </a>
+</div>
